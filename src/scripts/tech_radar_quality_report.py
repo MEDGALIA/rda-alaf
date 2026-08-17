@@ -149,7 +149,7 @@ def main() -> None:
 
     report = render_report(args.xlsx, sheet_results)
     args.out.parent.mkdir(parents=True, exist_ok=True)
-    args.out.write_text(report, encoding="utf-8")
+    args.out.write_text(report, encoding="utf-8", newline="\n")
     print(f"Wrote {args.out}")
 
 

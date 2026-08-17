@@ -173,7 +173,7 @@ def render_file(md_path: Path, output_dir: Path) -> Path:
 
     output_dir.mkdir(parents=True, exist_ok=True)
     output_path = output_dir / (md_path.stem + ".html")
-    output_path.write_text(html, encoding="utf-8")
+    output_path.write_text(html, encoding="utf-8", newline="\n")
     return output_path
 
 
