@@ -11,7 +11,8 @@
     "resource_type",
     "agentic_features_covered",
     "maturity_level",
-    "notes_key_takeaways"
+    "notes_key_takeaways",
+    "discovery_date"
   ],
   "records": [
     {
@@ -26,7 +27,8 @@
       "agentic_features_covered": "Coding Agents",
       "maturity_level": "Mature",
       "notes_key_takeaways": "Evaluates State-Of-The-Art agent performance on multi-million line codebases to assess real-world software engineering capabilities.",
-      "_content_hash": "a52eed7d17eff4d161bb0f4aaa381d215d5cd58cfe6e28bdeddc499156f420d4"
+      "discovery_date": "2026-07-13",
+      "_content_hash": "af1645959ca35490430e4303ecd0594386728c48f3e56b112f453fe6b6feb44e"
     },
     {
       "resource_name": "Papers with Code ",
@@ -40,7 +42,8 @@
       "agentic_features_covered": "Coding Agents",
       "maturity_level": "Research",
       "notes_key_takeaways": "Papers with Code with State-Of-The-Art (SOTA) Codng Agent Benchmarks",
-      "_content_hash": "e199fd05e0c8596a7ecfe0eff4d2f6e1d35ece8bf9be16cf07dd485e91be2824"
+      "discovery_date": "2026-07-13",
+      "_content_hash": "bb6fa67fbd62b371faaec9b1e98175542cd912648621d1bc576c71eee86aedb4"
     },
     {
       "resource_name": "SWE-Bench Pro",
@@ -54,7 +57,8 @@
       "agentic_features_covered": "Coding Agents",
       "maturity_level": "Mature",
       "notes_key_takeaways": "Addresses limitations of original SWE-bench by focusing on long-horizon, complex, multi-file software engineering tasks.",
-      "_content_hash": "44b05913a3c7491807449575dad0b32d01798b712bbbe048b581f0764604fd30"
+      "discovery_date": "2026-07-13",
+      "_content_hash": "4d3199148770b05c5a639516494b33f515dd3b696eccf5bed9fd196483de72df"
     },
     {
       "resource_name": "SWE-Bench++",
@@ -68,7 +72,8 @@
       "agentic_features_covered": "Coding Agents",
       "maturity_level": "Research",
       "notes_key_takeaways": "Scalable framework that generates repository-level tasks from live GitHub PRs across 11 programming languages.",
-      "_content_hash": "6d9c91bc6a76c9430d33cfd24551789a1fd90d03a9242fc4bfaa3c34b91a21fd"
+      "discovery_date": "2026-07-13",
+      "_content_hash": "f8eadc8920d4bd90df8e94037cc475aa3785f3a6e1e41c3ae142e07269f4743b"
     },
     {
       "resource_name": "Terminal-Bench",
@@ -82,7 +87,8 @@
       "agentic_features_covered": "Coding Agents",
       "maturity_level": "Mature",
       "notes_key_takeaways": "Benchmarks agents on hard, realistic tasks within terminal/CLI environments.",
-      "_content_hash": "5e572ef7af5803076172c967605fd043c4c2f8bf9e727bc4fc9ef23b5a02132e"
+      "discovery_date": "2026-07-13",
+      "_content_hash": "b8f382620d41ceb68186efbfa622f5777db8c05aa4352af792ce0fe69d6a722e"
     },
     {
       "resource_name": "c-CRAB",
@@ -96,7 +102,8 @@
       "agentic_features_covered": "Coding Agents",
       "maturity_level": "Research",
       "notes_key_takeaways": "Benchmark specifically for evaluating the code review capabilities of AI agents.",
-      "_content_hash": "51ba8cf51304e827f8ff5f8ecbaa01865c3c31a95b51d8674c09c5a7be89393f"
+      "discovery_date": "2026-07-13",
+      "_content_hash": "4f5abf7bdd140557335d89679f095f534e0748406bb8caf47cde7400b298bc6b"
     },
     {
       "resource_name": "SWE-Explore",
@@ -110,7 +117,8 @@
       "agentic_features_covered": "Coding Agents",
       "maturity_level": "Research",
       "notes_key_takeaways": "Isolates the evaluation of repository exploration, context retrieval, and code localization capabilities.",
-      "_content_hash": "7c5c5e5427685e92dc7cd43a2775e6e43295efb6d1adc4204f505b012e939f32"
+      "discovery_date": "2026-07-13",
+      "_content_hash": "814cfa67ce121c93290a48d2234f36ac2545eeb3479077c9a9c65d81276ff551"
     }
   ]
 }

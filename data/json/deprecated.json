@@ -13,7 +13,8 @@
     "topic_focus",
     "relevance_to_research_cyberinfrastructure",
     "maturity_level",
-    "notes_key_takeaways"
+    "notes_key_takeaways",
+    "discovery_date"
   ],
   "records": [
     {
@@ -30,7 +31,8 @@
       "relevance_to_research_cyberinfrastructure": "Useful for domain-specific agents",
       "maturity_level": "Deprecated",
       "notes_key_takeaways": "Stable API surface.",
-      "_content_hash": "81a4c2b31eddabea89a53332fdace5c35a14b6bc7a272b828a5dddba58bdaeb7"
+      "discovery_date": "2026-05-08",
+      "_content_hash": "2f69bea9b0d53eae54be028791b9c249479e7ca02424572e1c074f7c1748ddcf"
     }
   ]
 }

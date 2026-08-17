@@ -14,7 +14,8 @@
     "relevance_to_research_cyberinfrastructure",
     "maturity_level",
     "notes_key_takeaways",
-    "publication_date"
+    "publication_date",
+    "discovery_date"
   ],
   "records": [
     {
@@ -32,7 +33,8 @@
       "maturity_level": "Emerging",
       "notes_key_takeaways": "Canonical reference for VS Code agent capabilities.",
       "publication_date": "2026-05-20",
-      "_content_hash": "f21a71c89d57f2b9dde963a148815ec698545cb9d8e374d8cbdede0e34372085"
+      "discovery_date": "2026-04-01",
+      "_content_hash": "c0ff71cf81462360eb5bbaae89f2c303aa168f0d43e2c17c5945e0963cbf14a9"
     },
     {
       "resource_name": "Data Director",
@@ -49,7 +51,8 @@
       "maturity_level": "Emerging",
       "notes_key_takeaways": "",
       "publication_date": "",
-      "_content_hash": "503349f3b0f788b763c4ff4e8e359b5aeec5c5eabb7af38350063f2666af483b"
+      "discovery_date": "2026-05-26",
+      "_content_hash": "8af9cc5cb418fa4eaebb12d071d5ddacfd1558863afa76d489f6b1763eecaff6"
     },
     {
       "resource_name": "Agentic AI Tool",
@@ -66,7 +69,8 @@
       "maturity_level": "Emerging",
       "notes_key_takeaways": "Strong alignment with developer workflows.",
       "publication_date": "",
-      "_content_hash": "b0b12cf03c6934fc3ca87a0719b04aa6c5b2cf204a7e6fa549701d2531603926"
+      "discovery_date": "2026-04-01",
+      "_content_hash": "10a0474b67e6903309d0a20a987a64ca02f98382fb3156cfeaa4160c8a6a8634"
     },
     {
       "resource_name": "GitHub MCP Documentation",
@@ -83,7 +87,8 @@
       "maturity_level": "Emerging",
       "notes_key_takeaways": "Fast-moving ecosystem.",
       "publication_date": "",
-      "_content_hash": "303f64afd9035f9e731337dc976e2df24c55998d05a38bee9cccec8a63693bb4"
+      "discovery_date": "2026-04-01",
+      "_content_hash": "fd2e978c8986d8eeda1ae5734997afce02b44fa9086c5a9b645d89e895e19f90"
     },
     {
       "resource_name": "OpenAI MCP Specification",
@@ -100,7 +105,8 @@
       "maturity_level": "Emerging",
       "notes_key_takeaways": "Becoming a de facto standard.",
       "publication_date": "",
-      "_content_hash": "bebfcc5d0dcc2201a32263c06f0b3c45ca715e1e997bd19ddcbfa1f7b4b37bff"
+      "discovery_date": "2026-04-01",
+      "_content_hash": "21002efb9a128d55b6f57d443eb78f763ced99b71ea266bccc0ee65fda718700"
     },
     {
       "resource_name": "Anthropic Model Context Protocol",
@@ -117,7 +123,8 @@
       "maturity_level": "Emerging",
       "notes_key_takeaways": "Strong safety emphasis.",
       "publication_date": "2025-11-11",
-      "_content_hash": "cc881f136b7bf8755f1d3ec171682f053bbd170bfbf4e403e0c8468290389f1d"
+      "discovery_date": "2025-11-01",
+      "_content_hash": "46a620120b6a64bbd8da294205ec0cb3e21a86c242a95d7a66dca73d3e787d31"
     },
     {
       "resource_name": "Kaggle Prototype to Production Whitepaper",
@@ -134,7 +141,8 @@
       "maturity_level": "Mature",
       "notes_key_takeaways": "Technical guide to the operational life cycle of AI agents, focusing on deployment & security",
       "publication_date": "",
-      "_content_hash": "45385566cf6f179c494c70da16c31ded1e6cd31fde33b9c5018ee0f76021f6c6"
+      "discovery_date": "2025-11-14",
+      "_content_hash": "4abbe3611f42063f3a372068245c7a6b6bc128ec1d9b17e31fc57e7b8bccf331"
     },
     {
       "resource_name": "Google Vertex AI Agents Overview",
@@ -151,7 +159,8 @@
       "maturity_level": "Research",
       "notes_key_takeaways": "Strong enterprise alignment.",
       "publication_date": "",
-      "_content_hash": "afaea48584bc0e22f3db79f294ba4be35c22b8e404c6bb56628e809104e1def6"
+      "discovery_date": "2026-04-01",
+      "_content_hash": "d2f2e26848ef13cc72b01abaa81cfcc76d47554e2da0bb7cd9d61a1276627a68"
     },
     {
       "resource_name": "HuggingFace Agents Documentation",
@@ -168,7 +177,8 @@
       "maturity_level": "Emerging",
       "notes_key_takeaways": "Rapidly evolving.",
       "publication_date": "",
-      "_content_hash": "cbc7bfd989d0e7d75f6f8400d06eab9fafb57cea7aa345f3cf32c6bd48a3b110"
+      "discovery_date": "2026-03-01",
+      "_content_hash": "c0fec2773600cf6b58a8bc4dc96ca3a29bf95029d177ebdca86aab85f7db4ff1"
     },
     {
       "resource_name": "LangChain Agents Overview",
@@ -185,7 +195,8 @@
       "maturity_level": "Research",
       "notes_key_takeaways": "Widely used in research.",
       "publication_date": "",
-      "_content_hash": "be4129ae0048055802b1a93798a2349c70012f9ec2d2dcac6a5e02a24bfca272"
+      "discovery_date": "2026-04-01",
+      "_content_hash": "e5f30260b0ab42ba646898ecb076d187286d0cfce3f6e25277efafe7c49d5db0"
     },
     {
       "resource_name": "LlamaIndex Agents",
@@ -202,7 +213,8 @@
       "maturity_level": "Research",
       "notes_key_takeaways": "Strong retrieval-centric design.",
       "publication_date": "",
-      "_content_hash": "89908f9e58006427dc3328c4006ec8d2a7f9bcb050eb8cf8f2b91005d0696c3e"
+      "discovery_date": "2026-04-01",
+      "_content_hash": "4b3511bd0631acb9d61c22d27dafc1cacee0e9057dfd0fea42b645841ae4fa4b"
     },
     {
       "resource_name": "Dagster Automation/Agent Patterns",
@@ -219,7 +231,8 @@
       "maturity_level": "Mature",
       "notes_key_takeaways": "Strong reproducibility focus.",
       "publication_date": "",
-      "_content_hash": "4c7fbdc1c70040bfa4dd87f21791a1540a1e67f600efbae7daf2f76e2a059675"
+      "discovery_date": "2026-03-01",
+      "_content_hash": "ff0c082a8e306c4cb8b5d5c8f43ef867b2e0a5eb7fbf221d1fdbaaca2bfa399f"
     },
     {
       "resource_name": "Prefect Automations/Agents",
@@ -236,7 +249,8 @@
       "maturity_level": "Mature",
       "notes_key_takeaways": "Good hybrid cloud/HPC support.",
       "publication_date": "",
-      "_content_hash": "e041d08c9cb8120e6cefffe5a997d5c7da5c1c5940ffe421e469b2a539536ce7"
+      "discovery_date": "2026-03-01",
+      "_content_hash": "ed74f6d7972cccc30a3a49f12df980ecc7d27d543e73e087409d0d990911d275"
     },
     {
       "resource_name": "Jupyter AI",
@@ -253,7 +267,8 @@
       "maturity_level": "Emerging",
       "notes_key_takeaways": "Strong alignment with scientific workflows.",
       "publication_date": "",
-      "_content_hash": "f0c2657a1f28711a2ef314553875fe045f59fadca52cd9a6a0a162f02557e418"
+      "discovery_date": "2026-04-01",
+      "_content_hash": "3266b5ee93e2ed0ba50e434489bad6e6e20c1669ba295508e4d482a69b1cedc6"
     },
     {
       "resource_name": "Anthropic Tools API",
@@ -270,7 +285,8 @@
       "maturity_level": "Emerging",
       "notes_key_takeaways": "Strong safety posture.",
       "publication_date": "",
-      "_content_hash": "336873bd29bbc96a2703f2b38b95898329303f0ac438bf635fe6e50899da5269"
+      "discovery_date": "2026-04-01",
+      "_content_hash": "d350c88c17554a76deb1953da38e35e196394b50d6397c98b07e723d55964ffa"
     },
     {
       "resource_name": "Microsoft Semantic Kernel Agents",
@@ -287,7 +303,8 @@
       "maturity_level": "Research",
       "notes_key_takeaways": "Strong .NET + Python support.",
       "publication_date": "",
-      "_content_hash": "c19029d8b8568cd25eb97a9c145cb2edb77df7a31de7de4519cde5e1569d000c"
+      "discovery_date": "2026-04-01",
+      "_content_hash": "27ae9cb040ddaba3c41d66abc8ac79f39a4ad33141647276d0953afaeb2dfbfb"
     },
     {
       "resource_name": "HuggingFace Inference Endpoints",
@@ -304,7 +321,8 @@
       "maturity_level": "Mature",
       "notes_key_takeaways": "Good for reproducibility.",
       "publication_date": "",
-      "_content_hash": "5e426abb2f0ea71745b784393fbe03df2048241f51801355558fb69fb2759d9e"
+      "discovery_date": "2026-03-01",
+      "_content_hash": "1dc7180444750912e3606f6d97ffc44b82ea30f09b5d666c5f496a8a71a83028"
     },
     {
       "resource_name": "OpenAI Evaluations (Evals)",
@@ -321,7 +339,8 @@
       "maturity_level": "Research",
       "notes_key_takeaways": "Useful for risk assessment.",
       "publication_date": "",
-      "_content_hash": "e7a99e6f6f049ee2b8f556390799a286885902361bcddd9ea466beb3cb9d2789"
+      "discovery_date": "2026-04-01",
+      "_content_hash": "7bad68db0241d5e34c60656632d7ae7628722143e156d2ade1fd7f4639dde4b7"
     },
     {
       "resource_name": "Anthropic Safety Guidelines",
@@ -338,7 +357,8 @@
       "maturity_level": "Mature",
       "notes_key_takeaways": "Strong alignment with institutional risk controls.",
       "publication_date": "",
-      "_content_hash": "dfc94f2e8d8656075bdd7197355a4cce80746eb65ad8c131c5d244ec8bbe77d4"
+      "discovery_date": "2026-04-01",
+      "_content_hash": "e4cc204fd66a53f378bee6c7242b0f98ae4bd26c53d5c755e5ffe41937ab6dc4"
     },
     {
       "resource_name": "Microsoft Responsible AI Standard",
@@ -355,7 +375,8 @@
       "maturity_level": "Mature",
       "notes_key_takeaways": "Widely adopted governance framework.",
       "publication_date": "",
-      "_content_hash": "13846a39cb61158dd5dc644011110abf192fa112d8fae413bd7f7a3091cad3c2"
+      "discovery_date": "2025-12-01",
+      "_content_hash": "bcf631c775ea4f5dbdfb9051046607724c12efff4f203ac23f6cec8f186fcd88"
     },
     {
       "resource_name": "vLLM Documentation",
@@ -372,7 +393,8 @@
       "maturity_level": "Mature",
       "notes_key_takeaways": "Essential for secure TLAs via PagedAttention and FP8/AWQ optimization.",
       "publication_date": "",
-      "_content_hash": "31dae0eb2d74cfcd3233cd3f9e77a51fb5c7165b8e871b693b7abc0159cc493d"
+      "discovery_date": "2026-04-01",
+      "_content_hash": "117b0c396dd53af8750062b84ab3cb6429dcad144d86c7b96a4dcf50fdcccd35"
     },
     {
       "resource_name": "Ollama Documentation",
@@ -389,7 +411,8 @@
       "maturity_level": "Mature",
       "notes_key_takeaways": "Eliminates network dependency errors by cleanly bundling open model weights.",
       "publication_date": "",
-      "_content_hash": "5c819c1ffab4dc54cd271f6e4a6ab4ccf12dfdce0fc1af85e74ab208a9696ecc"
+      "discovery_date": "2026-04-01",
+      "_content_hash": "24ddc939d9633124f94424f97dbeb7fa97d19acd48b25147b6ac3102cb0f4232"
     },
     {
       "resource_name": "Llama.cpp ",
@@ -406,7 +429,8 @@
       "maturity_level": "Mature",
       "notes_key_takeaways": "Grammar constraints ensure localized agentic pipelines always return valid JSON/code.",
       "publication_date": "",
-      "_content_hash": "4f44345b288ee1a8072e177bc65f1923797b7dda85a4560d98384c394c20d4d4"
+      "discovery_date": "2026-05-20",
+      "_content_hash": "57d7815205d58265cdf253b1a8ff5ce1a98ea8e1ea6a512c2f7514832d77c37c"
     },
     {
       "resource_name": "Open WebUI Documentation",
@@ -423,7 +447,8 @@
       "maturity_level": "Mature",
       "notes_key_takeaways": "Solves local file parsing/RAG bottlenecks entirely within secure client networks.",
       "publication_date": "",
-      "_content_hash": "128d303d6f35b436e9fd80b249eac6e3882c75aa46a717781c3e06df94b4a852"
+      "discovery_date": "2026-04-01",
+      "_content_hash": "6bf2d25d4d0adfec76ab78f85c9fe3b683de71902b0f75079769e90aa79e61bb"
     },
     {
       "resource_name": "NVIDIA NIM Air-Gap Deployment Guide",
@@ -440,7 +465,8 @@
       "maturity_level": "Mature",
       "notes_key_takeaways": "Outlines the exact connected-to-disconnected asset transfer workflow for enterprise GPUs.",
       "publication_date": "",
-      "_content_hash": "2defea0bf44ed9f6e0233787511bbdbd60922914fc3e7f4dc7ac9513816776c4"
+      "discovery_date": "2026-05-08",
+      "_content_hash": "438bbdb3b5a42c66af02ebabbebbcf7172562901a1ae76d0e09ee04df82a1f22"
     },
     {
       "resource_name": "Harbor User Documentation",
@@ -457,7 +483,8 @@
       "maturity_level": "Mature",
       "notes_key_takeaways": "Built-in vulnerability scanning ensures agent images remain clean behind the firewall.",
       "publication_date": "",
-      "_content_hash": "bb8ce6ff715d6fcf7beb9f876f2c633ffc4da55a2d6dd9f3f256cf6d8624e222"
+      "discovery_date": "2026-05-08",
+      "_content_hash": "388a13f667d77b43c8ce275080a6fe200fc004e562b571449a6703a1c8073bdb"
     },
     {
       "resource_name": "AI Engineering Blueprint for On-Premises RAG Systems",
@@ -474,7 +501,8 @@
       "maturity_level": "Emerging",
       "notes_key_takeaways": "Moves past simple how-to guides into formal data isolation and local compliance frameworks.",
       "publication_date": "",
-      "_content_hash": "0b5240f3bf702aef6889701a34a36d04613edd4538b1b7dce38b873b2a5830ef"
+      "discovery_date": "2026-05-08",
+      "_content_hash": "3d6853603d4f3b93071feb2e4f238f5438a700adf5b1a40b19a3ea7559fedc6c"
     },
     {
       "resource_name": "On-Premise vs Cloud: GenAI TCO (2026 Edition)",
@@ -491,7 +519,8 @@
       "maturity_level": "Mature",
       "notes_key_takeaways": "Breaks down the \"Memory Wall\" economics showing an on-prem breakeven velocity of ~4 months.",
       "publication_date": "",
-      "_content_hash": "65ba8299fc7c4a53bc5cd530d22bb32da319caf5b597a8e7477290614ac22256"
+      "discovery_date": "2026-02-01",
+      "_content_hash": "a92976c98870b992fff1c339a110ce5676abc8cd531c7b26b9bd18d7a4f0abde"
     },
     {
       "resource_name": "Coalition for Secure AI (CoSAI) ",
@@ -508,7 +537,8 @@
       "maturity_level": "Emerging",
       "notes_key_takeaways": "The Coalition for Secure AI (CoSAI) is an open ecosystem of AI and security experts",
       "publication_date": "",
-      "_content_hash": "7a36778eee458b8137ea2f6fb7f4da8e79b0215522922ac80bb2c6dc429b900e"
+      "discovery_date": "2026-06-01",
+      "_content_hash": "adb9fd8125e1a2b65819ab1e190a541882f618a786803b3e93c09354caeb2c29"
     },
     {
       "resource_name": "Anthropic Project Glasswing",
@@ -525,7 +555,8 @@
       "maturity_level": "Emerging",
       "notes_key_takeaways": "See Claude Mythos Preview",
       "publication_date": "2026-04-07",
-      "_content_hash": "5aa4c32dfef669400f1944a47446e49aa87f544995760ebc075ce12e387a286d"
+      "discovery_date": "2026-04-07",
+      "_content_hash": "a9a8f1b72fe62729e1a05dcc297078efb3ece6e9bfea1e033ca6f869b626278a"
     },
     {
       "resource_name": "Docker AI Governance & Sandboxes",
@@ -542,7 +573,8 @@
       "maturity_level": "Research",
       "notes_key_takeaways": "See blog article: https://www.docker.com/blog/the-3cs-a-framework-for-ai-agent-security/",
       "publication_date": "",
-      "_content_hash": "c803f8c07abbdf768932282ed0668419e2ffed553bc60ef5e337cad5d0b90313"
+      "discovery_date": "2026-07-10",
+      "_content_hash": "0eebdb83734a2ceca07eca6cb8a62930a08ec5529ffe863e339c54ac22c48f07"
     },
     {
       "resource_name": "Responses API",
@@ -559,7 +591,8 @@
       "maturity_level": "Emerging",
       "notes_key_takeaways": "MIgrated from API Assistants  - now deprecated.",
       "publication_date": "",
-      "_content_hash": "2a620ae5f8a9fe471227de62efc008fb39e92e067409e3f8fbbae307da370253"
+      "discovery_date": "2026-07-09",
+      "_content_hash": "bd7fc12243988f497d72027699ccaad74ee1d09d9c71ef9fa27775ff87d30ca8"
     }
   ]
 }
