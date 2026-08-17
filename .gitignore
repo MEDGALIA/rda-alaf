@@ -221,3 +221,7 @@ drafts/
 
 # Claude Code local (personal) settings — not shared
 .claude/settings.local.json
+
+# Timestamped xlsx backups made before in-place edits to the Tech Radar
+# workbook — disaster-recovery snapshots, not meant for git history.
+data/backups/
