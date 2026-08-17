@@ -1,0 +1,3 @@
+# VT Radar knowledge base — changes here require curator review.
+# See developer_guides/implementation-plan.md for the full GitOps design.
+data/json/** @pbuendia
