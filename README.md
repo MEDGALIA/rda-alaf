@@ -20,16 +20,10 @@ and provenance of the framework and its underlying knowledge.
 **Early development / experimental**
 
 RDA-ALAF is currently being developed as an open-source project in alignment
-with proposed activities around the Research Data Alliance (RDA).
+with proposed activities for a new Working group. RDA currently stands for `research data agents`.
 
-The project is not an official RDA output, recommendation, or RDA Working Group
-repository unless and until formally designated as such through the appropriate
-RDA processes.
+Until the Working Group has been created this repository is seen as a proposal.
 
-A proposed RDA Working Group, VANTAGE, is exploring related concepts and
-activities. RDA-ALAF is intended to provide a technical foundation that may
-support such work if the Working Group is formally established and adopts or
-builds upon the framework.
 
 ## Objectives
 
@@ -52,3 +46,24 @@ The framework is designed around several complementary components:
 - **GitOps** — Version-controlled workflows for managing proposed changes, preserving provenance, and enabling reproducible review.
 - **Human-in-the-Loop Review** — Human experts review and approve agent-proposed changes before they are incorporated into the framework or knowledge base.
 - **Extensible Framework** — A modular foundation that can evolve as new research data needs, technologies, and agentic capabilities emerge.
+
+## Repository
+
+This repository contains the technical implementation of RDA-ALAF, including
+the structured and machine-readable representations of the VT Radar knowledge
+base, agentic workflows, and supporting tools for maintaining and evolving the
+framework.
+
+The repository is designed to support GitOps-based development, with agent-
+proposed changes subject to human review and approval.
+
+## License
+
+The RDA-ALAF software is licensed under the [BSD 3-Clause License](LICENSE).
+
+The VT Radar knowledge base and other datasets are licensed under the
+[Creative Commons Attribution 4.0 International License](https://creativecommons.org/licenses/by/4.0/).
+
+Future formal RDA Recommendations produced through the framework are intended
+to be licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/),
+as appropriate to the applicable RDA process and requirements.
