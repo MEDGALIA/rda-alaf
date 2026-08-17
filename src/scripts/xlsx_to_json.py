@@ -18,6 +18,13 @@ run (or it's new), its Verified By/Last Verified are cleared, since a human
 hasn't seen the new content yet. Rows whose key no longer appears in the xlsx
 are dropped (recoverable from git history, since data/json/ is tracked).
 
+When a row's verification is cleared, the corresponding xlsx cells are also
+blanked (the script opens the workbook a second time, in write mode, only for
+this). Without that, a cleared row's still-populated xlsx cell would silently
+leak back into the JSON the next time that row's content changes again,
+un-clearing something that was correctly cleared before -- this is otherwise
+a normal read-only conversion, this is the one exception.
+
 NOTE: adding or removing a column changes every row's content hash, so a
 schema change makes this look like "every row was edited" and would clear all
 verification for rows nobody actually touched. After any schema change, re-run
@@ -54,12 +61,19 @@ DEFAULT_OUT_DIR = Path("data/json")
 VERIFICATION_FIELDS = ("verified_by", "last_verified")
 
 
-def sheet_to_records(ws, schema: dict) -> tuple[list[dict], list[str]]:
-    """Read a data sheet into records, using the schema to type each column."""
+def sheet_to_records(ws, schema: dict) -> tuple[list[dict], list[str], dict[str, int]]:
+    """Read a data sheet into records, using the schema to type each column.
+
+    Also returns {natural_key: row_idx}, so the caller can write cleared
+    verification back to the xlsx (see convert()) -- otherwise a cleared
+    row's stale, never-blanked cell would leak back into the JSON the next
+    time that row's content changes again.
+    """
     columns = list(iter_header(ws))
     by_name = {c["name"]: c for c in schema["columns"]}
 
     records = []
+    row_index_by_key = {}
     for row_idx in range(2, ws.max_row + 1):
         if row_is_empty(ws, row_idx, columns):
             continue
@@ -72,8 +86,9 @@ def sheet_to_records(ws, schema: dict) -> tuple[list[dict], list[str]]:
             else:
                 record[slugify(header)] = cell_display_value(raw)
         records.append(record)
+        row_index_by_key[record[slugify(columns[0][1])]] = row_idx
 
-    return records, [slugify(h) for _c, h in columns]
+    return records, [slugify(h) for _c, h in columns], row_index_by_key
 
 
 def merge_with_previous(
@@ -93,15 +108,29 @@ def merge_with_previous(
 
         prev_record = prev_by_key.get(key)
         new_hash = content_hash(record)
-        if prev_record is not None and prev_record.get("_content_hash") == new_hash:
+        if prev_record is None:
+            # No known prior baseline for this row -- a brand-new row, or a --fresh
+            # run with nothing to compare against. Trust the xlsx's current
+            # verified_by/last_verified as-is: this is how a human adds a row and
+            # verifies it in the same edit, and it's what makes --fresh actually
+            # mean "trust the workbook", not "clear everything".
+            pass
+        elif prev_record.get("_content_hash") == new_hash:
             # Unchanged since last run -- carry the prior verification through.
             record["verified_by"] = prev_record.get("verified_by", record.get("verified_by", ""))
             record["last_verified"] = prev_record.get("last_verified", record.get("last_verified", ""))
-        elif prev_record is not None and (prev_record.get("verified_by") or prev_record.get("last_verified")):
-            # Changed, and it used to be verified -- clear it, a human hasn't seen this version.
+        else:
+            # This row existed at a known baseline and its content differs now --
+            # force blank regardless of what the prior verification was. Forcing
+            # blank even when it was already blank matters: without it, a stale
+            # non-blank xlsx cell that was never physically cleared (see the
+            # write-back step in convert()) would leak back in here and silently
+            # un-clear a row that was correctly cleared before.
+            was_verified = bool(record.get("verified_by") or record.get("last_verified"))
             record["verified_by"] = ""
             record["last_verified"] = ""
-            cleared.append(key)
+            if was_verified:
+                cleared.append(key)
         record["_content_hash"] = new_hash
         merged.append(record)
 
@@ -123,10 +152,17 @@ def convert(xlsx_path: Path, out_dir: Path, fresh: bool = False) -> None:
         f"({controlled} with vocabularies), {len(schema['standards'])} standards -> {schema_path}"
     )
 
+    # (sheet_name, row_idx, field) for cells where the JSON says "blank" but
+    # the xlsx cell itself isn't -- must be blanked too, or a later run that
+    # re-reads the xlsx fresh will let the stale value leak back into the
+    # JSON, silently un-clearing a row that was correctly cleared before.
+    to_blank: list[tuple[str, int, str]] = []
+
     for sheet_name in wb.sheetnames:
         if sheet_name in METADATA_SHEETS:
             continue
-        records, columns = sheet_to_records(wb[sheet_name], schema)
+        ws = wb[sheet_name]
+        records, columns, row_index = sheet_to_records(ws, schema)
         if not columns:
             continue
         key_field = columns[0]
@@ -134,6 +170,16 @@ def convert(xlsx_path: Path, out_dir: Path, fresh: bool = False) -> None:
         out_path = out_dir / f"{slugify(sheet_name)}.json"
         previous = None if fresh else load_sheet_json(out_path)
         merged, cleared, removed = merge_with_previous(records, previous, key_field)
+
+        header_letters = {slugify(h): c for c, h in iter_header(ws)}
+        for record in merged:
+            row_idx = row_index[record[key_field]]
+            for field in VERIFICATION_FIELDS:
+                if field not in record or record[field]:
+                    continue
+                letter = header_letters.get(field)
+                if letter and ws[f"{letter}{row_idx}"].value not in (None, ""):
+                    to_blank.append((sheet_name, row_idx, field))
 
         save_sheet_json(out_path, {"sheet_name": sheet_name, "columns": columns, "records": merged})
 
@@ -144,6 +190,18 @@ def convert(xlsx_path: Path, out_dir: Path, fresh: bool = False) -> None:
             print(f"  removed (no longer in xlsx): {key!r}")
 
     wb.close()
+
+    if to_blank:
+        wb_write = openpyxl.load_workbook(xlsx_path)  # formulas preserved
+        for sheet_name, row_idx, field in to_blank:
+            ws = wb_write[sheet_name]
+            header_letters = {slugify(h): c for c, h in iter_header(ws)}
+            cell = ws[f"{header_letters[field]}{row_idx}"]
+            cell.value = None  # NOTE: cell(..., value=None) is a no-op; must assign .value directly
+        wb_write.save(xlsx_path)
+        print(f"blanked {len(to_blank)} stale verification cell(s) directly in the xlsx (kept in sync with the JSON)")
+        for sheet_name, row_idx, field in to_blank:
+            print(f"  {sheet_name} row {row_idx}: {field}")
 
 
 def main() -> None:

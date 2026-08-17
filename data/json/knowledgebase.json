@@ -345,14 +345,14 @@
       "resource_name": "Jupyter AI",
       "url": "https://jupyter-ai.readthedocs.io",
       "source_organization": "Project Jupyter",
-      "last_verified": "2026-05-08",
+      "last_verified": "",
       "verified_by": "",
       "last_updated": "2026-04-01",
       "version": "",
       "resource_type": "Documentation",
       "agentic_features_covered": [
         "Notebook Agents",
-        "Tool Integration"
+        "Workflow Automation"
       ],
       "topic_focus": [
         "Implementation",
@@ -363,7 +363,7 @@
       "notes_key_takeaways": "Strong alignment with scientific workflows.",
       "publication_date": "",
       "discovery_date": "2026-04-01",
-      "_content_hash": "80c8d35a600af69e6db5df4f36d281f3efd78cf263b035a903f4e55cb17139cd"
+      "_content_hash": "1bf5c276596eb4941b8dbdc8c4c88de3f39e9d09453c82e84a88317eb2fbb277"
     },
     {
       "resource_name": "Anthropic Tools API",
@@ -522,7 +522,7 @@
       "resource_type": "Inference Framework",
       "agentic_features_covered": [
         "Deployment patterns",
-        "Tool Integration"
+        "Tools"
       ],
       "topic_focus": [
         "Self‑hosted AI",
@@ -535,13 +535,13 @@
       "notes_key_takeaways": "Essential for secure TLAs via PagedAttention and FP8/AWQ optimization. Capabilities: Parallel sampling & tool-calling.",
       "publication_date": "",
       "discovery_date": "2026-04-01",
-      "_content_hash": "f5e90ec8f5f2f4072a28b0c89f63da37b40bbe74a287dfbf61017e87b33eaf75"
+      "_content_hash": "7ebcb5be361a22b3084856b643b4485c20bd6743d8874694a299bef4689db08f"
     },
     {
       "resource_name": "Ollama Documentation",
       "url": "https://github.com/ollama/ollama",
       "source_organization": "Ollama Community",
-      "last_verified": "",
+      "last_verified": "2026-05-08",
       "verified_by": "",
       "last_updated": "2026-04-01",
       "version": "",
@@ -590,7 +590,7 @@
       "resource_name": "Open WebUI Documentation",
       "url": "https://docs.openwebui.com",
       "source_organization": "Open WebUI Core Team",
-      "last_verified": "",
+      "last_verified": "2026-05-08",
       "verified_by": "",
       "last_updated": "2026-04-01",
       "version": "",
@@ -624,6 +624,7 @@
       ],
       "topic_focus": [
         "Self‑hosted AI",
+        "Architecture Compute",
         "Implementation",
         "Network Isolation",
         "Infrastructure Security"
@@ -633,13 +634,13 @@
       "notes_key_takeaways": "Outlines the exact connected-to-disconnected asset transfer workflow for enterprise GPUs. Capabilities: Tensor-parallel caching & optimized tool-calling.",
       "publication_date": "",
       "discovery_date": "2026-05-08",
-      "_content_hash": "1f7b15c5b323f08a315c0bcb73581865d33e774a383ab63c003be5c57d6151c4"
+      "_content_hash": "0b917749bb3bf042112af34b6577fdd59c554885fa5ada8d15a49df0bc3a3f99"
     },
     {
       "resource_name": "Harbor User Documentation",
       "url": "https://goharbor.io/docs/",
       "source_organization": "Cloud Native Computing Foundation (CNCF)",
-      "last_verified": "",
+      "last_verified": "2026-05-08",
       "verified_by": "",
       "last_updated": "2026",
       "version": "",
@@ -665,7 +666,7 @@
       "resource_name": "AI Engineering Blueprint for On-Premises RAG Systems",
       "url": "https://arxiv.org/abs/2604.01395",
       "source_organization": "arXiv (2604.01395)",
-      "last_verified": "",
+      "last_verified": "2026-05-08",
       "verified_by": "",
       "last_updated": "2026",
       "version": "",

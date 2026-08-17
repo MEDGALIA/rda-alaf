@@ -371,13 +371,6 @@
           "ontology_url": ""
         },
         {
-          "name": "Tool Integration",
-          "definition": "",
-          "ontology": "",
-          "ontology_id": "",
-          "ontology_url": ""
-        },
-        {
           "name": "Tool-Ready Endpoints",
           "definition": "",
           "ontology": "",
@@ -558,13 +551,6 @@
           "ontology": "EDAM",
           "ontology_id": "topic_0769",
           "ontology_url": "http://edamontology.org/topic_0769"
-        },
-        {
-          "name": "Workflow integration",
-          "definition": "",
-          "ontology": "",
-          "ontology_id": "",
-          "ontology_url": ""
         },
         {
           "name": "Model selection",
