@@ -40,8 +40,8 @@ No git CLI or branch-pushing is required of curators or publishers — every ste
 | --- | --- |
 | `src/scripts/radar_sync_common.py` | Done |
 | `src/scripts/tech_radar_quality_report.py` | Done — see `drafts/workbook_errors.md` |
-| `.github/CODEOWNERS` for `data/json/**` | Not started |
-| Branch protection on `main` | Not started |
+| `.github/CODEOWNERS` for `data/json/**` | Done — names `@pbuendia` |
+| Branch protection on `main` | Done — PR + 1 code-owner approval required; admin bypass allowed (no second curator yet, flip off once one exists); no required status checks yet (no CI) |
 | `src/scripts/xlsx_to_json.py` | Not started |
 | GitHub Action — xlsx upload → json diff | Not started |
 | `src/scripts/json_to_xlsx.py` | Not started |

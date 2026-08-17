@@ -71,7 +71,7 @@ def convert(
     markdown = _clean_markdown(markdown)
 
     output_path.parent.mkdir(parents=True, exist_ok=True)
-    output_path.write_text(markdown, encoding="utf-8")
+    output_path.write_text(markdown, encoding="utf-8", newline="\n")
 
     if images_dir.exists() and not any(images_dir.iterdir()):
         images_dir.rmdir()
