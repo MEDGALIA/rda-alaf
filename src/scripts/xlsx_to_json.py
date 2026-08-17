@@ -1,19 +1,31 @@
-"""Convert the VT Radar workbook into one JSON file per sheet.
+"""Convert the VT Radar workbook into JSON: one file per data sheet, plus a
+hierarchical schema file built from the metadata tabs.
 
-Bootstraps data/json/*.json from data/VANTAGE-Technology-Radar.xlsx, and is
-re-run whenever the xlsx changes (by hand, or by the future GitHub Action
-that reacts to an uploaded xlsx in a PR).
+Bootstraps data/json/ from data/VANTAGE-Technology-Radar.xlsx, and is re-run
+whenever the xlsx changes (by hand, or by the GitHub Action that reacts to an
+uploaded xlsx in a PR).
 
-Row identity: each sheet's first column (e.g. "Resource Name") is used as
-the natural key to match a row across runs -- there's no separate ID column
-in this workbook. If a row's content changed since the last run (or it's
-new), its Verified By/Last Verified are cleared, since a human hasn't seen
-the new content yet. Rows whose key no longer appears in the xlsx are
-dropped from the JSON (recoverable from git history, since data/json/ is
-tracked).
+The Dictionary/Vocabulary/Standards tabs are the schema, not records: they
+become data/json/dictionary.json, with each column's controlled-vocabulary
+terms (and their ontology mappings) nested underneath it. That schema also
+drives the conversion -- a column declared `controlled_multi` becomes a real
+JSON array, split on the separator the Dictionary tab specifies, rather than
+the script hardcoding column names.
+
+Row identity: each sheet's first column (e.g. "Resource Name") is the natural
+key used to match a row across runs. If a row's content changed since the last
+run (or it's new), its Verified By/Last Verified are cleared, since a human
+hasn't seen the new content yet. Rows whose key no longer appears in the xlsx
+are dropped (recoverable from git history, since data/json/ is tracked).
+
+NOTE: adding or removing a column changes every row's content hash, so a
+schema change makes this look like "every row was edited" and would clear all
+verification for rows nobody actually touched. After any schema change, re-run
+with --fresh, which rebuilds the baseline from the workbook instead of diffing
+against the previous (differently-shaped) JSON.
 
 Usage:
-    python xlsx_to_json.py [--xlsx PATH] [--out-dir data/json]
+    python xlsx_to_json.py [--xlsx PATH] [--out-dir data/json] [--fresh]
 """
 
 from __future__ import annotations
@@ -24,13 +36,16 @@ from pathlib import Path
 import openpyxl
 
 from radar_sync_common import (
+    METADATA_SHEETS,
     cell_display_value,
     content_hash,
     iter_header,
     load_sheet_json,
+    load_workbook_schema,
     row_is_empty,
     save_sheet_json,
     slugify,
+    split_multi_value,
 )
 
 DEFAULT_XLSX = Path("data/VANTAGE-Technology-Radar.xlsx")
@@ -39,21 +54,31 @@ DEFAULT_OUT_DIR = Path("data/json")
 VERIFICATION_FIELDS = ("verified_by", "last_verified")
 
 
-def sheet_to_records(ws) -> tuple[list[dict], list[str]]:
+def sheet_to_records(ws, schema: dict) -> tuple[list[dict], list[str]]:
+    """Read a data sheet into records, using the schema to type each column."""
     columns = list(iter_header(ws))
-    key_col = columns[0][0]  # first column's letter is the natural-key column
+    by_name = {c["name"]: c for c in schema["columns"]}
 
     records = []
     for row_idx in range(2, ws.max_row + 1):
         if row_is_empty(ws, row_idx, columns):
             continue
-        record = {slugify(header): cell_display_value(ws[f"{col}{row_idx}"].value) for col, header in columns}
+        record = {}
+        for col_letter, header in columns:
+            raw = ws[f"{col_letter}{row_idx}"].value
+            spec = by_name.get(header)
+            if spec and spec["value_type"] == "controlled_multi":
+                record[slugify(header)] = split_multi_value(raw, spec["separator"] or ";")
+            else:
+                record[slugify(header)] = cell_display_value(raw)
         records.append(record)
 
     return records, [slugify(h) for _c, h in columns]
 
 
-def merge_with_previous(records: list[dict], previous: dict | None, key_field: str) -> tuple[list[dict], list[str], list[str]]:
+def merge_with_previous(
+    records: list[dict], previous: dict | None, key_field: str
+) -> tuple[list[dict], list[str], list[str]]:
     """Clear verification on new/changed rows; report what changed."""
     prev_by_key = {r[key_field]: r for r in (previous or {}).get("records", [])} if previous else {}
 
@@ -62,8 +87,7 @@ def merge_with_previous(records: list[dict], previous: dict | None, key_field: s
     for record in records:
         key = record[key_field]
         kept_keys.add(key)
-        has_verification = any(f in record for f in VERIFICATION_FIELDS)
-        if not has_verification:
+        if not any(f in record for f in VERIFICATION_FIELDS):
             merged.append(record)
             continue
 
@@ -85,17 +109,30 @@ def merge_with_previous(records: list[dict], previous: dict | None, key_field: s
     return merged, cleared, removed
 
 
-def convert(xlsx_path: Path, out_dir: Path) -> None:
+def convert(xlsx_path: Path, out_dir: Path, fresh: bool = False) -> None:
     wb = openpyxl.load_workbook(xlsx_path, data_only=True)
+    if fresh:
+        print("--fresh: rebuilding the baseline from the workbook, ignoring existing JSON")
+
+    schema = load_workbook_schema(wb)
+    schema_path = out_dir / "dictionary.json"
+    save_sheet_json(schema_path, schema)
+    controlled = sum(1 for c in schema["columns"] if c["terms"])
+    print(
+        f"schema: {len(schema['columns'])} columns "
+        f"({controlled} with vocabularies), {len(schema['standards'])} standards -> {schema_path}"
+    )
 
     for sheet_name in wb.sheetnames:
-        records, columns = sheet_to_records(wb[sheet_name])
+        if sheet_name in METADATA_SHEETS:
+            continue
+        records, columns = sheet_to_records(wb[sheet_name], schema)
         if not columns:
             continue
         key_field = columns[0]
 
         out_path = out_dir / f"{slugify(sheet_name)}.json"
-        previous = load_sheet_json(out_path)
+        previous = None if fresh else load_sheet_json(out_path)
         merged, cleared, removed = merge_with_previous(records, previous, key_field)
 
         save_sheet_json(out_path, {"sheet_name": sheet_name, "columns": columns, "records": merged})
@@ -110,12 +147,17 @@ def convert(xlsx_path: Path, out_dir: Path) -> None:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Convert the VT Radar xlsx into per-sheet JSON files.")
+    parser = argparse.ArgumentParser(description="Convert the VT Radar xlsx into JSON.")
     parser.add_argument("--xlsx", type=Path, default=DEFAULT_XLSX)
     parser.add_argument("--out-dir", type=Path, default=DEFAULT_OUT_DIR)
+    parser.add_argument(
+        "--fresh", action="store_true",
+        help="Rebuild the baseline from the workbook, ignoring existing JSON. Use after any "
+             "column/schema change, which otherwise looks like every row was edited.",
+    )
     args = parser.parse_args()
 
-    convert(args.xlsx, args.out_dir)
+    convert(args.xlsx, args.out_dir, fresh=args.fresh)
 
 
 if __name__ == "__main__":

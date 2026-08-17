@@ -27,14 +27,23 @@
       "last_updated": "2026-04-01",
       "version": "",
       "resource_type": "Documentation",
-      "agentic_features_covered": "Hooks; Skills; MCP; Agent Framework",
-      "topic_focus": "Architecture; Implementation; Deployment",
+      "agentic_features_covered": [
+        "Hooks",
+        "Skills",
+        "MCP",
+        "Agent frameworks"
+      ],
+      "topic_focus": [
+        "Architecture",
+        "Implementation",
+        "Deployment"
+      ],
       "relevance_to_research_cyberinfrastructure": "IDE integration for agentic workflows",
       "maturity_level": "Emerging",
       "notes_key_takeaways": "Canonical reference for VS Code agent capabilities.",
       "publication_date": "2026-05-20",
       "discovery_date": "2026-04-01",
-      "_content_hash": "f0ae7d49ce83bbacc616a9fe85a604fb00c5d0c0238e31a10e5a5e081183cb6e"
+      "_content_hash": "c745e83e6236ad04a7072240165e1eb9aab838161fa220938d859f50514a753d"
     },
     {
       "resource_name": "Data Director",
@@ -45,14 +54,20 @@
       "last_updated": "2026-05-26",
       "version": "v0.1 DRAFT",
       "resource_type": "Specification",
-      "agentic_features_covered": "FAIR Data; Workflow Agents;",
-      "topic_focus": "Workflows; Implementation",
+      "agentic_features_covered": [
+        "FAIR data",
+        "Workflow Agents"
+      ],
+      "topic_focus": [
+        "Workflows",
+        "Implementation"
+      ],
       "relevance_to_research_cyberinfrastructure": "Makes data outputs FAIR at the point of publication",
       "maturity_level": "Emerging",
       "notes_key_takeaways": "",
       "publication_date": "",
       "discovery_date": "2026-05-26",
-      "_content_hash": "b44b967b9fe4a4150558865116d97f0e8a50caa960f3f66e86d3d8768691c390"
+      "_content_hash": "0281b846d052b0a66962358461c42f610c75ced7c0a42eca933e318492aa827e"
     },
     {
       "resource_name": "Agentic AI Tool",
@@ -63,14 +78,22 @@
       "last_updated": "2026-04-01",
       "version": "",
       "resource_type": "Documentation",
-      "agentic_features_covered": "Hooks; Skills; API Integration",
-      "topic_focus": "Architecture; Governance; Security",
+      "agentic_features_covered": [
+        "Hooks",
+        "Skills",
+        "API Integration"
+      ],
+      "topic_focus": [
+        "Architecture",
+        "Governance",
+        "Security"
+      ],
       "relevance_to_research_cyberinfrastructure": "Relevant for CI/CD and code-review automation",
       "maturity_level": "Emerging",
       "notes_key_takeaways": "Strong alignment with developer workflows.",
       "publication_date": "",
       "discovery_date": "2026-04-01",
-      "_content_hash": "453502d1faa3c445ae1c562d7913aa28beeb72906656bc161a0e5e471080fec8"
+      "_content_hash": "a418d2cfb7456cdb0198e4e5739ac72b0dd5ef7ff65a5b8d0ea2fd5f7e993812"
     },
     {
       "resource_name": "GitHub MCP Documentation",
@@ -81,14 +104,21 @@
       "last_updated": "2026-04-01",
       "version": "",
       "resource_type": "API Reference",
-      "agentic_features_covered": "MCP; Tools; Server Integration",
-      "topic_focus": "Architecture; Implementation",
+      "agentic_features_covered": [
+        "MCP",
+        "Tools",
+        "Server Integration"
+      ],
+      "topic_focus": [
+        "Architecture",
+        "Implementation"
+      ],
       "relevance_to_research_cyberinfrastructure": "Key for interoperable agent tools",
       "maturity_level": "Emerging",
       "notes_key_takeaways": "Fast-moving ecosystem.",
       "publication_date": "",
       "discovery_date": "2026-04-01",
-      "_content_hash": "2a3d9e667048e3f9f953e512fa35ae9d346bfd316db817e61f2fb2b8d31be721"
+      "_content_hash": "f1cf1d171ca857b5f7937ef1773c8302f18de9638d6f8d6c8aeb23a90266ee1c"
     },
     {
       "resource_name": "OpenAI MCP Specification",
@@ -99,14 +129,21 @@
       "last_updated": "2026-04-01",
       "version": "",
       "resource_type": "Specification",
-      "agentic_features_covered": "MCP; Tooling; Server Patterns",
-      "topic_focus": "Architecture; Governance",
+      "agentic_features_covered": [
+        "MCP",
+        "Tools",
+        "Server Patterns"
+      ],
+      "topic_focus": [
+        "Architecture",
+        "Governance"
+      ],
       "relevance_to_research_cyberinfrastructure": "Critical for cross-platform agent interoperability",
       "maturity_level": "Emerging",
       "notes_key_takeaways": "Becoming a de facto standard.",
       "publication_date": "",
       "discovery_date": "2026-04-01",
-      "_content_hash": "014a54acaf96db5a8e9339bfbce4dca16418c28a1ee34815e08afd8e179d22d6"
+      "_content_hash": "9fea65dbaf05d27ff2b9a0dd098e5d9a7971c5702d68b48386571dd776b2d2f4"
     },
     {
       "resource_name": "Anthropic Model Context Protocol",
@@ -117,14 +154,20 @@
       "last_updated": "2025-11-01",
       "version": "",
       "resource_type": "Documentation",
-      "agentic_features_covered": "Model Context Protocol; Agent Patterns",
-      "topic_focus": "Architecture; Governance",
+      "agentic_features_covered": [
+        "MCP",
+        "Agent Patterns"
+      ],
+      "topic_focus": [
+        "Architecture",
+        "Governance"
+      ],
       "relevance_to_research_cyberinfrastructure": "Integration between LLM applications and external data sources and tools",
       "maturity_level": "Emerging",
       "notes_key_takeaways": "Strong safety emphasis.",
       "publication_date": "2025-11-11",
       "discovery_date": "2025-11-01",
-      "_content_hash": "4a955f666fec77b5b81de511e8553518769f6c11b69ac467341dc4d047ba06c3"
+      "_content_hash": "064afe240ebfff664f1bc136fbea253a0cebe8c21beaf818fffe6cc952dfa996"
     },
     {
       "resource_name": "Kaggle Prototype to Production Whitepaper",
@@ -135,14 +178,21 @@
       "last_updated": "2025-11-14",
       "version": "NA",
       "resource_type": "Whitepaper",
-      "agentic_features_covered": "Deployment Patterns; Workflow Automation",
-      "topic_focus": "Implementation; Security; Deployment",
+      "agentic_features_covered": [
+        "Deployment patterns",
+        "Workflow Automation"
+      ],
+      "topic_focus": [
+        "Implementation",
+        "Security",
+        "Deployment"
+      ],
       "relevance_to_research_cyberinfrastructure": "Helps teams move prototypes to production",
       "maturity_level": "Mature",
       "notes_key_takeaways": "Technical guide to the operational life cycle of AI agents, focusing on deployment & security",
       "publication_date": "",
       "discovery_date": "2025-11-14",
-      "_content_hash": "5fcb8f6095fb9b35aacc40c7644503090babb252a1d23321b2d62309b801a1a6"
+      "_content_hash": "00c659f91a1ef85f2785ef5309f53bc8c05b1e3a4e44c7c43a1f9a0417284cc0"
     },
     {
       "resource_name": "Google Vertex AI Agents Overview",
@@ -153,14 +203,20 @@
       "last_updated": "2026-04-01",
       "version": "",
       "resource_type": "Documentation",
-      "agentic_features_covered": "Agent Frameworks; Orchestration",
-      "topic_focus": "Architecture; Deployment",
+      "agentic_features_covered": [
+        "Agent frameworks",
+        "Orchestration"
+      ],
+      "topic_focus": [
+        "Architecture",
+        "Deployment"
+      ],
       "relevance_to_research_cyberinfrastructure": "Useful for cloud-based scientific workflows",
       "maturity_level": "Research",
       "notes_key_takeaways": "Strong enterprise alignment.",
       "publication_date": "",
       "discovery_date": "2026-04-01",
-      "_content_hash": "3b3f10fd9ad92426e2c36670153bf55bbad1787bebd07a73a42d5ba8e788e9ac"
+      "_content_hash": "ce1941ead1b4183cb935ada34acd72c1e57029e9ffa35c89fb369b3c02bc21d4"
     },
     {
       "resource_name": "HuggingFace Agents Documentation",
@@ -171,14 +227,21 @@
       "last_updated": "2026-03-01",
       "version": "",
       "resource_type": "Documentation",
-      "agentic_features_covered": "Tools; Skills; Model Integration",
-      "topic_focus": "Architecture; Implementation",
+      "agentic_features_covered": [
+        "Tools",
+        "Skills",
+        "Model Integration"
+      ],
+      "topic_focus": [
+        "Architecture",
+        "Implementation"
+      ],
       "relevance_to_research_cyberinfrastructure": "Useful for open-source agent experimentation",
       "maturity_level": "Emerging",
       "notes_key_takeaways": "Rapidly evolving.",
       "publication_date": "",
       "discovery_date": "2026-03-01",
-      "_content_hash": "8a42b5698910408ce33444c249b2da8ba0dae19850b9ea1e172b2cb909113cf9"
+      "_content_hash": "31a7a1364c182ea5d455c5e97644fa46372326b33dc1f789fd95e8e823c2e33d"
     },
     {
       "resource_name": "LangChain Agents Overview",
@@ -189,14 +252,21 @@
       "last_updated": "2026-04-01",
       "version": "",
       "resource_type": "Documentation",
-      "agentic_features_covered": "Tools; Skills; Multi-Agent Patterns",
-      "topic_focus": "Architecture; Implementation",
+      "agentic_features_covered": [
+        "Tools",
+        "Skills",
+        "Multi-Agent Patterns"
+      ],
+      "topic_focus": [
+        "Architecture",
+        "Implementation"
+      ],
       "relevance_to_research_cyberinfrastructure": "Relevant for workflow prototyping",
       "maturity_level": "Research",
       "notes_key_takeaways": "Widely used in research.",
       "publication_date": "",
       "discovery_date": "2026-04-01",
-      "_content_hash": "359b661a4450e5069e5f6d9662bfe2a316900dca4633ae94dcbeed25becaa9c9"
+      "_content_hash": "cf7ecd3015ce27add85ddd4492d89b5659c714c1e1981dd75e36cbbc14af1879"
     },
     {
       "resource_name": "LlamaIndex Agents",
@@ -207,14 +277,21 @@
       "last_updated": "2026-04-01",
       "version": "",
       "resource_type": "Documentation",
-      "agentic_features_covered": "Tools; Skills; Retrieval Agents",
-      "topic_focus": "Architecture; Governance",
+      "agentic_features_covered": [
+        "Tools",
+        "Skills",
+        "Retrieval Agents"
+      ],
+      "topic_focus": [
+        "Architecture",
+        "Governance"
+      ],
       "relevance_to_research_cyberinfrastructure": "Useful for data-rich research platforms",
       "maturity_level": "Research",
       "notes_key_takeaways": "Strong retrieval-centric design.",
       "publication_date": "",
       "discovery_date": "2026-04-01",
-      "_content_hash": "ad1911c7be2baa4338b553a84b9ceafac5d5c3c6307c55383153302796d117d2"
+      "_content_hash": "85037860af94f9f05b785d17612bc7e63f8a311a83809c8aa68c7c9e93db8d60"
     },
     {
       "resource_name": "Dagster Automation/Agent Patterns",
@@ -225,14 +302,20 @@
       "last_updated": "2026-03-01",
       "version": "1.3.15",
       "resource_type": "Documentation",
-      "agentic_features_covered": "Workflow Automation; Orchestration",
-      "topic_focus": "Architecture; Deployment",
+      "agentic_features_covered": [
+        "Workflow Automation",
+        "Orchestration"
+      ],
+      "topic_focus": [
+        "Architecture",
+        "Deployment"
+      ],
       "relevance_to_research_cyberinfrastructure": "Relevant for scientific pipelines",
       "maturity_level": "Mature",
       "notes_key_takeaways": "Strong reproducibility focus.",
       "publication_date": "",
       "discovery_date": "2026-03-01",
-      "_content_hash": "ae7bc8ccc7cb14d46dbfab90c9ae01071ef6ea77b2d6306505cdd1591b78d0f8"
+      "_content_hash": "42ba2ac98498c601f4942690f8294a08ad4bb26ed21513e9518947d8c6a0f8f5"
     },
     {
       "resource_name": "Prefect Automations/Agents",
@@ -243,14 +326,20 @@
       "last_updated": "2026-03-01",
       "version": "",
       "resource_type": "Documentation",
-      "agentic_features_covered": "Workflow Agents; Triggers",
-      "topic_focus": "Implementation; Deployment",
+      "agentic_features_covered": [
+        "Workflow Agents",
+        "Triggers"
+      ],
+      "topic_focus": [
+        "Implementation",
+        "Deployment"
+      ],
       "relevance_to_research_cyberinfrastructure": "Useful for data processing pipelines",
       "maturity_level": "Mature",
       "notes_key_takeaways": "Good hybrid cloud/HPC support.",
       "publication_date": "",
       "discovery_date": "2026-03-01",
-      "_content_hash": "351ef2aef4347c314e9f08063d808cd9cebcdaff74d4a580562683fbfe9c2fe1"
+      "_content_hash": "4c75ac1056aa417cd66df1f6d37aae90e239b2cc4d1bcad430a39ad3edd03a80"
     },
     {
       "resource_name": "Jupyter AI",
@@ -261,14 +350,20 @@
       "last_updated": "2026-04-01",
       "version": "",
       "resource_type": "Documentation",
-      "agentic_features_covered": "Notebook Agents; Tool Integration",
-      "topic_focus": "Implementation; Data Governance",
+      "agentic_features_covered": [
+        "Notebook Agents",
+        "Tool Integration"
+      ],
+      "topic_focus": [
+        "Implementation",
+        "Data governance"
+      ],
       "relevance_to_research_cyberinfrastructure": "Relevant for research notebooks",
       "maturity_level": "Emerging",
       "notes_key_takeaways": "Strong alignment with scientific workflows.",
       "publication_date": "",
       "discovery_date": "2026-04-01",
-      "_content_hash": "a636c6972ea754d9e83db1fb022556b8a1da2351aea4263f3c6e51a86e543c87"
+      "_content_hash": "80c8d35a600af69e6db5df4f36d281f3efd78cf263b035a903f4e55cb17139cd"
     },
     {
       "resource_name": "Anthropic Tools API",
@@ -279,14 +374,20 @@
       "last_updated": "2026-04-01",
       "version": "",
       "resource_type": "API Reference",
-      "agentic_features_covered": "Tools; Skills",
-      "topic_focus": "Architecture; Security",
+      "agentic_features_covered": [
+        "Tools",
+        "Skills"
+      ],
+      "topic_focus": [
+        "Architecture",
+        "Security"
+      ],
       "relevance_to_research_cyberinfrastructure": "Useful for safe tool-calling agents",
       "maturity_level": "Emerging",
       "notes_key_takeaways": "Strong safety posture.",
       "publication_date": "",
       "discovery_date": "2026-04-01",
-      "_content_hash": "0e5f13f289c63cde271fa920c1c5050a524d716acdd808801d99e3bf2a1b6e71"
+      "_content_hash": "a665313a4a758f404f7178c1e48f7e2da6ffd172f02fb70065d5fa38d173b8ec"
     },
     {
       "resource_name": "Microsoft Semantic Kernel Agents",
@@ -297,14 +398,21 @@
       "last_updated": "2026-04-01",
       "version": "",
       "resource_type": "Documentation",
-      "agentic_features_covered": "Skills; Tools; Orchestration",
-      "topic_focus": "Architecture; Implementation",
+      "agentic_features_covered": [
+        "Skills",
+        "Tools",
+        "Orchestration"
+      ],
+      "topic_focus": [
+        "Architecture",
+        "Implementation"
+      ],
       "relevance_to_research_cyberinfrastructure": "Useful for enterprise-grade agent workflows",
       "maturity_level": "Research",
       "notes_key_takeaways": "Strong .NET + Python support.",
       "publication_date": "",
       "discovery_date": "2026-04-01",
-      "_content_hash": "b72b2301c3383eedb5604aac9dc0dd2e10bbce4c3bee778986e6adf502c27c61"
+      "_content_hash": "f8d154e74674756eced2906b11749831b2cd59fb22ef1aa0da40bdc882880318"
     },
     {
       "resource_name": "HuggingFace Inference Endpoints",
@@ -315,14 +423,20 @@
       "last_updated": "2026-03-01",
       "version": "",
       "resource_type": "Documentation",
-      "agentic_features_covered": "Model Integration; Tool-Ready Endpoints",
-      "topic_focus": "Architecture; Deployment",
+      "agentic_features_covered": [
+        "Model Integration",
+        "Tool-Ready Endpoints"
+      ],
+      "topic_focus": [
+        "Architecture",
+        "Deployment"
+      ],
       "relevance_to_research_cyberinfrastructure": "Useful for hosted inference in research",
       "maturity_level": "Mature",
       "notes_key_takeaways": "Good for reproducibility.",
       "publication_date": "",
       "discovery_date": "2026-03-01",
-      "_content_hash": "5f106a092b5ef3dd54f8125b958f02582093803f401985f25dbe38a2c554698f"
+      "_content_hash": "5fae9574f13a51c2e5cb14136d3c872c2bdaf875f607c3296dc8883d52eb657a"
     },
     {
       "resource_name": "OpenAI Evaluations (Evals)",
@@ -333,14 +447,20 @@
       "last_updated": "2026-04-01",
       "version": "",
       "resource_type": "Documentation",
-      "agentic_features_covered": "Evaluation; Guardrails",
-      "topic_focus": "Security; Governance",
+      "agentic_features_covered": [
+        "Evaluation / testing",
+        "Safety / guardrails"
+      ],
+      "topic_focus": [
+        "Security",
+        "Governance"
+      ],
       "relevance_to_research_cyberinfrastructure": "Relevant for agent safety in research platforms",
       "maturity_level": "Research",
       "notes_key_takeaways": "Useful for risk assessment.",
       "publication_date": "",
       "discovery_date": "2026-04-01",
-      "_content_hash": "7bad68db0241d5e34c60656632d7ae7628722143e156d2ade1fd7f4639dde4b7"
+      "_content_hash": "0d917bc0b56b1ba0ed20cfea740a87e6d707faba7ceedd6ad46bb42494c3a1d1"
     },
     {
       "resource_name": "Anthropic Safety Guidelines",
@@ -351,14 +471,20 @@
       "last_updated": "2026-04-01",
       "version": "",
       "resource_type": "Documentation",
-      "agentic_features_covered": "Guardrails; Safe Tool Use",
-      "topic_focus": "Governance; Security",
+      "agentic_features_covered": [
+        "Safety / guardrails",
+        "Safe Tool Use"
+      ],
+      "topic_focus": [
+        "Governance",
+        "Security"
+      ],
       "relevance_to_research_cyberinfrastructure": "Useful for research governance teams",
       "maturity_level": "Mature",
       "notes_key_takeaways": "Strong alignment with institutional risk controls.",
       "publication_date": "",
       "discovery_date": "2026-04-01",
-      "_content_hash": "e4cc204fd66a53f378bee6c7242b0f98ae4bd26c53d5c755e5ffe41937ab6dc4"
+      "_content_hash": "04e11ebc72f7ec2a0ff5a920718fb3fb39c13f96e43ee02baffea5384339ca2e"
     },
     {
       "resource_name": "Microsoft Responsible AI Standard",
@@ -369,14 +495,21 @@
       "last_updated": "2025-12-01",
       "version": "",
       "resource_type": "Governance Guidance",
-      "agentic_features_covered": "Safety; Governance; Risk Controls",
-      "topic_focus": "Data Governance; Security",
+      "agentic_features_covered": [
+        "Safety / guardrails",
+        "Governance",
+        "Risk Controls"
+      ],
+      "topic_focus": [
+        "Data governance",
+        "Security"
+      ],
       "relevance_to_research_cyberinfrastructure": "Relevant for institutional AI governance",
       "maturity_level": "Mature",
       "notes_key_takeaways": "Widely adopted governance framework.",
       "publication_date": "",
       "discovery_date": "2025-12-01",
-      "_content_hash": "bcf631c775ea4f5dbdfb9051046607724c12efff4f203ac23f6cec8f186fcd88"
+      "_content_hash": "de5e97f98465ca95670a048157b22807cb76d39869868f2d93d5997bbb20b52d"
     },
     {
       "resource_name": "vLLM Documentation",
@@ -387,14 +520,21 @@
       "last_updated": "2026-04-01",
       "version": "",
       "resource_type": "Inference Framework",
-      "agentic_features_covered": "Parallel sampling & tool-calling",
-      "topic_focus": "Self‑hosted AI; Architecture; Implementation; Deployment",
+      "agentic_features_covered": [
+        "Parallel sampling & tool-calling"
+      ],
+      "topic_focus": [
+        "Self‑hosted AI",
+        "Architecture",
+        "Implementation",
+        "Deployment"
+      ],
       "relevance_to_research_cyberinfrastructure": "High (Industry-standard VPC runtime engine)",
       "maturity_level": "Mature",
       "notes_key_takeaways": "Essential for secure TLAs via PagedAttention and FP8/AWQ optimization.",
       "publication_date": "",
       "discovery_date": "2026-04-01",
-      "_content_hash": "9eb3d2ce6123d50c0c60e6cc85ffc8985d2ba0a2a6d0ec34037ee931743af966"
+      "_content_hash": "7505a0ded2d0ee7de9e6e7f8fd49273787d3fef5c02d2f6c05a3dc47d35163ae"
     },
     {
       "resource_name": "Ollama Documentation",
@@ -405,14 +545,20 @@
       "last_updated": "2026-04-01",
       "version": "",
       "resource_type": "Local Application Sandbox",
-      "agentic_features_covered": "Local embedding & zero-config tools",
-      "topic_focus": "Self‑hosted AI; Implementation; Deployment",
+      "agentic_features_covered": [
+        "Local embedding & zero-config tools"
+      ],
+      "topic_focus": [
+        "Self‑hosted AI",
+        "Implementation",
+        "Deployment"
+      ],
       "relevance_to_research_cyberinfrastructure": "Medium-High (Local workstation co-pilot)",
       "maturity_level": "Mature",
       "notes_key_takeaways": "Eliminates network dependency errors by cleanly bundling open model weights.",
       "publication_date": "",
       "discovery_date": "2026-04-01",
-      "_content_hash": "550cf5eae5fb967a908fb317a131e846704c792183718c3694535eebcbf18b23"
+      "_content_hash": "ad8fe137405380eff79c2f94fc41e42731206b216350fb364f7c70809cb1791a"
     },
     {
       "resource_name": "Llama.cpp ",
@@ -423,14 +569,21 @@
       "last_updated": "2026-05-20",
       "version": "b9253",
       "resource_type": "Github Code Repository",
-      "agentic_features_covered": "Grammar-based constrained sampling",
-      "topic_focus": "Self‑hosted AI; Architecture; Implementation; Deployment",
+      "agentic_features_covered": [
+        "Grammar-based constrained sampling"
+      ],
+      "topic_focus": [
+        "Self‑hosted AI",
+        "Architecture",
+        "Implementation",
+        "Deployment"
+      ],
       "relevance_to_research_cyberinfrastructure": "High (Enables reasoning on variable local hardware)",
       "maturity_level": "Mature",
       "notes_key_takeaways": "Grammar constraints ensure localized agentic pipelines always return valid JSON/code.",
       "publication_date": "",
       "discovery_date": "2026-05-20",
-      "_content_hash": "d34674a9d5ce41be931a745704e82fceff3a614ac7645efa2877df47b21e9113"
+      "_content_hash": "ee43b6ad30969eb426d1bc00d69f4e62b619af70ba84f0674d091e4dc02fdb6e"
     },
     {
       "resource_name": "Open WebUI Documentation",
@@ -441,14 +594,20 @@
       "last_updated": "2026-04-01",
       "version": "",
       "resource_type": "Enterprise Control Interface",
-      "agentic_features_covered": "Local RAG pipelines & offline functions",
-      "topic_focus": "Self‑hosted AI; Implementation; Deployment",
+      "agentic_features_covered": [
+        "Local RAG pipelines & offline functions"
+      ],
+      "topic_focus": [
+        "Self‑hosted AI",
+        "Implementation",
+        "Deployment"
+      ],
       "relevance_to_research_cyberinfrastructure": "High (Enterprise-grade firewall interface)",
       "maturity_level": "Mature",
       "notes_key_takeaways": "Solves local file parsing/RAG bottlenecks entirely within secure client networks.",
       "publication_date": "",
       "discovery_date": "2026-04-01",
-      "_content_hash": "0980fdc60ee6b39433a7d48796bf7fdeffd1650efe7d95709b8f42f8b5815ab9"
+      "_content_hash": "2cf543321c1e98377c2f284ccc0e3480f54b71a4ddad86007cd902cca4344786"
     },
     {
       "resource_name": "NVIDIA NIM Air-Gap Deployment Guide",
@@ -459,14 +618,21 @@
       "last_updated": "2026",
       "version": "",
       "resource_type": "Reference Architecture",
-      "agentic_features_covered": "Tensor-parallel caching & optimized tool-calling",
-      "topic_focus": "Self‑hosted AI; Implementation; Network Isolation; Infrastructure Security",
+      "agentic_features_covered": [
+        "Tensor-parallel caching & optimized tool-calling"
+      ],
+      "topic_focus": [
+        "Self‑hosted AI",
+        "Implementation",
+        "Network Isolation",
+        "Infrastructure Security"
+      ],
       "relevance_to_research_cyberinfrastructure": "Critical (Standardizes secure distribution of optimized weights)",
       "maturity_level": "Mature",
       "notes_key_takeaways": "Outlines the exact connected-to-disconnected asset transfer workflow for enterprise GPUs.",
       "publication_date": "",
       "discovery_date": "2026-05-08",
-      "_content_hash": "bfbd701a0bdeb005ffff36c5007a2605d6d755afed6403c7b0781662124a93f9"
+      "_content_hash": "91cd3f4a58106ec9130f7ba2da1c33b8eb439858fe91de80e789dcc1d2e1874a"
     },
     {
       "resource_name": "Harbor User Documentation",
@@ -477,14 +643,22 @@
       "last_updated": "2026",
       "version": "",
       "resource_type": "Container Registry",
-      "agentic_features_covered": "Artifact version-locking & immutable tags",
-      "topic_focus": "Self‑hosted AI; Implementation; Network Isolation; Infrastructure Security; Governance",
+      "agentic_features_covered": [
+        "Artifact version-locking & immutable tags"
+      ],
+      "topic_focus": [
+        "Self‑hosted AI",
+        "Implementation",
+        "Network Isolation",
+        "Infrastructure Security",
+        "Governance"
+      ],
       "relevance_to_research_cyberinfrastructure": "High (Necessary foundation for secure cluster registries)",
       "maturity_level": "Mature",
       "notes_key_takeaways": "Built-in vulnerability scanning ensures agent images remain clean behind the firewall.",
       "publication_date": "",
       "discovery_date": "2026-05-08",
-      "_content_hash": "e12060d575d83d916de3abff2c088144976c416d1868dad9b719b7ef21ab7707"
+      "_content_hash": "5bb79b8fba595715ceff3fdc27f7b8518480ea4facdb6c0caed46f3697b3af72"
     },
     {
       "resource_name": "AI Engineering Blueprint for On-Premises RAG Systems",
@@ -495,14 +669,19 @@
       "last_updated": "2026",
       "version": "",
       "resource_type": "Scientific Literature",
-      "agentic_features_covered": "End-to-end local reference applications",
-      "topic_focus": "Self‑hosted AI; Infrastructure Security",
+      "agentic_features_covered": [
+        "End-to-end local reference applications"
+      ],
+      "topic_focus": [
+        "Self‑hosted AI",
+        "Infrastructure Security"
+      ],
       "relevance_to_research_cyberinfrastructure": "High (Academic/industry validated system design blueprint)",
       "maturity_level": "Emerging",
       "notes_key_takeaways": "Moves past simple how-to guides into formal data isolation and local compliance frameworks.",
       "publication_date": "",
       "discovery_date": "2026-05-08",
-      "_content_hash": "82d8e0ebd44383866eb90c4bb8f690e4a8a11f5c5c4900732c4d9c09d589c4c5"
+      "_content_hash": "a5fd36ee918ebfde9d17c3720325dcaf41601389cf38fa0b6efcb42674a3067f"
     },
     {
       "resource_name": "On-Premise vs Cloud: GenAI TCO (2026 Edition)",
@@ -512,15 +691,21 @@
       "verified_by": "Paty Buendia",
       "last_updated": "2026-02-01",
       "version": "NA",
-      "resource_type": "Technical Whitepaper",
-      "agentic_features_covered": "Hardware performance scaling & VRAM sizing",
-      "topic_focus": "Self‑hosted AI; Architecture; Governance",
+      "resource_type": "Whitepaper",
+      "agentic_features_covered": [
+        "Hardware performance scaling & VRAM sizing"
+      ],
+      "topic_focus": [
+        "Self‑hosted AI",
+        "Architecture",
+        "Governance"
+      ],
       "relevance_to_research_cyberinfrastructure": "High (Mandatory for spec'ing out server node VRAM limits)",
       "maturity_level": "Mature",
       "notes_key_takeaways": "Breaks down the \"Memory Wall\" economics showing an on-prem breakeven velocity of ~4 months.",
       "publication_date": "",
       "discovery_date": "2026-02-01",
-      "_content_hash": "ba7b1a85bfb124fc2c64174b38030b6c8e9e164e3eba35a56627102b5880319a"
+      "_content_hash": "729d96c2bea878c59eb5a4f6f965ab0cc58e89b3dd20bd0ae63ffba706f6c283"
     },
     {
       "resource_name": "Coalition for Secure AI (CoSAI) ",
@@ -531,14 +716,20 @@
       "last_updated": "2026-06-01",
       "version": "",
       "resource_type": "Security Guidance & Resources",
-      "agentic_features_covered": "Guardrails; Safe Tool Use",
-      "topic_focus": "Infrastructure Security; Security",
+      "agentic_features_covered": [
+        "Safety / guardrails",
+        "Safe Tool Use"
+      ],
+      "topic_focus": [
+        "Infrastructure Security",
+        "Security"
+      ],
       "relevance_to_research_cyberinfrastructure": "Relevant security expertise and best practices for secure AI development and deployment",
       "maturity_level": "Emerging",
       "notes_key_takeaways": "The Coalition for Secure AI (CoSAI) is an open ecosystem of AI and security experts",
       "publication_date": "",
       "discovery_date": "2026-06-01",
-      "_content_hash": "e8805ebdd6e1cebada77a7f1bda78daa5a40a898efe378887e70b1b33d206a93"
+      "_content_hash": "7966af0586c33ead28ea3850260825dcaa6dcaede44c19c60e41249f24fedac3"
     },
     {
       "resource_name": "Anthropic Project Glasswing",
@@ -549,14 +740,19 @@
       "last_updated": "2026-04-07",
       "version": "",
       "resource_type": "Security Guidance & Resources",
-      "agentic_features_covered": "Cybersecurity",
-      "topic_focus": "Infrastructure Security; Security",
+      "agentic_features_covered": [
+        "Cybersecurity"
+      ],
+      "topic_focus": [
+        "Infrastructure Security",
+        "Security"
+      ],
       "relevance_to_research_cyberinfrastructure": "AI models that find high-severity vulnerabilities",
       "maturity_level": "Emerging",
       "notes_key_takeaways": "See Claude Mythos Preview",
       "publication_date": "2026-04-07",
       "discovery_date": "2026-04-07",
-      "_content_hash": "e3246d3d1c71515f139dbc7036465dc8ba8f825506e9874960cd00cb4d616e64"
+      "_content_hash": "08892a82827888ea4146e56cc6389d8cdfb7654ecd1451637c6658d791e5c794"
     },
     {
       "resource_name": "Docker AI Governance & Sandboxes",
@@ -567,14 +763,19 @@
       "last_updated": "2026-07-10",
       "version": "0.35.0",
       "resource_type": "Documentation",
-      "agentic_features_covered": "Sandbox; MCP",
-      "topic_focus": "Security",
+      "agentic_features_covered": [
+        "Sandbox",
+        "MCP"
+      ],
+      "topic_focus": [
+        "Security"
+      ],
       "relevance_to_research_cyberinfrastructure": "Good AI governance topics",
       "maturity_level": "Research",
       "notes_key_takeaways": "See blog article: https://www.docker.com/blog/the-3cs-a-framework-for-ai-agent-security/",
       "publication_date": "",
       "discovery_date": "2026-07-10",
-      "_content_hash": "0eebdb83734a2ceca07eca6cb8a62930a08ec5529ffe863e339c54ac22c48f07"
+      "_content_hash": "4064595e21ca205783da147c493404513ed7cf6818ea3fc702c27b3c0d48401a"
     },
     {
       "resource_name": "Responses API",
@@ -585,14 +786,20 @@
       "last_updated": "2026-07-09",
       "version": "GPT-5.6",
       "resource_type": "Documentation",
-      "agentic_features_covered": "Tools; Skills; Retrieval",
-      "topic_focus": "Architecture",
+      "agentic_features_covered": [
+        "Tools",
+        "Skills",
+        "Retrieval"
+      ],
+      "topic_focus": [
+        "Architecture"
+      ],
       "relevance_to_research_cyberinfrastructure": "Useful for domain-specific agents",
       "maturity_level": "Emerging",
       "notes_key_takeaways": "MIgrated from API Assistants  - now deprecated.",
       "publication_date": "",
       "discovery_date": "2026-07-09",
-      "_content_hash": "bd7fc12243988f497d72027699ccaad74ee1d09d9c71ef9fa27775ff87d30ca8"
+      "_content_hash": "586c3453526aaf9019698eff458d063c3d6259543dfed2337132a4fcf4c7383d"
     }
   ]
 }

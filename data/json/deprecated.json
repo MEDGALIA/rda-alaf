@@ -26,13 +26,20 @@
       "deprecation_date": "2026-08-26",
       "version": "",
       "resource_type": "API Reference",
-      "agentic_features_covered": "Tools; Skills; Retrieval",
-      "topic_focus": "Architecture, Implementation",
+      "agentic_features_covered": [
+        "Tools",
+        "Skills",
+        "Retrieval"
+      ],
+      "topic_focus": [
+        "Architecture",
+        "Implementation"
+      ],
       "relevance_to_research_cyberinfrastructure": "Useful for domain-specific agents",
       "maturity_level": "Deprecated",
       "notes_key_takeaways": "Stable API surface.",
       "discovery_date": "2026-05-08",
-      "_content_hash": "2f69bea9b0d53eae54be028791b9c249479e7ca02424572e1c074f7c1748ddcf"
+      "_content_hash": "efd946d95754993fcf84f25ccb696f4ffc58817413f96ee8e601c4797ad9004e"
     }
   ]
 }
