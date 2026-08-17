@@ -149,6 +149,7 @@ Read-only analysis of the workbook — never opens it in write mode, and asserts
 - **Row counts and cell anomalies**, per sheet — empty rows as contiguous ranges, plus type/shape checks keyed off the header: name-like columns flagged if numeric/date; date columns flagged if not a real date cell; `Version` flagged if it *is* a date; `URL` flagged if it doesn't start with `http(s)://`.
 - **Column coverage** — columns in data tabs missing from `Dictionary`, and documented columns no tab actually has.
 - **Vocabulary coverage** — per controlled column: terms used but absent from `Vocabulary`, and documented terms never used. Driven by `Value Type`, so free-text columns are skipped — without that, `Relevance to Research Cyberinfrastructure` (prose sentences by design) would report ~30 bogus "undocumented terms".
+- **Missing controlled values** — populated rows with an empty controlled-vocabulary cell, which is usually an oversight rather than a deliberate "not applicable".
 - **Ontology coverage** — which vocabulary terms are backed by a declared standard and which aren't.
 - **Review candidates** — near-duplicate term pairs (one term's words a subset of another's, e.g. `Retrieval` vs `Retrieval Agents`) that were deliberately *not* auto-merged, since collapsing them is a semantic judgment rather than a spelling fix.
 

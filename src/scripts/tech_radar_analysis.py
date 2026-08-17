@@ -149,6 +149,33 @@ def collect_used_terms(wb, schema: dict, data_sheets: list[str]) -> dict[str, di
     return used
 
 
+def find_missing_controlled(wb, schema: dict, data_sheets: list[str]) -> dict[str, list[tuple]]:
+    """Populated rows with an empty controlled-vocabulary cell.
+
+    A blank in a controlled column is usually an oversight rather than a
+    deliberate 'not applicable', so it's worth surfacing for curation.
+    """
+    missing: dict[str, list[tuple]] = {}
+    for sheet_name in data_sheets:
+        ws = wb[sheet_name]
+        headers = {h: c for c, h in iter_header(ws)}
+        key_letter = next(iter(headers.values()))
+        found = []
+        for col in schema["columns"]:
+            if col["value_type"] not in CONTROLLED_TYPES or col["name"] not in headers:
+                continue
+            letter = headers[col["name"]]
+            for row_idx in range(2, ws.max_row + 1):
+                if row_is_empty(ws, row_idx, list(iter_header(ws))):
+                    continue
+                value = ws[f"{letter}{row_idx}"].value
+                if value is None or not str(value).strip():
+                    found.append((row_idx, ws[f"{key_letter}{row_idx}"].value, col["name"]))
+        if found:
+            missing[sheet_name] = sorted(found)
+    return missing
+
+
 def _word_set(term: str) -> frozenset[str]:
     """Crudely singularized word set, for near-duplicate detection."""
     words = [w.strip("&/,()").lower() for w in term.split()]
@@ -171,7 +198,14 @@ def find_review_candidates(terms: list[str]) -> list[tuple[str, str]]:
     return pairs
 
 
-def render_report(xlsx_path: Path, schema: dict, sheet_results: dict, used: dict, data_sheets: list[str]) -> str:
+def render_report(
+    xlsx_path: Path,
+    schema: dict,
+    sheet_results: dict,
+    used: dict,
+    data_sheets: list[str],
+    missing_controlled: dict,
+) -> str:
     L = [
         "# VANTAGE Technology Radar — Workbook Analysis",
         "",
@@ -242,6 +276,17 @@ def render_report(xlsx_path: Path, schema: dict, sheet_results: dict, used: dict
             "",
         ]
 
+    # ---- missing controlled values
+    L += ["## Missing controlled values", ""]
+    if missing_controlled:
+        L += ["Populated rows with an empty controlled-vocabulary cell.", ""]
+        for sheet_name, rows in missing_controlled.items():
+            L.append(f"**{sheet_name}**")
+            L += [f"- row {r}: `{name}` is missing `{col}`" for r, name, col in rows]
+            L.append("")
+    else:
+        L += ["None — every populated row has a value in each controlled column that applies to it.", ""]
+
     # ---- ontology coverage
     L += [
         "## Ontology coverage",
@@ -301,12 +346,13 @@ def main() -> None:
     data_sheets = [s for s in wb.sheetnames if s not in METADATA_SHEETS]
     sheet_results = {name: scan_sheet(wb[name]) for name in data_sheets}
     used = collect_used_terms(wb, schema, data_sheets)
+    missing_controlled = find_missing_controlled(wb, schema, data_sheets)
     wb.close()
 
     after_bytes = args.xlsx.read_bytes()
     assert before_bytes == after_bytes, "xlsx bytes changed during a read-only scan"
 
-    report = render_report(args.xlsx, schema, sheet_results, used, data_sheets)
+    report = render_report(args.xlsx, schema, sheet_results, used, data_sheets, missing_controlled)
     args.out.parent.mkdir(parents=True, exist_ok=True)
     args.out.write_text(report, encoding="utf-8", newline="\n")
     print(f"Wrote {args.out}")

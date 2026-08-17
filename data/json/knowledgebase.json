@@ -515,13 +515,14 @@
       "resource_name": "vLLM Documentation",
       "url": "https://docs.vllm.ai",
       "source_organization": "vLLM Project Team",
-      "last_verified": "2026-05-08",
+      "last_verified": "",
       "verified_by": "",
       "last_updated": "2026-04-01",
       "version": "",
       "resource_type": "Inference Framework",
       "agentic_features_covered": [
-        "Parallel sampling & tool-calling"
+        "Deployment patterns",
+        "Tool Integration"
       ],
       "topic_focus": [
         "Self‑hosted AI",
@@ -531,22 +532,22 @@
       ],
       "relevance_to_research_cyberinfrastructure": "High (Industry-standard VPC runtime engine)",
       "maturity_level": "Mature",
-      "notes_key_takeaways": "Essential for secure TLAs via PagedAttention and FP8/AWQ optimization.",
+      "notes_key_takeaways": "Essential for secure TLAs via PagedAttention and FP8/AWQ optimization. Capabilities: Parallel sampling & tool-calling.",
       "publication_date": "",
       "discovery_date": "2026-04-01",
-      "_content_hash": "7505a0ded2d0ee7de9e6e7f8fd49273787d3fef5c02d2f6c05a3dc47d35163ae"
+      "_content_hash": "f5e90ec8f5f2f4072a28b0c89f63da37b40bbe74a287dfbf61017e87b33eaf75"
     },
     {
       "resource_name": "Ollama Documentation",
       "url": "https://github.com/ollama/ollama",
       "source_organization": "Ollama Community",
-      "last_verified": "2026-05-08",
+      "last_verified": "",
       "verified_by": "",
       "last_updated": "2026-04-01",
       "version": "",
       "resource_type": "Local Application Sandbox",
       "agentic_features_covered": [
-        "Local embedding & zero-config tools"
+        "Deployment patterns"
       ],
       "topic_focus": [
         "Self‑hosted AI",
@@ -555,22 +556,22 @@
       ],
       "relevance_to_research_cyberinfrastructure": "Medium-High (Local workstation co-pilot)",
       "maturity_level": "Mature",
-      "notes_key_takeaways": "Eliminates network dependency errors by cleanly bundling open model weights.",
+      "notes_key_takeaways": "Eliminates network dependency errors by cleanly bundling open model weights. Capabilities: Local embedding & zero-config tools.",
       "publication_date": "",
       "discovery_date": "2026-04-01",
-      "_content_hash": "ad8fe137405380eff79c2f94fc41e42731206b216350fb364f7c70809cb1791a"
+      "_content_hash": "622072761e701385957afd65ee11e4e1ae30a60b9ae3be90b7411469bbdb08a1"
     },
     {
       "resource_name": "Llama.cpp ",
       "url": "https://github.com/ggerganov/llama.cpp",
       "source_organization": "Georgi Gerganov",
-      "last_verified": "2026-05-20",
-      "verified_by": "Paty Buendia",
+      "last_verified": "",
+      "verified_by": "",
       "last_updated": "2026-05-20",
       "version": "b9253",
       "resource_type": "Github Code Repository",
       "agentic_features_covered": [
-        "Grammar-based constrained sampling"
+        "Deployment patterns"
       ],
       "topic_focus": [
         "Self‑hosted AI",
@@ -580,22 +581,22 @@
       ],
       "relevance_to_research_cyberinfrastructure": "High (Enables reasoning on variable local hardware)",
       "maturity_level": "Mature",
-      "notes_key_takeaways": "Grammar constraints ensure localized agentic pipelines always return valid JSON/code.",
+      "notes_key_takeaways": "Grammar constraints ensure localized agentic pipelines always return valid JSON/code. Capabilities: Grammar-based constrained sampling.",
       "publication_date": "",
       "discovery_date": "2026-05-20",
-      "_content_hash": "ee43b6ad30969eb426d1bc00d69f4e62b619af70ba84f0674d091e4dc02fdb6e"
+      "_content_hash": "4ea5e4d5e4d6528229c8e5b661ab2d8440967df6b81824c37aec0bb7ad9f7971"
     },
     {
       "resource_name": "Open WebUI Documentation",
       "url": "https://docs.openwebui.com",
       "source_organization": "Open WebUI Core Team",
-      "last_verified": "2026-05-08",
+      "last_verified": "",
       "verified_by": "",
       "last_updated": "2026-04-01",
       "version": "",
       "resource_type": "Enterprise Control Interface",
       "agentic_features_covered": [
-        "Local RAG pipelines & offline functions"
+        "Retrieval"
       ],
       "topic_focus": [
         "Self‑hosted AI",
@@ -604,22 +605,22 @@
       ],
       "relevance_to_research_cyberinfrastructure": "High (Enterprise-grade firewall interface)",
       "maturity_level": "Mature",
-      "notes_key_takeaways": "Solves local file parsing/RAG bottlenecks entirely within secure client networks.",
+      "notes_key_takeaways": "Solves local file parsing/RAG bottlenecks entirely within secure client networks. Capabilities: Local RAG pipelines & offline functions.",
       "publication_date": "",
       "discovery_date": "2026-04-01",
-      "_content_hash": "2cf543321c1e98377c2f284ccc0e3480f54b71a4ddad86007cd902cca4344786"
+      "_content_hash": "bba52df53b11d6f10b8ec1c0c5ee33eef430ac5e9974e433df9bbf77adea32e3"
     },
     {
       "resource_name": "NVIDIA NIM Air-Gap Deployment Guide",
       "url": "https://docs.nvidia.com/nim/large-language-models/latest/deploy-air-gap.html",
       "source_organization": "NVIDIA",
-      "last_verified": "2026-05-08",
+      "last_verified": "",
       "verified_by": "",
       "last_updated": "2026",
       "version": "",
       "resource_type": "Reference Architecture",
       "agentic_features_covered": [
-        "Tensor-parallel caching & optimized tool-calling"
+        "Deployment patterns"
       ],
       "topic_focus": [
         "Self‑hosted AI",
@@ -629,22 +630,22 @@
       ],
       "relevance_to_research_cyberinfrastructure": "Critical (Standardizes secure distribution of optimized weights)",
       "maturity_level": "Mature",
-      "notes_key_takeaways": "Outlines the exact connected-to-disconnected asset transfer workflow for enterprise GPUs.",
+      "notes_key_takeaways": "Outlines the exact connected-to-disconnected asset transfer workflow for enterprise GPUs. Capabilities: Tensor-parallel caching & optimized tool-calling.",
       "publication_date": "",
       "discovery_date": "2026-05-08",
-      "_content_hash": "91cd3f4a58106ec9130f7ba2da1c33b8eb439858fe91de80e789dcc1d2e1874a"
+      "_content_hash": "1f7b15c5b323f08a315c0bcb73581865d33e774a383ab63c003be5c57d6151c4"
     },
     {
       "resource_name": "Harbor User Documentation",
       "url": "https://goharbor.io/docs/",
       "source_organization": "Cloud Native Computing Foundation (CNCF)",
-      "last_verified": "2026-05-08",
+      "last_verified": "",
       "verified_by": "",
       "last_updated": "2026",
       "version": "",
       "resource_type": "Container Registry",
       "agentic_features_covered": [
-        "Artifact version-locking & immutable tags"
+        "Deployment patterns"
       ],
       "topic_focus": [
         "Self‑hosted AI",
@@ -655,22 +656,23 @@
       ],
       "relevance_to_research_cyberinfrastructure": "High (Necessary foundation for secure cluster registries)",
       "maturity_level": "Mature",
-      "notes_key_takeaways": "Built-in vulnerability scanning ensures agent images remain clean behind the firewall.",
+      "notes_key_takeaways": "Built-in vulnerability scanning ensures agent images remain clean behind the firewall. Capabilities: Artifact version-locking & immutable tags.",
       "publication_date": "",
       "discovery_date": "2026-05-08",
-      "_content_hash": "5bb79b8fba595715ceff3fdc27f7b8518480ea4facdb6c0caed46f3697b3af72"
+      "_content_hash": "15affff9481b178ce96ece795107020c887524a4b20267534e5baa4bf811abed"
     },
     {
       "resource_name": "AI Engineering Blueprint for On-Premises RAG Systems",
       "url": "https://arxiv.org/abs/2604.01395",
       "source_organization": "arXiv (2604.01395)",
-      "last_verified": "2026-05-08",
+      "last_verified": "",
       "verified_by": "",
       "last_updated": "2026",
       "version": "",
       "resource_type": "Scientific Literature",
       "agentic_features_covered": [
-        "End-to-end local reference applications"
+        "Deployment patterns",
+        "Retrieval"
       ],
       "topic_focus": [
         "Self‑hosted AI",
@@ -678,22 +680,22 @@
       ],
       "relevance_to_research_cyberinfrastructure": "High (Academic/industry validated system design blueprint)",
       "maturity_level": "Emerging",
-      "notes_key_takeaways": "Moves past simple how-to guides into formal data isolation and local compliance frameworks.",
+      "notes_key_takeaways": "Moves past simple how-to guides into formal data isolation and local compliance frameworks. Capabilities: End-to-end local reference applications.",
       "publication_date": "",
       "discovery_date": "2026-05-08",
-      "_content_hash": "a5fd36ee918ebfde9d17c3720325dcaf41601389cf38fa0b6efcb42674a3067f"
+      "_content_hash": "02cad295f5062afcc0f26b75feb79751b2d529a384cf2cb9cbc0cf00f986f7b2"
     },
     {
       "resource_name": "On-Premise vs Cloud: GenAI TCO (2026 Edition)",
       "url": "https://lenovopress.lenovo.com/lp2368-on-premise-vs-cloud-generative-ai-total-cost-of-ownership-2026-edition ",
       "source_organization": "Lenovo Press",
-      "last_verified": "2026-05-15",
-      "verified_by": "Paty Buendia",
+      "last_verified": "",
+      "verified_by": "",
       "last_updated": "2026-02-01",
       "version": "NA",
       "resource_type": "Whitepaper",
       "agentic_features_covered": [
-        "Hardware performance scaling & VRAM sizing"
+        "Deployment patterns"
       ],
       "topic_focus": [
         "Self‑hosted AI",
@@ -702,10 +704,10 @@
       ],
       "relevance_to_research_cyberinfrastructure": "High (Mandatory for spec'ing out server node VRAM limits)",
       "maturity_level": "Mature",
-      "notes_key_takeaways": "Breaks down the \"Memory Wall\" economics showing an on-prem breakeven velocity of ~4 months.",
+      "notes_key_takeaways": "Breaks down the \"Memory Wall\" economics showing an on-prem breakeven velocity of ~4 months. Capabilities: Hardware performance scaling & VRAM sizing.",
       "publication_date": "",
       "discovery_date": "2026-02-01",
-      "_content_hash": "729d96c2bea878c59eb5a4f6f965ab0cc58e89b3dd20bd0ae63ffba706f6c283"
+      "_content_hash": "41dbb6ef32cdf51efe2ece34b10bc6f7e0f210e08228239f7b397b2a39aad939"
     },
     {
       "resource_name": "Coalition for Secure AI (CoSAI) ",

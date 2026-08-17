@@ -441,6 +441,7 @@ img { max-width: 100%; border-radius: 6px; }
 <li><strong>Row counts and cell anomalies</strong>, per sheet — empty rows as contiguous ranges, plus type/shape checks keyed off the header: name-like columns flagged if numeric/date; date columns flagged if not a real date cell; <code>Version</code> flagged if it <em>is</em> a date; <code>URL</code> flagged if it doesn't start with <code>http(s)://</code>.</li>
 <li><strong>Column coverage</strong> — columns in data tabs missing from <code>Dictionary</code>, and documented columns no tab actually has.</li>
 <li><strong>Vocabulary coverage</strong> — per controlled column: terms used but absent from <code>Vocabulary</code>, and documented terms never used. Driven by <code>Value Type</code>, so free-text columns are skipped — without that, <code>Relevance to Research Cyberinfrastructure</code> (prose sentences by design) would report ~30 bogus "undocumented terms".</li>
+<li><strong>Missing controlled values</strong> — populated rows with an empty controlled-vocabulary cell, which is usually an oversight rather than a deliberate "not applicable".</li>
 <li><strong>Ontology coverage</strong> — which vocabulary terms are backed by a declared standard and which aren't.</li>
 <li><strong>Review candidates</strong> — near-duplicate term pairs (one term's words a subset of another's, e.g. <code>Retrieval</code> vs <code>Retrieval Agents</code>) that were deliberately <em>not</em> auto-merged, since collapsing them is a semantic judgment rather than a spelling fix.</li>
 </ul>

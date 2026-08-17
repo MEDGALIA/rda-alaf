@@ -495,62 +495,6 @@
           "ontology": "",
           "ontology_id": "",
           "ontology_url": ""
-        },
-        {
-          "name": "Artifact version-locking & immutable tags",
-          "definition": "",
-          "ontology": "",
-          "ontology_id": "",
-          "ontology_url": ""
-        },
-        {
-          "name": "End-to-end local reference applications",
-          "definition": "",
-          "ontology": "",
-          "ontology_id": "",
-          "ontology_url": ""
-        },
-        {
-          "name": "Grammar-based constrained sampling",
-          "definition": "",
-          "ontology": "",
-          "ontology_id": "",
-          "ontology_url": ""
-        },
-        {
-          "name": "Hardware performance scaling & VRAM sizing",
-          "definition": "",
-          "ontology": "",
-          "ontology_id": "",
-          "ontology_url": ""
-        },
-        {
-          "name": "Local RAG pipelines & offline functions",
-          "definition": "",
-          "ontology": "",
-          "ontology_id": "",
-          "ontology_url": ""
-        },
-        {
-          "name": "Local embedding & zero-config tools",
-          "definition": "",
-          "ontology": "",
-          "ontology_id": "",
-          "ontology_url": ""
-        },
-        {
-          "name": "Parallel sampling & tool-calling",
-          "definition": "",
-          "ontology": "",
-          "ontology_id": "",
-          "ontology_url": ""
-        },
-        {
-          "name": "Tensor-parallel caching & optimized tool-calling",
-          "definition": "",
-          "ontology": "",
-          "ontology_id": "",
-          "ontology_url": ""
         }
       ]
     },
