@@ -1,0 +1,317 @@
+{
+  "sheet_name": "Dictionary",
+  "columns": [
+    "columns",
+    "definitions"
+  ],
+  "records": [
+    {
+      "columns": "1. Resource Name",
+      "definitions": ""
+    },
+    {
+      "columns": "Short, human‑readable name.",
+      "definitions": ""
+    },
+    {
+      "columns": "Example: VS Code Copilot Agents Overview",
+      "definitions": ""
+    },
+    {
+      "columns": "2. URL",
+      "definitions": ""
+    },
+    {
+      "columns": "Canonical link to the resource.",
+      "definitions": ""
+    },
+    {
+      "columns": "3. Source Organization",
+      "definitions": ""
+    },
+    {
+      "columns": "Who maintains it?",
+      "definitions": ""
+    },
+    {
+      "columns": "Examples: Microsoft, GitHub, OpenAI, Kaggle, Anthropic, Google, HuggingFace.",
+      "definitions": ""
+    },
+    {
+      "columns": "This matters because some orgs update weekly, others yearly.",
+      "definitions": ""
+    },
+    {
+      "columns": "4. Last Verified ",
+      "definitions": ""
+    },
+    {
+      "columns": "Date you last checked the page ",
+      "definitions": ""
+    },
+    {
+      "columns": "5. Last Updated",
+      "definitions": ""
+    },
+    {
+      "columns": " the page’s own update timestamp.",
+      "definitions": ""
+    },
+    {
+      "columns": "This helps track fast‑moving agent ecosystems.",
+      "definitions": ""
+    },
+    {
+      "columns": "6. Resource Type",
+      "definitions": ""
+    },
+    {
+      "columns": "A simple categorical field:",
+      "definitions": ""
+    },
+    {
+      "columns": "Documentation",
+      "definitions": ""
+    },
+    {
+      "columns": "API reference",
+      "definitions": ""
+    },
+    {
+      "columns": "Tutorial",
+      "definitions": ""
+    },
+    {
+      "columns": "Whitepaper",
+      "definitions": ""
+    },
+    {
+      "columns": "Blog post",
+      "definitions": ""
+    },
+    {
+      "columns": "Example repo",
+      "definitions": ""
+    },
+    {
+      "columns": "Governance guidance",
+      "definitions": ""
+    },
+    {
+      "columns": "Architecture pattern",
+      "definitions": ""
+    },
+    {
+      "columns": "This helps teams filter by what they need.",
+      "definitions": ""
+    },
+    {
+      "columns": "7. Agentic Features Covered (Checklist)",
+      "definitions": ""
+    },
+    {
+      "columns": "Examples:",
+      "definitions": ""
+    },
+    {
+      "columns": "Hooks",
+      "definitions": ""
+    },
+    {
+      "columns": "Skills",
+      "definitions": ""
+    },
+    {
+      "columns": "MCP",
+      "definitions": ""
+    },
+    {
+      "columns": "Agent frameworks",
+      "definitions": ""
+    },
+    {
+      "columns": "Context window management",
+      "definitions": ""
+    },
+    {
+      "columns": "Deployment patterns",
+      "definitions": ""
+    },
+    {
+      "columns": "Safety / guardrails",
+      "definitions": ""
+    },
+    {
+      "columns": "Evaluation / testing",
+      "definitions": ""
+    },
+    {
+      "columns": "This is one of your most important columns.",
+      "definitions": ""
+    },
+    {
+      "columns": "8. Topic Focus (Checklist)",
+      "definitions": ""
+    },
+    {
+      "columns": "Architecture",
+      "definitions": ""
+    },
+    {
+      "columns": "Security",
+      "definitions": ""
+    },
+    {
+      "columns": "Data governance",
+      "definitions": "Focuses specifically on the technical protocols, access controls, data-line security, and de-identification standards used to protect the integrity, quality, and privacy of information throughout its lifecycle"
+    },
+    {
+      "columns": "Governance",
+      "definitions": "The overarching organizational policies, compliance frameworks, and capital allocation strategies that dictate how an enterprise manages its broader IT infrastructure, risk tolerances, and vendor choices"
+    },
+    {
+      "columns": "Implementation",
+      "definitions": ""
+    },
+    {
+      "columns": "Deployment",
+      "definitions": "The tactical, hands-on execution of installing, configuring, provisioning, and launching software or hardware systems within a specific operational environment"
+    },
+    {
+      "columns": "Workflow integration",
+      "definitions": ""
+    },
+    {
+      "columns": "Model selection",
+      "definitions": ""
+    },
+    {
+      "columns": "Evaluation",
+      "definitions": ""
+    },
+    {
+      "columns": "Architecture Compute",
+      "definitions": "Physical node topologies, hardware constraints, VRAM bounds, and localized compute execution profiles."
+    },
+    {
+      "columns": "Network Isolation",
+      "definitions": "Non-egress boundaries, air-gapped artifact staging, localized cloud VPC containers, and firewalled local registries."
+    },
+    {
+      "columns": "Infrastructure Security",
+      "definitions": "For on-prem LLM deployments, it captures the security of the compute stack as well as the data pipelines"
+    },
+    {
+      "columns": "Self‑hosted AI",
+      "definitions": "Self‑hosted, open‑weights models in contrast to API‑based models like OpenAI, Anthropic, or Gemini"
+    },
+    {
+      "columns": "This helps research IT teams quickly find relevant material.",
+      "definitions": ""
+    },
+    {
+      "columns": "9. Relevance to Research Cyberinfrastructure",
+      "definitions": ""
+    },
+    {
+      "columns": "A short tag describing why this matters to research platforms:",
+      "definitions": ""
+    },
+    {
+      "columns": "Examples:",
+      "definitions": ""
+    },
+    {
+      "columns": "Workflow orchestration",
+      "definitions": ""
+    },
+    {
+      "columns": "Data portal integration",
+      "definitions": ""
+    },
+    {
+      "columns": "Metadata / provenance",
+      "definitions": ""
+    },
+    {
+      "columns": "Multi‑agent coordination",
+      "definitions": ""
+    },
+    {
+      "columns": "HPC / cloud hybrid workflows",
+      "definitions": ""
+    },
+    {
+      "columns": "Reproducibility",
+      "definitions": ""
+    },
+    {
+      "columns": "Federated analysis",
+      "definitions": ""
+    },
+    {
+      "columns": "User‑facing agent interfaces",
+      "definitions": ""
+    },
+    {
+      "columns": "9. Maturity Level (Radar Standard)",
+      "definitions": ""
+    },
+    {
+      "columns": "Not about the website — about the technology described.",
+      "definitions": ""
+    },
+    {
+      "columns": "Emerging",
+      "definitions": ""
+    },
+    {
+      "columns": "Research",
+      "definitions": ""
+    },
+    {
+      "columns": "Mature",
+      "definitions": ""
+    },
+    {
+      "columns": "Deprecated",
+      "definitions": ""
+    },
+    {
+      "columns": "This helps teams know whether something is stable enough to consider.",
+      "definitions": ""
+    },
+    {
+      "columns": "10. Notes / Key Takeaways",
+      "definitions": ""
+    },
+    {
+      "columns": "A short free‑text field:",
+      "definitions": ""
+    },
+    {
+      "columns": "breaking changes",
+      "definitions": ""
+    },
+    {
+      "columns": "important patterns",
+      "definitions": ""
+    },
+    {
+      "columns": "new capabilities",
+      "definitions": ""
+    },
+    {
+      "columns": "relevance to agentic workflows",
+      "definitions": ""
+    },
+    {
+      "columns": "implications for research platforms",
+      "definitions": ""
+    },
+    {
+      "columns": "This is where institutional knowledge accumulates.",
+      "definitions": ""
+    }
+  ]
+}
