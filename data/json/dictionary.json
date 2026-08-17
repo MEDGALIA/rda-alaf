@@ -206,6 +206,18 @@
       "definitions": "Self‑hosted, open‑weights models in contrast to API‑based models like OpenAI, Anthropic, or Gemini"
     },
     {
+      "columns": "Data Protection",
+      "definitions": "Safeguarding sensitive data specifically (EDAM ontology: \"Management of sensitive data\") -- distinct from the broader \"Security\" term above. Newly available for Topic Focus."
+    },
+    {
+      "columns": "Controlled vocabulary standard: EDAM ontology (Data management branch)",
+      "definitions": "http://edamontology.org/topic_3071 -- \"Data governance\" and \"Workflows\" above are EDAM terms (topic_3571, topic_0769). \"Data Protection\" above is EDAM topic_4044. Also available for future use: FAIR data (topic_4012), Data quality management (topic_3572), Data curation and archival (topic_0219), Data integration and warehousing (topic_3366). Open ontology, not a paywalled standard -- browsable at https://www.ebi.ac.uk/ols4/ontologies/edam"
+    },
+    {
+      "columns": "Optional secondary axis: NIST AI RMF 1.0 trustworthy-AI characteristics",
+      "definitions": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.pdf -- Valid and Reliable, Safe, Secure and Resilient, Accountable and Transparent, Explainable and Interpretable, Privacy-Enhanced, Fair (harmful bias managed). Optional: for AI-trustworthiness framing EDAM doesn't cover. NOTE: NIST's \"Fair (harmful bias managed)\" is unrelated to EDAM's \"FAIR data\" (Findable/Accessible/Interoperable/Reusable data principles) despite sharing the word -- do not conflate the two if both are ever used as tags."
+    },
+    {
       "columns": "This helps research IT teams quickly find relevant material.",
       "definitions": ""
     },
