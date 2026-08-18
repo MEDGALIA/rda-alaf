@@ -134,7 +134,7 @@ Old values are never lost — `data/json/` is git-tracked, so `git log`/`git bla
 ## `tech_radar_analysis.py`
 
 ```powershell
-.\.venv\Scripts\python src\scripts\tech_radar_analysis.py [--xlsx PATH] [--out drafts/workbook_analysis.md]
+.\.venv\Scripts\python src\scripts\tech_radar_analysis.py [--xlsx PATH] [--out data/reports/workbook_analysis.md]
 ```
 
 Read-only analysis of the workbook — never opens it in write mode, and asserts the file's bytes are unchanged before vs. after the scan.
@@ -142,7 +142,7 @@ Read-only analysis of the workbook — never opens it in write mode, and asserts
 **Arguments**
 
 - `--xlsx PATH` — workbook to scan (default: `data/VANTAGE-Technology-Radar.xlsx`)
-- `--out PATH` — Markdown report destination (default: `drafts/workbook_analysis.md`)
+- `--out PATH` — Markdown report destination (default: `data/reports/workbook_analysis.md`)
 
 **What it reports**
 
@@ -155,7 +155,7 @@ Read-only analysis of the workbook — never opens it in write mode, and asserts
 
 No "corrected" value is ever suggested — deciding what a bad cell *should* say is a human judgment call, not something to guess at for a real WG record. See [`implementation-plan.md`](implementation-plan.md) for why this script is report-only by design.
 
-**Output**: a Markdown report (`drafts/workbook_errors.md` by default) with per-sheet summary counts (total/empty/populated/anomalous rows) followed by a table of every anomaly found.
+**Output**: a Markdown report (`data/reports/workbook_analysis.md` by default) with per-sheet summary counts (total/empty/populated/anomalous rows) followed by a table of every anomaly found.
 
 ## Adding a new document to convert
 

@@ -45,7 +45,7 @@ No git CLI or branch-pushing is required of curators or publishers — every ste
 | Component | Status |
 | --- | --- |
 | `src/scripts/radar_sync_common.py` | Done — includes `load_workbook_schema()`, the single source of truth for column types |
-| `src/scripts/tech_radar_analysis.py` | Done — see `drafts/workbook_analysis.md` (data quality + vocabulary/ontology coverage) |
+| `src/scripts/tech_radar_analysis.py` | Done — see `data/reports/workbook_analysis.md` (data quality + vocabulary/ontology coverage) |
 | Workbook metadata tabs (`Dictionary`/`Vocabulary`/`Standards`) | Done — normalized from the original prose glossary; 16 columns, 90 vocabulary terms, 2 standards |
 | `.github/CODEOWNERS` for `data/json/**` | Done — names `@pbuendia` |
 | Branch protection on `main` | Done — PR + 1 code-owner approval required; admin bypass allowed (no second curator yet, flip off once one exists); no required status checks yet (no CI) |

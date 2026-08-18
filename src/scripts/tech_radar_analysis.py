@@ -17,7 +17,7 @@ Dictionary tab's Value Type, so free-text columns aren't reported as
 having thousands of "undocumented terms".
 
 Usage:
-    python tech_radar_analysis.py [--xlsx PATH] [--out drafts/workbook_analysis.md]
+    python tech_radar_analysis.py [--xlsx PATH] [--out data/reports/workbook_analysis.md]
 """
 
 from __future__ import annotations
@@ -38,7 +38,7 @@ from radar_sync_common import (
 )
 
 DEFAULT_XLSX = Path("data/VANTAGE-Technology-Radar.xlsx")
-DEFAULT_OUT = Path("drafts/workbook_analysis.md")
+DEFAULT_OUT = Path("data/reports/workbook_analysis.md")
 
 NAME_LIKE_HEADERS = {"verified by", "source organization", "resource name"}
 DATE_EXPECTED_HEADERS = {"last verified", "deprecation date", "publication date", "discovery date"}

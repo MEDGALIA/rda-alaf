@@ -422,7 +422,7 @@ img { max-width: 100%; border-radius: 6px; }
 <h2 id="tech_radar_analysispy"><code>tech_radar_analysis.py</code></h2>
 
 <div class="codehilite">
-<pre><span></span><code><span class="p">.\.</span><span class="n">venv</span><span class="p">\</span><span class="n">Scripts</span><span class="p">\</span><span class="n">python</span> <span class="n">src</span><span class="p">\</span><span class="n">scripts</span><span class="p">\</span><span class="n">tech_radar_analysis</span><span class="p">.</span><span class="n">py</span> <span class="p">[-</span><span class="n">-xlsx</span> <span class="n">PATH</span><span class="p">]</span> <span class="p">[-</span><span class="n">-out</span> <span class="n">drafts</span><span class="p">/</span><span class="n">workbook_analysis</span><span class="p">.</span><span class="n">md</span><span class="p">]</span>
+<pre><span></span><code><span class="p">.\.</span><span class="n">venv</span><span class="p">\</span><span class="n">Scripts</span><span class="p">\</span><span class="n">python</span> <span class="n">src</span><span class="p">\</span><span class="n">scripts</span><span class="p">\</span><span class="n">tech_radar_analysis</span><span class="p">.</span><span class="n">py</span> <span class="p">[-</span><span class="n">-xlsx</span> <span class="n">PATH</span><span class="p">]</span> <span class="p">[-</span><span class="n">-out</span> <span class="n">data</span><span class="p">/</span><span class="n">reports</span><span class="p">/</span><span class="n">workbook_analysis</span><span class="p">.</span><span class="n">md</span><span class="p">]</span>
 </code></pre>
 </div>
 
@@ -432,7 +432,7 @@ img { max-width: 100%; border-radius: 6px; }
 
 <ul>
 <li><code>--xlsx PATH</code> — workbook to scan (default: <code>data/VANTAGE-Technology-Radar.xlsx</code>)</li>
-<li><code>--out PATH</code> — Markdown report destination (default: <code>drafts/workbook_analysis.md</code>)</li>
+<li><code>--out PATH</code> — Markdown report destination (default: <code>data/reports/workbook_analysis.md</code>)</li>
 </ul>
 
 <p><strong>What it reports</strong></p>
@@ -448,7 +448,7 @@ img { max-width: 100%; border-radius: 6px; }
 
 <p>No "corrected" value is ever suggested — deciding what a bad cell <em>should</em> say is a human judgment call, not something to guess at for a real WG record. See <a href="implementation-plan.md"><code>implementation-plan.md</code></a> for why this script is report-only by design.</p>
 
-<p><strong>Output</strong>: a Markdown report (<code>drafts/workbook_errors.md</code> by default) with per-sheet summary counts (total/empty/populated/anomalous rows) followed by a table of every anomaly found.</p>
+<p><strong>Output</strong>: a Markdown report (<code>data/reports/workbook_analysis.md</code> by default) with per-sheet summary counts (total/empty/populated/anomalous rows) followed by a table of every anomaly found.</p>
 
 <h2 id="adding-a-new-document-to-convert">Adding a new document to convert</h2>
 
