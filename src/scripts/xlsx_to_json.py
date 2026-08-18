@@ -13,10 +13,15 @@ JSON array, split on the separator the Dictionary tab specifies, rather than
 the script hardcoding column names.
 
 Row identity: each sheet's first column (e.g. "Resource Name") is the natural
-key used to match a row across runs. If a row's content changed since the last
-run (or it's new), its Verified By/Last Verified are cleared, since a human
-hasn't seen the new content yet. Rows whose key no longer appears in the xlsx
-are dropped (recoverable from git history, since data/json/ is tracked).
+key used to match a row across runs. If an existing row's content changed
+since the last run, its Verified By/Last Verified are cleared -- UNLESS a
+human filled in both fields in that same xlsx edit, which is treated as a
+deliberate re-verification and kept as-is: editing a row and re-confirming
+Verified By in the same pass is exactly how a human is expected to (re-)verify
+it. A brand-new row (no known prior baseline at all) always has its
+verification trusted as-is, for the same reason. Rows whose key no longer
+appears in the xlsx are dropped (recoverable from git history, since
+data/json/ is tracked).
 
 When a row's verification is cleared, the corresponding xlsx cells are also
 blanked (the script opens the workbook a second time, in write mode, only for
@@ -108,25 +113,41 @@ def merge_with_previous(
 
         prev_record = prev_by_key.get(key)
         new_hash = content_hash(record)
-        if prev_record is None:
-            # No known prior baseline for this row -- a brand-new row, or a --fresh
-            # run with nothing to compare against. Trust the xlsx's current
-            # verified_by/last_verified as-is: this is how a human adds a row and
-            # verifies it in the same edit, and it's what makes --fresh actually
-            # mean "trust the workbook", not "clear everything".
-            pass
-        elif prev_record.get("_content_hash") == new_hash:
+
+        if prev_record is not None and prev_record.get("_content_hash") == new_hash:
             # Unchanged since last run -- carry the prior verification through.
             record["verified_by"] = prev_record.get("verified_by", record.get("verified_by", ""))
             record["last_verified"] = prev_record.get("last_verified", record.get("last_verified", ""))
+            record["_content_hash"] = new_hash
+            merged.append(record)
+            continue
+
+        # Content differs from the known baseline (or there is none -- a brand-new
+        # row). Was verification *freshly supplied in this same edit*, as opposed
+        # to just sitting there non-blank from a previous, now-stale verification?
+        # Comparing against the value last recorded in the JSON (not merely
+        # checking "is it non-blank now") is what tells the two apart: editing an
+        # unrelated field while Verified By/Last Verified happen to still show a
+        # name and date from before is NOT a re-verification, even though both
+        # fields are technically filled in.
+        prev_verified_by = prev_record.get("verified_by", "") if prev_record else ""
+        prev_last_verified = prev_record.get("last_verified", "") if prev_record else ""
+        verified_by, last_verified = record.get("verified_by", ""), record.get("last_verified", "")
+        fully_supplied = bool(verified_by) and bool(last_verified)
+        freshly_touched = verified_by != prev_verified_by or last_verified != prev_last_verified
+
+        if fully_supplied and freshly_touched:
+            # A human supplied (or changed) both fields in this same edit -- trust
+            # it as a deliberate re-verification. This is the whole point of xlsx
+            # being the human's verification channel.
+            pass
         else:
-            # This row existed at a known baseline and its content differs now --
-            # force blank regardless of what the prior verification was. Forcing
-            # blank even when it was already blank matters: without it, a stale
-            # non-blank xlsx cell that was never physically cleared (see the
+            # Not a fresh, deliberate re-verification -- force fully blank.
+            # Forcing blank even when it was already blank matters: without it, a
+            # stale non-blank xlsx cell that was never physically cleared (see the
             # write-back step in convert()) would leak back in here and silently
             # un-clear a row that was correctly cleared before.
-            was_verified = bool(record.get("verified_by") or record.get("last_verified"))
+            was_verified = bool(verified_by or last_verified)
             record["verified_by"] = ""
             record["last_verified"] = ""
             if was_verified:
