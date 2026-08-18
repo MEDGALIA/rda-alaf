@@ -249,34 +249,6 @@
           "ontology": "Schema.org",
           "ontology_id": "schema:Dataset",
           "ontology_url": "https://schema.org/Dataset"
-        },
-        {
-          "name": "Tutorial",
-          "definition": "",
-          "ontology": "",
-          "ontology_id": "",
-          "ontology_url": ""
-        },
-        {
-          "name": "Blog Post",
-          "definition": "",
-          "ontology": "Schema.org",
-          "ontology_id": "schema:BlogPosting",
-          "ontology_url": "https://schema.org/BlogPosting"
-        },
-        {
-          "name": "Example Repo",
-          "definition": "",
-          "ontology": "Schema.org",
-          "ontology_id": "schema:SoftwareSourceCode",
-          "ontology_url": "https://schema.org/SoftwareSourceCode"
-        },
-        {
-          "name": "Architecture Pattern",
-          "definition": "",
-          "ontology": "Schema.org",
-          "ontology_id": "schema:TechArticle",
-          "ontology_url": "https://schema.org/TechArticle"
         }
       ]
     },
