@@ -12,7 +12,7 @@
       "name": "NIST AI Risk Management Framework",
       "version": "1.0",
       "url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.pdf",
-      "notes": "Optional secondary axis: the seven trustworthy-AI characteristics. Document-based, so individual characteristics have no per-term URIs. WARNING: NIST's 'Fair (harmful bias managed)' concerns algorithmic non-discrimination and is UNRELATED to EDAM's 'FAIR data' (Findable / Accessible / Interoperable / Reusable data principles) despite sharing the word - do not conflate the two."
+      "notes": "Optional secondary axis: the seven trustworthy-AI characteristics. Document-based, so individual characteristics have no per-term URIs. WARNING: NIST's 'Fair (harmful bias managed)' concerns algorithmic non-discrimination and is UNRELATED to EDAM's 'FAIR data' (Findable / Accessible / Interoperable / Reusable data principles) despite sharing the word - do not conflate the two. Also defines an AI lifecycle with named stages (plan, collect/process, build, verify, deploy, operate) -- cited here as e.g. \"AI lifecycle stage: Deploy\", distinct from the seven trustworthy-AI characteristics."
     },
     {
       "id": "ACM-CCS",
@@ -541,16 +541,16 @@
         {
           "name": "Implementation",
           "definition": "",
-          "ontology": "",
-          "ontology_id": "",
-          "ontology_url": ""
+          "ontology": "ACM-CCS",
+          "ontology_id": "Software and its engineering~Software creation and management",
+          "ontology_url": "https://dl.acm.org/ccs"
         },
         {
           "name": "Deployment",
           "definition": "The tactical, hands-on execution of installing, configuring, provisioning, and launching software or hardware systems within a specific operational environment",
-          "ontology": "",
-          "ontology_id": "",
-          "ontology_url": ""
+          "ontology": "NIST-AI-RMF",
+          "ontology_id": "AI lifecycle stage: Deploy",
+          "ontology_url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.pdf"
         },
         {
           "name": "Workflows",
@@ -574,7 +574,7 @@
           "ontology_url": "https://dl.acm.org/ccs"
         },
         {
-          "name": "Architecture Compute",
+          "name": "Compute Infrastructure",
           "definition": "Physical node topologies, hardware constraints, VRAM bounds, and localized compute execution profiles.",
           "ontology": "",
           "ontology_id": "",

@@ -624,7 +624,7 @@
       ],
       "topic_focus": [
         "Self‑hosted AI",
-        "Architecture Compute",
+        "Compute Infrastructure",
         "Implementation",
         "Network Isolation",
         "Infrastructure Security"
@@ -634,7 +634,7 @@
       "notes_key_takeaways": "Outlines the exact connected-to-disconnected asset transfer workflow for enterprise GPUs. Capabilities: Tensor-parallel caching & optimized tool-calling.",
       "publication_date": "",
       "discovery_date": "2026-05-08",
-      "_content_hash": "0b917749bb3bf042112af34b6577fdd59c554885fa5ada8d15a49df0bc3a3f99"
+      "_content_hash": "3b3f975628c00224313eb95ff9963054516c0b9542fc6eb693731a85f5ac41d0"
     },
     {
       "resource_name": "Harbor User Documentation",
