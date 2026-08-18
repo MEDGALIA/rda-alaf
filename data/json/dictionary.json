@@ -20,6 +20,13 @@
       "version": "2012",
       "url": "https://dl.acm.org/ccs",
       "notes": "Cited by category path text (e.g. \"Computer systems organization~Architectures\"), not a numeric ID a human needs to look up -- confirmed against real paper citations. General computing/software-engineering taxonomy, not agentic-AI-specific -- predates MCP, agent frameworks, and tool-calling entirely, so it backs general CS terms (Architecture, Security, Evaluation, Retrieval) but not agent-specific ones (MCP, Hooks, Skills, Orchestration, ...). Path spellings below are from established domain knowledge, not a live verified fetch (dl.acm.org blocked automated access) -- worth spot-checking in a browser before treating as fully authoritative."
+    },
+    {
+      "id": "Schema.org",
+      "name": "Schema.org (CreativeWork hierarchy)",
+      "version": "current",
+      "url": "https://schema.org/CreativeWork",
+      "notes": "Universal web-metadata vocabulary. Exact-type matches applied directly (e.g. APIReference, BlogPosting, ScholarlyArticle, SoftwareSourceCode, Dataset). For highly specific AI-radar terms with no exact schema.org type, the broader parent type is applied instead (e.g. several terms map to TechArticle) -- this is schema.org's own intended usage pattern (broad type + a custom category property), not a forced fit, but it means several distinct Resource Type terms intentionally share one Ontology ID here, unlike EDAM/ACM-CCS/NIST-AI-RMF where each backed term has its own distinct match."
     }
   ],
   "columns": [
@@ -148,58 +155,58 @@
         {
           "name": "Documentation",
           "definition": "",
-          "ontology": "",
-          "ontology_id": "",
-          "ontology_url": ""
+          "ontology": "Schema.org",
+          "ontology_id": "schema:TechArticle",
+          "ontology_url": "https://schema.org/TechArticle"
         },
         {
           "name": "API Reference",
           "definition": "",
-          "ontology": "",
-          "ontology_id": "",
-          "ontology_url": ""
+          "ontology": "Schema.org",
+          "ontology_id": "schema:APIReference",
+          "ontology_url": "https://schema.org/APIReference"
         },
         {
           "name": "Specification",
           "definition": "",
-          "ontology": "",
-          "ontology_id": "",
-          "ontology_url": ""
+          "ontology": "Schema.org",
+          "ontology_id": "schema:TechArticle",
+          "ontology_url": "https://schema.org/TechArticle"
         },
         {
           "name": "Whitepaper",
           "definition": "Vendor or organization technical whitepaper.",
-          "ontology": "",
-          "ontology_id": "",
-          "ontology_url": ""
+          "ontology": "Schema.org",
+          "ontology_id": "schema:TechArticle",
+          "ontology_url": "https://schema.org/TechArticle"
         },
         {
           "name": "Scientific Literature",
           "definition": "Peer-reviewed publication or preprint. Distinct from a vendor Whitepaper.",
-          "ontology": "",
-          "ontology_id": "",
-          "ontology_url": ""
+          "ontology": "Schema.org",
+          "ontology_id": "schema:ScholarlyArticle",
+          "ontology_url": "https://schema.org/ScholarlyArticle"
         },
         {
           "name": "Governance Guidance",
           "definition": "",
-          "ontology": "",
-          "ontology_id": "",
-          "ontology_url": ""
+          "ontology": "Schema.org",
+          "ontology_id": "schema:TechArticle",
+          "ontology_url": "https://schema.org/TechArticle"
         },
         {
           "name": "Security Guidance & Resources",
           "definition": "",
-          "ontology": "",
-          "ontology_id": "",
-          "ontology_url": ""
+          "ontology": "Schema.org",
+          "ontology_id": "schema:TechArticle",
+          "ontology_url": "https://schema.org/TechArticle"
         },
         {
           "name": "Reference Architecture",
           "definition": "",
-          "ontology": "",
-          "ontology_id": "",
-          "ontology_url": ""
+          "ontology": "Schema.org",
+          "ontology_id": "schema:TechArticle",
+          "ontology_url": "https://schema.org/TechArticle"
         },
         {
           "name": "Container Registry",
@@ -232,16 +239,16 @@
         {
           "name": "Github Code Repository",
           "definition": "",
-          "ontology": "",
-          "ontology_id": "",
-          "ontology_url": ""
+          "ontology": "Schema.org",
+          "ontology_id": "schema:SoftwareSourceCode",
+          "ontology_url": "https://schema.org/SoftwareSourceCode"
         },
         {
           "name": "Benchmark Collection",
           "definition": "A curated collection of benchmarks or comparison studies.",
-          "ontology": "",
-          "ontology_id": "",
-          "ontology_url": ""
+          "ontology": "Schema.org",
+          "ontology_id": "schema:Dataset",
+          "ontology_url": "https://schema.org/Dataset"
         },
         {
           "name": "Tutorial",
@@ -253,23 +260,23 @@
         {
           "name": "Blog Post",
           "definition": "",
-          "ontology": "",
-          "ontology_id": "",
-          "ontology_url": ""
+          "ontology": "Schema.org",
+          "ontology_id": "schema:BlogPosting",
+          "ontology_url": "https://schema.org/BlogPosting"
         },
         {
           "name": "Example Repo",
           "definition": "",
-          "ontology": "",
-          "ontology_id": "",
-          "ontology_url": ""
+          "ontology": "Schema.org",
+          "ontology_id": "schema:SoftwareSourceCode",
+          "ontology_url": "https://schema.org/SoftwareSourceCode"
         },
         {
           "name": "Architecture Pattern",
           "definition": "",
-          "ontology": "",
-          "ontology_id": "",
-          "ontology_url": ""
+          "ontology": "Schema.org",
+          "ontology_id": "schema:TechArticle",
+          "ontology_url": "https://schema.org/TechArticle"
         }
       ]
     },
