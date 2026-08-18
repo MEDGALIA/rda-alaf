@@ -13,6 +13,13 @@
       "version": "1.0",
       "url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.pdf",
       "notes": "Optional secondary axis: the seven trustworthy-AI characteristics. Document-based, so individual characteristics have no per-term URIs. WARNING: NIST's 'Fair (harmful bias managed)' concerns algorithmic non-discrimination and is UNRELATED to EDAM's 'FAIR data' (Findable / Accessible / Interoperable / Reusable data principles) despite sharing the word - do not conflate the two."
+    },
+    {
+      "id": "ACM-CCS",
+      "name": "ACM Computing Classification System (CCS 2012)",
+      "version": "2012",
+      "url": "https://dl.acm.org/ccs",
+      "notes": "Cited by category path text (e.g. \"Computer systems organization~Architectures\"), not a numeric ID a human needs to look up -- confirmed against real paper citations. General computing/software-engineering taxonomy, not agentic-AI-specific -- predates MCP, agent frameworks, and tool-calling entirely, so it backs general CS terms (Architecture, Security, Evaluation, Retrieval) but not agent-specific ones (MCP, Hooks, Skills, Orchestration, ...). Path spellings below are from established domain knowledge, not a live verified fetch (dl.acm.org blocked automated access) -- worth spot-checking in a browser before treating as fully authoritative."
     }
   ],
   "columns": [
@@ -345,9 +352,9 @@
         {
           "name": "Evaluation / testing",
           "definition": "",
-          "ontology": "",
-          "ontology_id": "",
-          "ontology_url": ""
+          "ontology": "ACM-CCS",
+          "ontology_id": "Software and its engineering~Software verification and validation~Software testing and debugging",
+          "ontology_url": "https://dl.acm.org/ccs"
         },
         {
           "name": "Risk Controls",
@@ -422,16 +429,16 @@
         {
           "name": "Retrieval",
           "definition": "",
-          "ontology": "",
-          "ontology_id": "",
-          "ontology_url": ""
+          "ontology": "ACM-CCS",
+          "ontology_id": "Information systems~Information retrieval",
+          "ontology_url": "https://dl.acm.org/ccs"
         },
         {
           "name": "Retrieval Agents",
           "definition": "",
-          "ontology": "",
-          "ontology_id": "",
-          "ontology_url": ""
+          "ontology": "ACM-CCS",
+          "ontology_id": "Information systems~Information retrieval",
+          "ontology_url": "https://dl.acm.org/ccs"
         },
         {
           "name": "Sandbox",
@@ -450,9 +457,9 @@
         {
           "name": "Cybersecurity",
           "definition": "",
-          "ontology": "",
-          "ontology_id": "",
-          "ontology_url": ""
+          "ontology": "ACM-CCS",
+          "ontology_id": "Security and privacy",
+          "ontology_url": "https://dl.acm.org/ccs"
         },
         {
           "name": "FAIR data",
@@ -506,16 +513,16 @@
         {
           "name": "Architecture",
           "definition": "",
-          "ontology": "",
-          "ontology_id": "",
-          "ontology_url": ""
+          "ontology": "ACM-CCS",
+          "ontology_id": "Computer systems organization~Architectures",
+          "ontology_url": "https://dl.acm.org/ccs"
         },
         {
           "name": "Security",
           "definition": "",
-          "ontology": "",
-          "ontology_id": "",
-          "ontology_url": ""
+          "ontology": "ACM-CCS",
+          "ontology_id": "Security and privacy",
+          "ontology_url": "https://dl.acm.org/ccs"
         },
         {
           "name": "Data governance",
@@ -562,9 +569,9 @@
         {
           "name": "Evaluation",
           "definition": "",
-          "ontology": "",
-          "ontology_id": "",
-          "ontology_url": ""
+          "ontology": "ACM-CCS",
+          "ontology_id": "Software and its engineering~Software verification and validation~Software testing and debugging",
+          "ontology_url": "https://dl.acm.org/ccs"
         },
         {
           "name": "Architecture Compute",
