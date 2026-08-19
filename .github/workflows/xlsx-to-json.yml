@@ -4,6 +4,11 @@ name: Sync xlsx to JSON
 # data/json/*.json from it and push that diff into the same PR -- so a
 # human uploading the xlsx never has to run xlsx_to_json.py by hand.
 #
+# github.actor (who pushed the branch) is passed as --actor, so any row
+# whose content actually changed gets its Added/Edited By stamped with a
+# real GitHub handle rather than trusting whatever a human or agent
+# self-declared in the cell.
+#
 # Limitation: pushes back to the PR's own branch, so this only works for
 # PRs opened from a branch in this repo, not from a fork (GITHUB_TOKEN
 # has no write access to fork branches).
@@ -31,7 +36,10 @@ jobs:
 
       - run: pip install -r src/scripts/requirements.txt
 
-      - run: python src/scripts/xlsx_to_json.py
+      - name: Sync xlsx to JSON
+        env:
+          PR_ACTOR: ${{ github.actor }}
+        run: python src/scripts/xlsx_to_json.py --actor "@$PR_ACTOR"
 
       - name: Commit and push data/json/ if it changed
         run: |

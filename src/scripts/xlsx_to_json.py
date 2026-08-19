@@ -12,16 +12,40 @@ drives the conversion -- a column declared `controlled_multi` becomes a real
 JSON array, split on the separator the Dictionary tab specifies, rather than
 the script hardcoding column names.
 
-Row identity: each sheet's first column (e.g. "Resource Name") is the natural
-key used to match a row across runs. If an existing row's content changed
-since the last run, its Verified By/Last Verified are cleared -- UNLESS a
-human filled in both fields in that same xlsx edit, which is treated as a
-deliberate re-verification and kept as-is: editing a row and re-confirming
-Verified By in the same pass is exactly how a human is expected to (re-)verify
-it. A brand-new row (no known prior baseline at all) always has its
-verification trusted as-is, for the same reason. Rows whose key no longer
-appears in the xlsx are dropped (recoverable from git history, since
-data/json/ is tracked).
+Row identity: each sheet's first column, `ID`, is the natural key used to
+match a row across runs -- a system-generated value, independent of
+`Resource Name`, so renaming a resource doesn't look like deleting one row
+and adding an unrelated new one. Any row found with a blank `ID` cell gets
+one assigned and written back into the xlsx before conversion starts (see
+`assign_missing_ids()`). If an existing row's content changed since the last
+run, its Verified By/Last Verified are cleared -- UNLESS a human filled in
+both fields in that same xlsx edit, which is treated as a deliberate
+re-verification and kept as-is: editing a row and re-confirming Verified By
+in the same pass is exactly how a human is expected to (re-)verify it. A
+brand-new row (no known prior baseline at all) always has its verification
+trusted as-is, for the same reason.
+
+Rows whose ID no longer appears in a sheet are checked against every other
+data sheet before being reported: if the same ID now exists elsewhere (e.g.
+a row moved from `Knowledgebase` to `Deprecated`, ID copied along with the
+rest of the row), it's reported as a move, not a deletion. If the ID exists
+nowhere else, it's reported as a deletion -- which today is only *reported*,
+not blocked; enforcing "only an admin-merged PR may delete a row" is a
+GitHub Action-side check (checklist item 19), not something this script can
+decide on its own, since it has no notion of who's running it or approving
+the PR.
+
+`Added/Edited By` records who or what last touched a row's content --
+self-declared in the cell by default, but overwritten with the value passed
+via `--actor` on any row whose content actually changed in this run. Omit
+`--actor` for a local run to leave the field as self-declared; a GitHub
+Action passes its own trusted identity (e.g. `github.actor`) instead of
+trusting free text.
+
+Before any of this, the workbook's structure is validated against
+`Dictionary`: if a data sheet's columns don't exactly match what `Dictionary`
+declares for it (same headers, same order), conversion refuses to run at
+all -- no partial/malformed JSON gets written.
 
 When a row's verification is cleared, the corresponding xlsx cells are also
 blanked (the script opens the workbook a second time, in write mode, only for
@@ -54,6 +78,7 @@ from radar_sync_common import (
     iter_header,
     load_sheet_json,
     load_workbook_schema,
+    new_id,
     row_is_empty,
     save_sheet_json,
     slugify,
@@ -64,6 +89,74 @@ DEFAULT_XLSX = Path("data/VANTAGE-Technology-Radar.xlsx")
 DEFAULT_OUT_DIR = Path("data/json")
 
 VERIFICATION_FIELDS = ("verified_by", "last_verified")
+
+
+def validate_structure(wb, schema: dict) -> None:
+    """Raise if any data sheet's columns don't exactly match Dictionary.
+
+    Runs before anything is written, so a malformed upload (wrong/missing/
+    reordered/renamed columns) is rejected outright rather than partially
+    converted.
+    """
+    problems = []
+    for sheet_name in wb.sheetnames:
+        if sheet_name in METADATA_SHEETS:
+            continue
+        expected = [c["name"] for c in sorted(schema["columns"], key=lambda c: c["position"]) if sheet_name in c["applies_to"]]
+        actual = [h for _c, h in iter_header(wb[sheet_name])]
+        if actual != expected:
+            missing = [h for h in expected if h not in actual]
+            extra = [h for h in actual if h not in expected]
+            detail = []
+            if missing:
+                detail.append(f"missing: {missing}")
+            if extra:
+                detail.append(f"unexpected: {extra}")
+            if not missing and not extra:
+                detail.append(f"out of order: got {actual}, expected {expected}")
+            problems.append(f"{sheet_name}: " + "; ".join(detail))
+    if problems:
+        raise ValueError(
+            "xlsx structure doesn't match Dictionary -- refusing to convert:\n  "
+            + "\n  ".join(problems)
+        )
+
+
+def assign_missing_ids(xlsx_path: Path) -> bool:
+    """Fill any blank ID cell in a data sheet with a new one, saved in place.
+
+    Runs before the main (data_only) read, so IDs are visible like any other
+    pre-existing cell by the time conversion happens. Returns True if the
+    xlsx was modified.
+    """
+    wb = openpyxl.load_workbook(xlsx_path)  # formulas preserved
+    existing_ids: set[str] = set()
+    blanks = []  # blank ID cells to fill in
+
+    for sheet_name in wb.sheetnames:
+        if sheet_name in METADATA_SHEETS:
+            continue
+        ws = wb[sheet_name]
+        columns = list(iter_header(ws))
+        if not columns or columns[0][1] != "ID":
+            continue
+        id_col = columns[0][0]
+        for row_idx in range(2, ws.max_row + 1):
+            if row_is_empty(ws, row_idx, columns):
+                continue
+            cell = ws[f"{id_col}{row_idx}"]
+            if cell.value and str(cell.value).strip():
+                existing_ids.add(str(cell.value).strip())
+            else:
+                blanks.append(cell)
+
+    for cell in blanks:
+        cell.value = new_id(existing_ids)
+
+    if blanks:
+        wb.save(xlsx_path)
+    wb.close()
+    return bool(blanks)
 
 
 def sheet_to_records(ws, schema: dict) -> tuple[list[dict], list[str], dict[str, int]]:
@@ -97,9 +190,17 @@ def sheet_to_records(ws, schema: dict) -> tuple[list[dict], list[str], dict[str,
 
 
 def merge_with_previous(
-    records: list[dict], previous: dict | None, key_field: str
+    records: list[dict], previous: dict | None, key_field: str, actor: str | None = None
 ) -> tuple[list[dict], list[str], list[str]]:
-    """Clear verification on new/changed rows; report what changed."""
+    """Clear verification on new/changed rows; report what changed.
+
+    `actor`, when given, overwrites `added_edited_by` on any row whose
+    content actually changed in this run (new row, or hash differs from the
+    known baseline) -- an authoritative stamp of who/what made the edit,
+    taking priority over whatever was self-declared in the cell. Left alone
+    entirely when `actor` is None (e.g. a local run with no trusted identity
+    to attribute changes to).
+    """
     prev_by_key = {r[key_field]: r for r in (previous or {}).get("records", [])} if previous else {}
 
     cleared, kept_keys = [], set()
@@ -107,34 +208,42 @@ def merge_with_previous(
     for record in records:
         key = record[key_field]
         kept_keys.add(key)
-        if not any(f in record for f in VERIFICATION_FIELDS):
-            merged.append(record)
-            continue
 
         prev_record = prev_by_key.get(key)
         new_hash = content_hash(record)
+        content_changed = prev_record is None or prev_record.get("_content_hash") != new_hash
+        if actor and content_changed and "added_edited_by" in record:
+            record["added_edited_by"] = actor
 
-        if prev_record is not None and prev_record.get("_content_hash") == new_hash:
-            # Unchanged since last run -- carry the prior verification through.
-            record["verified_by"] = prev_record.get("verified_by", record.get("verified_by", ""))
-            record["last_verified"] = prev_record.get("last_verified", record.get("last_verified", ""))
+        if not any(f in record for f in VERIFICATION_FIELDS):
             record["_content_hash"] = new_hash
             merged.append(record)
             continue
 
-        # Content differs from the known baseline (or there is none -- a brand-new
-        # row). Was verification *freshly supplied in this same edit*, as opposed
-        # to just sitting there non-blank from a previous, now-stale verification?
-        # Comparing against the value last recorded in the JSON (not merely
-        # checking "is it non-blank now") is what tells the two apart: editing an
-        # unrelated field while Verified By/Last Verified happen to still show a
-        # name and date from before is NOT a re-verification, even though both
-        # fields are technically filled in.
+        # content_hash() excludes verified_by/last_verified, so "content unchanged"
+        # and "verification unchanged" are independent facts -- a human can edit
+        # only the verification fields (e.g. filling in a fresh Last Verified with
+        # no other change) without the hash moving at all. Comparing against the
+        # value last recorded in the JSON (not merely checking "is it non-blank
+        # now") is what distinguishes a fresh edit from a stale value just sitting
+        # there unchanged from a previous, now-outdated verification.
         prev_verified_by = prev_record.get("verified_by", "") if prev_record else ""
         prev_last_verified = prev_record.get("last_verified", "") if prev_record else ""
         verified_by, last_verified = record.get("verified_by", ""), record.get("last_verified", "")
+        verification_unchanged = verified_by == prev_verified_by and last_verified == prev_last_verified
+
+        if not content_changed and verification_unchanged:
+            # True no-op: nothing about this row changed since the last run.
+            record["_content_hash"] = new_hash
+            merged.append(record)
+            continue
+
+        # Either the content changed, or the human edited only the verification
+        # fields directly (not content_changed but not verification_unchanged) --
+        # both are edits that need a fresh-verification decision, so they share
+        # the same check.
         fully_supplied = bool(verified_by) and bool(last_verified)
-        freshly_touched = verified_by != prev_verified_by or last_verified != prev_last_verified
+        freshly_touched = not verification_unchanged
 
         if fully_supplied and freshly_touched:
             # A human supplied (or changed) both fields in this same edit -- trust
@@ -159,12 +268,16 @@ def merge_with_previous(
     return merged, cleared, removed
 
 
-def convert(xlsx_path: Path, out_dir: Path, fresh: bool = False) -> None:
+def convert(xlsx_path: Path, out_dir: Path, fresh: bool = False, actor: str | None = None) -> None:
+    if assign_missing_ids(xlsx_path):
+        print("assigned a new ID to every row that was missing one")
+
     wb = openpyxl.load_workbook(xlsx_path, data_only=True)
     if fresh:
         print("--fresh: rebuilding the baseline from the workbook, ignoring existing JSON")
 
     schema = load_workbook_schema(wb)
+    validate_structure(wb, schema)
     schema_path = out_dir / "dictionary.json"
     save_sheet_json(schema_path, schema)
     controlled = sum(1 for c in schema["columns"] if c["terms"])
@@ -179,6 +292,19 @@ def convert(xlsx_path: Path, out_dir: Path, fresh: bool = False) -> None:
     # JSON, silently un-clearing a row that was correctly cleared before.
     to_blank: list[tuple[str, int, str]] = []
 
+    # (sheet_name, row_idx, value) for rows where --actor overwrote
+    # added_edited_by in memory -- written back into the xlsx cell too, for
+    # the same reason: the two representations must never be allowed to
+    # drift apart.
+    to_stamp: list[tuple[str, int, str]] = []
+
+    # Per-sheet results, kept until every sheet's been processed -- a row
+    # "removed" from one sheet can't be classified as moved vs. deleted until
+    # we know what's currently present across *all* sheets, including ones
+    # not processed yet in this loop.
+    sheet_removed: dict[str, list[str]] = {}
+    present_elsewhere: dict[str, tuple[str, str]] = {}  # id -> (sheet_name, resource_name)
+
     for sheet_name in wb.sheetnames:
         if sheet_name in METADATA_SHEETS:
             continue
@@ -190,7 +316,7 @@ def convert(xlsx_path: Path, out_dir: Path, fresh: bool = False) -> None:
 
         out_path = out_dir / f"{slugify(sheet_name)}.json"
         previous = None if fresh else load_sheet_json(out_path)
-        merged, cleared, removed = merge_with_previous(records, previous, key_field)
+        merged, cleared, removed = merge_with_previous(records, previous, key_field, actor=actor)
 
         header_letters = {slugify(h): c for c, h in iter_header(ws)}
         for record in merged:
@@ -201,28 +327,55 @@ def convert(xlsx_path: Path, out_dir: Path, fresh: bool = False) -> None:
                 letter = header_letters.get(field)
                 if letter and ws[f"{letter}{row_idx}"].value not in (None, ""):
                     to_blank.append((sheet_name, row_idx, field))
+            if actor and record.get("added_edited_by") == actor:
+                letter = header_letters.get("added_edited_by")
+                if letter and str(ws[f"{letter}{row_idx}"].value or "") != actor:
+                    to_stamp.append((sheet_name, row_idx, actor))
+            present_elsewhere[record[key_field]] = (sheet_name, record.get("resource_name", ""))
 
         save_sheet_json(out_path, {"sheet_name": sheet_name, "columns": columns, "records": merged})
+        sheet_removed[sheet_name] = removed
 
         print(f"{sheet_name}: wrote {len(merged)} records to {out_path}")
         for key in cleared:
             print(f"  cleared verification: {key!r} (content changed)")
-        for key in removed:
-            print(f"  removed (no longer in xlsx): {key!r}")
+
+    # Now that every sheet's current contents are known, classify each
+    # removed row as a move (same ID found in a different sheet) or a
+    # deletion (found nowhere) -- see checklist item 14/15 in the sync plan.
+    for sheet_name, removed in sheet_removed.items():
+        for row_id in removed:
+            if row_id in present_elsewhere:
+                dest_sheet, dest_name = present_elsewhere[row_id]
+                print(f"  moved from {sheet_name}: {dest_name!r} (id {row_id}) -> now in {dest_sheet!r}")
+            else:
+                print(
+                    f"  DELETED from {sheet_name}, id {row_id} -- no match in any other sheet. "
+                    "Not blocked by this script; requires an admin-merged PR (checklist item 19, not yet enforced)."
+                )
 
     wb.close()
 
-    if to_blank:
+    if to_blank or to_stamp:
         wb_write = openpyxl.load_workbook(xlsx_path)  # formulas preserved
         for sheet_name, row_idx, field in to_blank:
             ws = wb_write[sheet_name]
             header_letters = {slugify(h): c for c, h in iter_header(ws)}
             cell = ws[f"{header_letters[field]}{row_idx}"]
             cell.value = None  # NOTE: cell(..., value=None) is a no-op; must assign .value directly
+        for sheet_name, row_idx, value in to_stamp:
+            ws = wb_write[sheet_name]
+            header_letters = {slugify(h): c for c, h in iter_header(ws)}
+            ws[f"{header_letters['added_edited_by']}{row_idx}"] = value
         wb_write.save(xlsx_path)
-        print(f"blanked {len(to_blank)} stale verification cell(s) directly in the xlsx (kept in sync with the JSON)")
-        for sheet_name, row_idx, field in to_blank:
-            print(f"  {sheet_name} row {row_idx}: {field}")
+        if to_blank:
+            print(f"blanked {len(to_blank)} stale verification cell(s) directly in the xlsx (kept in sync with the JSON)")
+            for sheet_name, row_idx, field in to_blank:
+                print(f"  {sheet_name} row {row_idx}: {field}")
+        if to_stamp:
+            print(f"stamped 'Added/Edited By' on {len(to_stamp)} changed row(s) directly in the xlsx")
+            for sheet_name, row_idx, value in to_stamp:
+                print(f"  {sheet_name} row {row_idx}: {value!r}")
 
 
 def main() -> None:
@@ -234,9 +387,16 @@ def main() -> None:
         help="Rebuild the baseline from the workbook, ignoring existing JSON. Use after any "
              "column/schema change, which otherwise looks like every row was edited.",
     )
+    parser.add_argument(
+        "--actor", default=None,
+        help="Trusted identity to stamp into 'Added/Edited By' on any row whose content "
+             "changed in this run, overriding whatever was self-declared in the cell. "
+             "E.g. a GitHub Action passing github.actor. Omit for a local run to leave "
+             "the field as self-declared.",
+    )
     args = parser.parse_args()
 
-    convert(args.xlsx, args.out_dir, fresh=args.fresh)
+    convert(args.xlsx, args.out_dir, fresh=args.fresh, actor=args.actor)
 
 
 if __name__ == "__main__":

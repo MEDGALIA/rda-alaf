@@ -12,7 +12,7 @@ import re
 import uuid
 from pathlib import Path
 
-RESERVED_KEYS = {"id", "verified_by", "last_verified", "_content_hash"}
+RESERVED_KEYS = {"id", "verified_by", "last_verified", "added_edited_by", "_content_hash"}
 
 # Metadata tabs describe the schema/vocabulary rather than holding radar
 # records, so the record-oriented conversion skips them.

@@ -1,0 +1,56 @@
+name: Deletion authorization
+
+# Required status check: blocks merging a PR that deletes a VT Radar row
+# (an ID missing from every data sheet in data/json/, not moved to
+# Deprecated) unless an admin (.github/RADAR-ADMINS) has approved the PR.
+#
+# Runs on both PR content changes and new reviews -- a review submitted
+# after this check already failed needs to re-run the check for the same
+# commit, which only happens if pull_request_review also triggers it.
+#
+# Deliberately checks *approval*, not *merge*: this check runs before the
+# Merge button is even clickable, so there's no way to know who will merge
+# ahead of time -- only who has already reviewed. A repo admin can still
+# merge past a failing check via branch protection's admin-bypass setting,
+# the same way they can already bypass the required-review rule.
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+    paths:
+      - "data/json/**"
+  pull_request_review:
+    types: [submitted]
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: head
+
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.base.sha }}
+          path: base
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Check for unauthorized deletions
+        working-directory: head
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python src/scripts/check_deletion_authorization.py \
+            --base-dir ../base/data/json \
+            --head-dir data/json \
+            --admins-file .github/RADAR-ADMINS \
+            --repo ${{ github.repository }} \
+            --pr-number ${{ github.event.pull_request.number }}
