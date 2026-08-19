@@ -1,0 +1,5 @@
+# GitHub handles authorized to approve a PR that deletes a VT Radar row
+# (a row whose ID disappears from every data sheet, i.e. not a move to
+# Deprecated). One handle per line, '#' starts a comment. Read by
+# src/scripts/check_deletion_authorization.py.
+pbuendia

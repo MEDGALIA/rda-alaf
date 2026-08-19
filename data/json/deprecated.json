@@ -1,0 +1,49 @@
+{
+  "sheet_name": "Deprecated",
+  "columns": [
+    "id",
+    "resource_name",
+    "url",
+    "source_organization",
+    "last_verified",
+    "verified_by",
+    "added_edited_by",
+    "deprecation_date_last_updated",
+    "version",
+    "resource_type",
+    "agentic_features_covered",
+    "topic_focus",
+    "relevance_to_research_cyberinfrastructure",
+    "maturity_level",
+    "notes_key_takeaways",
+    "discovery_date"
+  ],
+  "records": [
+    {
+      "id": "805047b4",
+      "resource_name": "OpenAI Assistants API",
+      "url": "https://platform.openai.com/docs/assistants",
+      "source_organization": "OpenAI",
+      "last_verified": "2026-05-08",
+      "verified_by": "Paty Buendia",
+      "added_edited_by": "Paty Buendia",
+      "deprecation_date_last_updated": "2026-08-26",
+      "version": "",
+      "resource_type": "API Reference",
+      "agentic_features_covered": [
+        "Tools",
+        "Skills",
+        "Retrieval"
+      ],
+      "topic_focus": [
+        "Architecture",
+        "Implementation"
+      ],
+      "relevance_to_research_cyberinfrastructure": "Useful for domain-specific agents",
+      "maturity_level": "Deprecated",
+      "notes_key_takeaways": "Stable API surface.",
+      "discovery_date": "2026-05-08",
+      "_content_hash": "7419f57d7c71f946e6d072aa7f165dca5bac4483a6b4dee8bafaa26db6173107"
+    }
+  ]
+}

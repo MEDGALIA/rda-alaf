@@ -6,10 +6,11 @@ for guiding agentic approaches to research data analysis and data sharing using
 structured knowledge and current-event intelligence.
 
 The framework will use GitOps and agentic workflows to help maintain and update
-its knowledge base and support the development and evolution of the framework.
+its knowledge base VT Radar and support the development and evolution of the framework.
 Agents may identify relevant changes, propose updates, and provide guidance,
 but changes to the framework and knowledge base will require human review and
-approval.
+approval. VT Radar acts as an up-to-date manifesto focused on agentic best practices 
+guarded by data governance and data protection rules that agents must follow.
 
 Human experts, including members of the research data community, remain in the
 loop to validate agent-proposed changes and maintain the quality, relevance,

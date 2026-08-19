@@ -1,0 +1,22 @@
+cff-version: 1.2.0
+message: "If you use this software or the VT Radar knowledge base, please cite it as below."
+title: "RDA-ALAF: Agentic Landscape Assessment Framework"
+type: software
+authors:
+  - family-names: Buendia
+    given-names: Patricia
+    affiliation: Medgalia
+repository-code: "https://github.com/MEDGALIA/rda-alaf"
+abstract: >-
+  RDA-ALAF (Agentic Landscape Assessment Framework) is an open-source
+  framework for guiding agentic approaches to research data analysis and
+  data sharing using structured knowledge and current-event intelligence.
+  It uses GitOps and agentic workflows to help maintain and update its
+  knowledge base, with human experts validating agent-proposed changes.
+keywords:
+  - research data
+  - agentic AI
+  - knowledge base
+  - GitOps
+  - RDA
+license: BSD-3-Clause

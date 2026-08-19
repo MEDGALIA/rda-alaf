@@ -216,13 +216,21 @@ img { max-width: 100%; border-radius: 6px; }
   <td>Shared helpers for the VT Radar xlsx ⇄ JSON tooling (not run directly)</td>
 </tr>
 <tr>
-  <td><code>tech_radar_quality_report.py</code></td>
-  <td>Read-only data-quality scan of the VT Radar workbook</td>
+  <td><code>tech_radar_analysis.py</code></td>
+  <td>Read-only analysis of the VT Radar workbook (data quality + vocabulary coverage)</td>
+</tr>
+<tr>
+  <td><code>xlsx_to_json.py</code></td>
+  <td>Converts the VT Radar workbook into <code>data/json/</code> (schema + one file per data sheet)</td>
+</tr>
+<tr>
+  <td><code>json_to_xlsx.py</code></td>
+  <td>Rebuilds the VT Radar workbook from <code>data/json/</code> — the mirror of <code>xlsx_to_json.py</code></td>
 </tr>
 </tbody>
 </table>
 
-<p>All are plain Python 3 scripts with no project framework dependency — they can be run standalone or imported as modules. The VT Radar scripts (<code>radar_sync_common.py</code>, <code>tech_radar_quality_report.py</code>, and more to come) implement the plan in <a href="implementation-plan.md"><code>implementation-plan.md</code></a> — see that doc for the overall design and current build status.</p>
+<p>All are plain Python 3 scripts with no project framework dependency — they can be run standalone or imported as modules. The VT Radar scripts implement the plan in <a href="implementation-plan.md"><code>implementation-plan.md</code></a> — see that doc for the overall design and current build status.</p>
 
 <h2 id="environment-setup">Environment setup</h2>
 
@@ -267,7 +275,7 @@ img { max-width: 100%; border-radius: 6px; }
 </tr>
 <tr>
   <td><code>openpyxl</code></td>
-  <td><code>radar_sync_common.py</code>, <code>tech_radar_quality_report.py</code></td>
+  <td><code>radar_sync_common.py</code>, <code>tech_radar_analysis.py</code>, <code>xlsx_to_json.py</code></td>
   <td>Reads/writes <code>.xlsx</code> workbooks with native typed cells (dates come back as <code>datetime</code>, not serial numbers)</td>
 </tr>
 </tbody>
@@ -327,58 +335,159 @@ img { max-width: 100%; border-radius: 6px; }
 
 <h2 id="radar_sync_commonpy"><code>radar_sync_common.py</code></h2>
 
-<p>Not a standalone script — a shared helper module imported by the VT Radar sync tooling (<code>tech_radar_quality_report.py</code> today; <code>xlsx_to_json.py</code>/<code>json_to_xlsx.py</code> once written). Lives in <code>src/scripts/</code> so it's importable via a relative import (<code>from radar_sync_common import ...</code>) from sibling scripts run with <code>src/scripts/</code> as the working directory.</p>
+<p>Not a standalone script — a shared helper module imported by the VT Radar tooling (<code>tech_radar_analysis.py</code>, <code>xlsx_to_json.py</code>, <code>json_to_xlsx.py</code>). Lives in <code>src/scripts/</code> so it's importable via a relative import (<code>from radar_sync_common import ...</code>) from sibling scripts.</p>
 
 <p><strong>What it provides</strong></p>
 
 <ul>
 <li><code>slugify(header)</code> — turns an xlsx column header into a JSON-safe key, e.g. <code>"Notes / Key Takeaways"</code> → <code>notes_key_takeaways</code>.</li>
 <li><code>content_hash(record)</code> — SHA-256 over a record's fields, excluding <code>id</code>/<code>verified_by</code>/<code>last_verified</code>/<code>_content_hash</code>. Used to detect whether a record's substantive content changed since a stored baseline.</li>
-<li><code>new_id(existing_ids)</code> — short 8-hex-char UUID, collision-checked against a set of IDs already in use.</li>
+<li><code>new_id(existing_ids)</code> — short 8-hex-char UUID, collision-checked against a set of IDs already in use. Used by <code>xlsx_to_json.py</code> to assign a row's <code>ID</code> the first time it sees that row with the cell blank.</li>
 <li><code>cell_display_value(value)</code> — renders an <code>openpyxl</code> cell value (str/number/<code>datetime</code>/<code>None</code>) as a JSON-safe string, converting dates to ISO <code>YYYY-MM-DD</code>.</li>
-<li><code>load_sheet_json(path)</code> / <code>save_sheet_json(path, data)</code> — read/write a sheet's JSON file with consistent formatting (<code>indent=2</code>, trailing newline). <code>load_sheet_json</code> returns <code>None</code> if the file doesn't exist yet.</li>
+<li><code>split_multi_value(text, separator)</code> — splits a delimited cell into trimmed, de-duplicated terms. Tolerates <code>,</code> as well as the configured separator, since rows written before the <code>;</code> standardization used commas.</li>
+<li><code>load_workbook_schema(wb)</code> — reads the <code>Dictionary</code>/<code>Vocabulary</code>/<code>Standards</code> tabs into <code>{"standards": [...], "columns": [...]}</code>, with each column's vocabulary terms nested underneath it. <strong>This is the single source of truth</strong> for which columns are controlled vocabularies and how their cells split.</li>
+<li><code>load_sheet_json(path)</code> / <code>save_sheet_json(path, data)</code> — read/write a JSON file with consistent formatting (<code>indent=2</code>, trailing newline, LF). <code>load_sheet_json</code> returns <code>None</code> if the file doesn't exist yet.</li>
 <li><code>iter_header(ws)</code> — yields <code>(column_letter, header_text)</code> for each non-empty cell in row 1.</li>
 <li><code>row_is_empty(ws, row_idx, columns)</code> — <code>True</code> if every cell in that row (across the given columns) is blank.</li>
+<li><code>METADATA_SHEETS</code> / <code>CONTROLLED_TYPES</code> — the metadata tab names, and the <code>Value Type</code> values that mean "controlled vocabulary".</li>
 </ul>
 
-<h2 id="tech_radar_quality_reportpy"><code>tech_radar_quality_report.py</code></h2>
+<h2 id="the-workbooks-three-metadata-tabs">The workbook's three metadata tabs</h2>
+
+<p><code>data/VANTAGE-Technology-Radar.xlsx</code> holds three normalized metadata tabs alongside the data tabs. They are the schema, not records, and <code>xlsx_to_json.py</code> turns them into a single hierarchical <code>data/json/dictionary.json</code>.</p>
+
+<table>
+<thead>
+<tr>
+  <th>Tab</th>
+  <th>One row per</th>
+  <th>Columns</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>Dictionary</code></td>
+  <td>radar column</td>
+  <td><code>Position</code>, <code>Column Name</code>, <code>Applies To</code>, <code>Value Type</code>, <code>Separator</code>, <code>Description</code></td>
+</tr>
+<tr>
+  <td><code>Vocabulary</code></td>
+  <td>controlled term</td>
+  <td><code>Column Name</code>, <code>Term</code>, <code>Definition</code>, <code>Ontology</code>, <code>Ontology ID</code>, <code>Ontology URL</code></td>
+</tr>
+<tr>
+  <td><code>Standards</code></td>
+  <td>external standard</td>
+  <td><code>Standard ID</code>, <code>Name</code>, <code>Version</code>, <code>URL</code>, <code>Notes</code></td>
+</tr>
+</tbody>
+</table>
+
+<p><code>Value Type</code> drives the whole pipeline: <code>id</code>, <code>free_text</code>, <code>date</code>, <code>person</code>, <code>version</code>, <code>controlled_single</code>, <code>controlled_multi</code>. A <code>controlled_multi</code> column becomes a real JSON array, split on its <code>Separator</code> — so adding a multi-value column needs no code change, only a Dictionary row. <code>id</code> is special-cased only by <code>xlsx_to_json.py</code>'s auto-assignment step (see below) — everywhere else it's treated like any other plain-text column.</p>
+
+<p><code>Vocabulary.Ontology</code> references <code>Standards.Standard ID</code>. Four standards are declared: <strong>EDAM</strong> (primary controlled vocabulary — open ontology with permanent per-term URIs), <strong>NIST AI RMF 1.0</strong> (secondary axis for AI-trustworthiness framing; document-based, so no per-term URIs), <strong>ACM Computing Classification System 2012</strong> (general CS taxonomy, cited by category-path text), and <strong>Schema.org</strong> (CreativeWork/SoftwareApplication hierarchy, for <code>Resource Type</code>). Terms with no ontology are deliberately project-local rather than force-mapped onto a mismatched external term.</p>
+
+<blockquote>
+  <p><strong>Careful:</strong> NIST's <code>Fair (harmful bias managed)</code> (algorithmic non-discrimination) is unrelated to EDAM's <code>FAIR data</code> (Findable/Accessible/Interoperable/Reusable). They share a word and nothing else — the <code>Standards</code> tab notes carry this warning too.</p>
+</blockquote>
+
+<h2 id="xlsx_to_jsonpy"><code>xlsx_to_json.py</code></h2>
 
 <div class="codehilite">
-<pre><span></span><code><span class="p">.\.</span><span class="n">venv</span><span class="p">\</span><span class="n">Scripts</span><span class="p">\</span><span class="n">python</span> <span class="n">src</span><span class="p">\</span><span class="n">scripts</span><span class="p">\</span><span class="n">tech_radar_quality_report</span><span class="p">.</span><span class="n">py</span> <span class="p">[-</span><span class="n">-xlsx</span> <span class="n">PATH</span><span class="p">]</span> <span class="p">[-</span><span class="n">-out</span> <span class="n">drafts</span><span class="p">/</span><span class="n">workbook_errors</span><span class="p">.</span><span class="n">md</span><span class="p">]</span>
+<pre><span></span><code><span class="p">.\.</span><span class="n">venv</span><span class="p">\</span><span class="n">Scripts</span><span class="p">\</span><span class="n">python</span> <span class="n">src</span><span class="p">\</span><span class="n">scripts</span><span class="p">\</span><span class="n">xlsx_to_json</span><span class="p">.</span><span class="n">py</span> <span class="p">[-</span><span class="n">-xlsx</span> <span class="n">PATH</span><span class="p">]</span> <span class="p">[-</span><span class="n">-out-dir</span> <span class="n">data</span><span class="p">/</span><span class="n">json</span><span class="p">]</span> <span class="p">[-</span><span class="n">-fresh</span><span class="p">]</span> <span class="p">[-</span><span class="n">-actor</span> <span class="n">NAME</span><span class="p">]</span>
 </code></pre>
 </div>
 
-<p>Read-only scan of the VT Radar workbook (<code>data/VANTAGE-Technology-Radar.xlsx</code> by default) — it never opens the file in write mode, and asserts the file's bytes are byte-for-byte unchanged before vs. after the scan runs.</p>
+<p>Converts the workbook into <code>data/json/</code>: <code>dictionary.json</code> (the hierarchical schema, from the three metadata tabs) plus one file per data sheet.</p>
+
+<p><strong>Arguments</strong></p>
+
+<ul>
+<li><code>--xlsx PATH</code> — source workbook (default: <code>data/VANTAGE-Technology-Radar.xlsx</code>)</li>
+<li><code>--out-dir PATH</code> — JSON destination (default: <code>data/json</code>)</li>
+<li><code>--fresh</code> — rebuild the verification baseline from the workbook, ignoring existing JSON. <strong>Required after any schema change</strong> (see below).</li>
+<li><code>--actor NAME</code> — overwrites <code>Added/Edited By</code> (in both the JSON and the xlsx cell) on any row whose content changed in this run, e.g. <code>--actor "@$GITHUB_ACTOR"</code>. Omitted for local runs, which leave the field as self-declared.</li>
+</ul>
+
+<p><strong>Row identity and the verification rule</strong></p>
+
+<p>Each sheet's first column, <code>ID</code>, is the natural key matching a row across runs — a system-generated value independent of <code>Resource Name</code>, so renaming a resource doesn't look like deleting one row and adding an unrelated new one. Any row found with a blank <code>ID</code> cell gets one assigned automatically and written back into the xlsx before conversion runs (<code>assign_missing_ids()</code>) — a curator never fills this in by hand, except when intentionally moving a row to a different sheet, where the ID should be copied along with the rest of the row.</p>
+
+<p>For every row, a <code>_content_hash</code> is stored over its substantive fields (excluding <code>id</code>, <code>verified_by</code>, <code>last_verified</code>, <code>added_edited_by</code>). On the next run:</p>
+
+<ul>
+<li>hash unchanged, verification fields unchanged → carried through untouched (a true no-op);</li>
+<li>content and/or verification fields changed, and the new <code>Verified By</code>/<code>Last Verified</code> were freshly and fully supplied in this same edit → trusted as a deliberate re-verification;</li>
+<li>otherwise → both fields are <strong>cleared</strong>, because a human hasn't reviewed this version. The cleared row is named on stdout.</li>
+</ul>
+
+<p>This applies the same way whether it's the row's <em>content</em> that changed, or only its verification fields (e.g. a curator filling in <code>Last Verified</code> on a row whose <code>Verified By</code> was already set, with nothing else touched) — both are treated as edits needing a fresh-verification decision.</p>
+
+<p>Old values are never lost — <code>data/json/</code> is git-tracked, so <code>git log</code>/<code>git blame</code> recovers them.</p>
+
+<blockquote>
+  <p><strong>Gotcha worth knowing:</strong> adding or removing a <em>column</em> changes every row's hash, so a schema change looks identical to "somebody edited all 40 rows" and would wipe every verification. That is exactly what happened when <code>Discovery Date</code> was first added. <strong>After any schema change, run with <code>--fresh</code></strong>, which re-establishes the baseline instead of diffing against differently-shaped JSON. <code>--fresh</code> also removes any need to delete files by hand.</p>
+</blockquote>
+
+<p><strong>Structure validation</strong>: before converting anything, <code>validate_structure()</code> checks that every data sheet's columns exactly match what <code>Dictionary</code> declares for it — same headers, same order. A mismatch (missing column, unexpected column, wrong order) raises immediately and <strong>no JSON is written at all</strong>, so a malformed upload never partially converts.</p>
+
+<p><strong>Moves vs. deletions</strong>: a row whose <code>ID</code> is missing from one sheet is checked against every other data sheet's current contents. Found elsewhere (e.g. moved from <code>Knowledgebase</code> to <code>Deprecated</code>, with the <code>ID</code> copied along) → reported as a move. Found nowhere → reported as a deletion. This is <strong>detection only</strong> — the script doesn't block a true deletion, since it has no notion of who's running it or whether they're authorized; enforcing "only an admin-merged PR may delete a row" is a GitHub Action-side check, not yet built (see <code>drafts/VANTAGE-Tech-Radar-Sync-Plan.md</code>'s Approval System section).</p>
+
+<h2 id="json_to_xlsxpy"><code>json_to_xlsx.py</code></h2>
+
+<div class="codehilite">
+<pre><span></span><code><span class="p">.\.</span><span class="n">venv</span><span class="p">\</span><span class="n">Scripts</span><span class="p">\</span><span class="n">python</span> <span class="n">src</span><span class="p">\</span><span class="n">scripts</span><span class="p">\</span><span class="n">json_to_xlsx</span><span class="p">.</span><span class="n">py</span> <span class="p">[-</span><span class="n">-json-dir</span> <span class="n">data</span><span class="p">/</span><span class="n">json</span><span class="p">]</span> <span class="p">[-</span><span class="n">-out</span> <span class="n">PATH</span><span class="p">]</span>
+</code></pre>
+</div>
+
+<p>The mirror of <code>xlsx_to_json.py</code>: rebuilds the <strong>entire</strong> workbook from <code>data/json/*.json</code> from scratch — every data sheet plus <code>Dictionary</code>/<code>Vocabulary</code>/<code>Standards</code> — rather than patching cells in place. <code>data/json/</code> is the source of truth in the GitOps design (see <code>implementation-plan.md</code>); the xlsx is a generated artifact for human consumption, published as a GitHub Release.</p>
+
+<p><strong>Arguments</strong></p>
+
+<ul>
+<li><code>--json-dir PATH</code> — source JSON directory (default: <code>data/json</code>)</li>
+<li><code>--out PATH</code> — destination xlsx (default: <code>data/VANTAGE-Technology-Radar.xlsx</code>)</li>
+</ul>
+
+<p><strong>What's guaranteed, what isn't</strong>: content round-trips exactly — every field of every record, and the full <code>Dictionary</code>/<code>Vocabulary</code>/<code>Standards</code> schema, verified field-by-field against the source JSON. Cosmetic details (column widths, frozen header row, bold headers) are sane regenerated defaults, not a clone of any hand-tweaked formatting a curator may have applied to a previous xlsx.</p>
+
+<h2 id="tech_radar_analysispy"><code>tech_radar_analysis.py</code></h2>
+
+<div class="codehilite">
+<pre><span></span><code><span class="p">.\.</span><span class="n">venv</span><span class="p">\</span><span class="n">Scripts</span><span class="p">\</span><span class="n">python</span> <span class="n">src</span><span class="p">\</span><span class="n">scripts</span><span class="p">\</span><span class="n">tech_radar_analysis</span><span class="p">.</span><span class="n">py</span> <span class="p">[-</span><span class="n">-xlsx</span> <span class="n">PATH</span><span class="p">]</span> <span class="p">[-</span><span class="n">-out</span> <span class="n">data</span><span class="p">/</span><span class="n">reports</span><span class="p">/</span><span class="n">workbook_analysis</span><span class="p">.</span><span class="n">md</span><span class="p">]</span>
+</code></pre>
+</div>
+
+<p>Read-only analysis of the workbook — never opens it in write mode, and asserts the file's bytes are unchanged before vs. after the scan.</p>
 
 <p><strong>Arguments</strong></p>
 
 <ul>
 <li><code>--xlsx PATH</code> — workbook to scan (default: <code>data/VANTAGE-Technology-Radar.xlsx</code>)</li>
-<li><code>--out PATH</code> — Markdown report destination (default: <code>drafts/workbook_errors.md</code>)</li>
+<li><code>--out PATH</code> — Markdown report destination (default: <code>data/reports/workbook_analysis.md</code>)</li>
 </ul>
 
-<p><strong>What it flags, per sheet</strong></p>
+<p><strong>What it reports</strong></p>
 
 <ul>
-<li><strong>Empty rows</strong> — rows with no content in any cell, reported as contiguous ranges rather than one line per row.</li>
-<li><strong>Type/shape anomalies</strong>, via simple per-column heuristics keyed off the header text (unrecognized headers are skipped):
-<ul>
-<li><code>Verified By</code> / <code>Source Organization</code> / <code>Resource Name</code> — flagged if numeric or a real date (clearly not a name/org/title).</li>
-<li><code>Last Verified</code> / <code>Deprecation Date</code> — flagged if <em>not</em> a real date-typed cell.</li>
-<li><code>Version</code> — flagged if it <em>is</em> a real date-typed cell (the inverse check — a date serial sitting where a version string belongs is exactly the anomaly already seen in this workbook).</li>
-<li><code>URL</code> — flagged if non-empty and doesn't start with <code>http://</code> or <code>https://</code>.</li>
-</ul></li>
+<li><strong>Row counts and cell anomalies</strong>, per sheet — empty rows as contiguous ranges, plus type/shape checks keyed off the header: name-like columns flagged if numeric/date; date columns flagged if not a real date cell; <code>Version</code> flagged if it <em>is</em> a date; <code>URL</code> flagged if it doesn't start with <code>http(s)://</code>.</li>
+<li><strong>Column coverage</strong> — columns in data tabs missing from <code>Dictionary</code>, and documented columns no tab actually has.</li>
+<li><strong>Vocabulary coverage</strong> — per controlled column: terms used but absent from <code>Vocabulary</code>, and documented terms never used. Driven by <code>Value Type</code>, so free-text columns are skipped — without that, <code>Relevance to Research Cyberinfrastructure</code> (prose sentences by design) would report ~30 bogus "undocumented terms".</li>
+<li><strong>Missing controlled values</strong> — populated rows with an empty controlled-vocabulary cell, which is usually an oversight rather than a deliberate "not applicable".</li>
+<li><strong>Ontology coverage</strong> — which vocabulary terms are backed by a declared standard and which aren't.</li>
+<li><strong>Review candidates</strong> — near-duplicate term pairs (one term's words a subset of another's, e.g. <code>Retrieval</code> vs <code>Retrieval Agents</code>) that were deliberately <em>not</em> auto-merged, since collapsing them is a semantic judgment rather than a spelling fix.</li>
 </ul>
 
 <p>No "corrected" value is ever suggested — deciding what a bad cell <em>should</em> say is a human judgment call, not something to guess at for a real WG record. See <a href="implementation-plan.md"><code>implementation-plan.md</code></a> for why this script is report-only by design.</p>
 
-<p><strong>Output</strong>: a Markdown report (<code>drafts/workbook_errors.md</code> by default) with per-sheet summary counts (total/empty/populated/anomalous rows) followed by a table of every anomaly found.</p>
+<p><strong>Output</strong>: a Markdown report (<code>data/reports/workbook_analysis.md</code> by default) with per-sheet summary counts (total/empty/populated/anomalous rows) followed by a table of every anomaly found.</p>
 
 <h2 id="adding-a-new-document-to-convert">Adding a new document to convert</h2>
 
 <ol>
 <li>Manually copy the <code>.docx</code> into <code>drafts/</code> (gitignored — safe for working files), then manually run <code>docx_to_md.py</code> to produce the <code>.md</code>. Nothing watches this folder — both steps are run by hand, on demand.</li>
 <li>To publish developer-facing documentation, place the <code>.md</code> source in <code>developer_guides/</code>, then manually re-run <code>md_to_html.py developer_guides developer_guides_html</code> to regenerate the HTML.</li>
+<li>To publish curator/end-user-facing documentation (e.g. <code>user_guides/README.md</code>, "how to submit an xlsx update"), place the <code>.md</code> source in <code>user_guides/</code>, then manually re-run <code>md_to_html.py user_guides user_guides_html</code>.</li>
 </ol>
 
 </article>

@@ -9,11 +9,17 @@ The implementation plan has two steps so far :
 
 ### Context
 
-`data/VANTAGE-Technology-Radar.xlsx` is the human-facing "Tech Radar" — a workbook a person downloads, reads, and edits in Excel. 4 tabs: `Knowledgebase`, `Dictionary`, `Deprecated`, `SOTA Coding Agents Benchmarks`. `Knowledgebase`, `Deprecated`, and `SOTA Coding Agents Benchmarks` share a `Last Verified` + `Verified By` column pair; `Dictionary` is a plain glossary with no verification columns.
+`data/VANTAGE-Technology-Radar.xlsx` is the human-facing "Tech Radar" — a workbook a person downloads, reads, and edits in Excel. It has three **data** tabs (`Knowledgebase`, `Deprecated`, `SOTA Coding Agents Benchmarks`), which share a `Last Verified` + `Verified By` column pair, and three **metadata** tabs that define the schema rather than holding records:
+
+| Tab | One row per | Purpose |
+| --- | --- | --- |
+| `Dictionary` | radar column | Position, which tabs it applies to, value type, separator, description |
+| `Vocabulary` | controlled term | Term, definition, and its ontology mapping |
+| `Standards` | external standard | The standards the vocabulary draws on |
+
+**Controlled-vocabulary decision**: [EDAM ontology](http://edamontology.org/topic_3071) (`Data management` branch) is the primary vocabulary — an open ontology with permanent per-term URIs, chosen over DAMA-DMBOK, which is a paywalled book with no citable term identifiers. [NIST AI RMF 1.0](https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.pdf)'s seven trustworthy-AI characteristics are available as an optional secondary axis for framing EDAM doesn't cover. Terms with no ontology mapping are deliberately project-local, not force-fitted to an external standard. (NIST's own Data Governance and Management Profile was evaluated and rejected for now — still pre-draft, no published taxonomy.)
 
 We want a machine-readable mirror in `data/json/` (one JSON file per tab) that agents can read and edit directly, plus a way to publish those edits back into the xlsx for the human to see. Any add/remove/edit of a json row must clear that row's `Verified By`/`Last Verified` — a human re-approving content they never saw would be a false claim. Old values aren't lost; they're recoverable from git history on the json files.
-
-The workbook has some pre-existing messy data (mostly empty formatted rows, a few type-mismatched cells) — see `drafts/workbook_errors.md`. That's reported only, never auto-corrected.
 
 ### GitOps Implementation
 
@@ -38,15 +44,21 @@ No git CLI or branch-pushing is required of curators or publishers — every ste
 
 | Component | Status |
 | --- | --- |
-| `src/scripts/radar_sync_common.py` | Done |
-| `src/scripts/tech_radar_quality_report.py` | Done — see `drafts/workbook_errors.md` |
+| `src/scripts/radar_sync_common.py` | Done — includes `load_workbook_schema()`, the single source of truth for column types |
+| `src/scripts/tech_radar_analysis.py` | Done — see `data/reports/workbook_analysis.md` (data quality + vocabulary/ontology coverage) |
+| Workbook metadata tabs (`Dictionary`/`Vocabulary`/`Standards`) | Done — normalized from the original prose glossary; 17 columns (incl. `ID`), 76 vocabulary terms, 4 standards |
 | `.github/CODEOWNERS` for `data/json/**` | Done — names `@pbuendia` |
 | Branch protection on `main` | Done — PR + 1 code-owner approval required; admin bypass allowed (no second curator yet, flip off once one exists); no required status checks yet (no CI) |
-| `src/scripts/xlsx_to_json.py` | Not started |
-| GitHub Action — xlsx upload → json diff | Not started |
-| `src/scripts/json_to_xlsx.py` | Not started |
+| `src/scripts/xlsx_to_json.py` | Done — schema-driven; `controlled_multi` columns become JSON arrays; `--fresh` re-baselines after schema changes; auto-assigns a stable `ID` to any row missing one; validates workbook structure against `Dictionary` before converting anything; detects and reports cross-sheet row moves vs. deletions |
+| `src/scripts/json_to_xlsx.py` | Done — rebuilds the entire workbook from `data/json/`; round-trip tested field-by-field against the source JSON |
+| GitHub Action — xlsx upload → json diff | Written (`.github/workflows/xlsx-to-json.yml`); **not yet exercised by a real PR** |
+| Deletion authorization (admin-`merged_by` required status check) | Designed, not built — see `drafts/VANTAGE-Tech-Radar-Sync-Plan.md`'s Approval System section |
 | GitHub Action — publish (`workflow_dispatch` → Release) | Not started |
-| Developer/user documentation | In progress (this file) |
+| Developer/user documentation | In progress (this file + `scripts-guide.md` + `user_guides/README.md`) |
+
+**Known gaps**:
+- No CI check yet enforces the verification rule (that a row's `Verified By` is never non-empty while its content hash differs from the verified baseline). Today the rule is enforced only by `xlsx_to_json.py` at conversion time, so a hand-edited JSON commit could bypass it. Worth adding as a required status check once the publish Action lands.
+- Deletion detection is script-side only (`xlsx_to_json.py` reports a move vs. a true deletion on stdout); nothing yet *blocks* an unauthorized deletion from being merged. That enforcement belongs in a GitHub Action, since only the Action has the PR/merge context needed to know who's involved.
 
 **Deferred**: a GitHub Pages UI as a friendlier front-end for the same GitHub API actions (edit, upload, approve, merge, publish) — not required to start; would use a fine-grained personal access token for auth initially.
 
