@@ -276,7 +276,7 @@ img { max-width: 100%; border-radius: 6px; }
 </tr>
 <tr>
   <td>Workbook metadata tabs (<code>Dictionary</code>/<code>Vocabulary</code>/<code>Standards</code>)</td>
-  <td>Done — normalized from the original prose glossary; 16 columns, 90 vocabulary terms, 2 standards</td>
+  <td>Done — normalized from the original prose glossary; 17 columns (incl. <code>ID</code>), 76 vocabulary terms, 4 standards</td>
 </tr>
 <tr>
   <td><code>.github/CODEOWNERS</code> for <code>data/json/**</code></td>
@@ -288,15 +288,19 @@ img { max-width: 100%; border-radius: 6px; }
 </tr>
 <tr>
   <td><code>src/scripts/xlsx_to_json.py</code></td>
-  <td>Done — schema-driven; <code>controlled_multi</code> columns become JSON arrays; <code>--fresh</code> re-baselines after schema changes</td>
+  <td>Done — schema-driven; <code>controlled_multi</code> columns become JSON arrays; <code>--fresh</code> re-baselines after schema changes; auto-assigns a stable <code>ID</code> to any row missing one; validates workbook structure against <code>Dictionary</code> before converting anything; detects and reports cross-sheet row moves vs. deletions</td>
+</tr>
+<tr>
+  <td><code>src/scripts/json_to_xlsx.py</code></td>
+  <td>Done — rebuilds the entire workbook from <code>data/json/</code>; round-trip tested field-by-field against the source JSON</td>
 </tr>
 <tr>
   <td>GitHub Action — xlsx upload → json diff</td>
   <td>Written (<code>.github/workflows/xlsx-to-json.yml</code>); <strong>not yet exercised by a real PR</strong></td>
 </tr>
 <tr>
-  <td><code>src/scripts/json_to_xlsx.py</code></td>
-  <td>Not started</td>
+  <td>Deletion authorization (admin-<code>merged_by</code> required status check)</td>
+  <td>Designed, not built — see <code>drafts/VANTAGE-Tech-Radar-Sync-Plan.md</code>'s Approval System section</td>
 </tr>
 <tr>
   <td>GitHub Action — publish (<code>workflow_dispatch</code> → Release)</td>
@@ -304,12 +308,14 @@ img { max-width: 100%; border-radius: 6px; }
 </tr>
 <tr>
   <td>Developer/user documentation</td>
-  <td>In progress (this file + <code>scripts-guide.md</code>)</td>
+  <td>In progress (this file + <code>scripts-guide.md</code> + <code>user_guides/README.md</code>)</td>
 </tr>
 </tbody>
 </table>
 
-<p><strong>Known gap</strong>: no CI check yet enforces the verification rule (that a row's <code>Verified By</code> is never non-empty while its content hash differs from the verified baseline). Today the rule is enforced only by <code>xlsx_to_json.py</code> at conversion time, so a hand-edited JSON commit could bypass it. Worth adding as a required status check once <code>json_to_xlsx.py</code> lands.</p>
+<p><strong>Known gaps</strong>:
+- No CI check yet enforces the verification rule (that a row's <code>Verified By</code> is never non-empty while its content hash differs from the verified baseline). Today the rule is enforced only by <code>xlsx_to_json.py</code> at conversion time, so a hand-edited JSON commit could bypass it. Worth adding as a required status check once the publish Action lands.
+- Deletion detection is script-side only (<code>xlsx_to_json.py</code> reports a move vs. a true deletion on stdout); nothing yet <em>blocks</em> an unauthorized deletion from being merged. That enforcement belongs in a GitHub Action, since only the Action has the PR/merge context needed to know who's involved.</p>
 
 <p><strong>Deferred</strong>: a GitHub Pages UI as a friendlier front-end for the same GitHub API actions (edit, upload, approve, merge, publish) — not required to start; would use a fine-grained personal access token for auth initially.</p>
 
