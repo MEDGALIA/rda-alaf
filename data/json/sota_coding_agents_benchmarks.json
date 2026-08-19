@@ -1,11 +1,13 @@
 {
   "sheet_name": "SOTA Coding Agents Benchmarks",
   "columns": [
+    "id",
     "resource_name",
     "url",
     "source_organization",
     "last_verified",
     "verified_by",
+    "added_edited_by",
     "last_updated",
     "version",
     "resource_type",
@@ -16,11 +18,13 @@
   ],
   "records": [
     {
+      "id": "ba114fad",
       "resource_name": "Databricks Coding Agent Benchmark",
       "url": "https://www.databricks.com/blog/benchmarking-coding-agents-databricks-multi-million-line-codebase",
       "source_organization": "Databricks",
       "last_verified": "2026-07-13",
       "verified_by": "Paty Buendia",
+      "added_edited_by": "Paty Buendia",
       "last_updated": "2024",
       "version": "N/A",
       "resource_type": "Whitepaper",
@@ -33,11 +37,13 @@
       "_content_hash": "48de642d6fd0adac9c71c187a40197d2c16288ef6c807177cf861d14f481c87f"
     },
     {
+      "id": "4c170f7e",
       "resource_name": "Papers with Code ",
       "url": "https://paperswithcode.co/tasks/coding-agents",
       "source_organization": "Hugging Face",
       "last_verified": "2026-07-13",
       "verified_by": "Paty Buendia",
+      "added_edited_by": "Paty Buendia",
       "last_updated": "2026",
       "version": "",
       "resource_type": "Benchmark Collection",
@@ -50,11 +56,13 @@
       "_content_hash": "36af802e158de2a34742f3bea01efe70304ad7ea034268fe592aba10319c5679"
     },
     {
+      "id": "b9ed03e7",
       "resource_name": "SWE-Bench Pro",
       "url": "https://openreview.net/forum?id=9R2iUHhVfr",
       "source_organization": "SWE-bench Team",
-      "last_verified": "2026-07-13",
+      "last_verified": "",
       "verified_by": "",
+      "added_edited_by": "Paty Buendia",
       "last_updated": "2025",
       "version": "Pro",
       "resource_type": "Whitepaper",
@@ -67,11 +75,13 @@
       "_content_hash": "99facbb86d80edb3bebe54ebf2ed573d00a1b58fbfafb3e8bc7fcfc84f498654"
     },
     {
+      "id": "f487cdc5",
       "resource_name": "SWE-Bench++",
       "url": "https://arxiv.org/abs/2512.17419",
       "source_organization": "Academic Researchers",
-      "last_verified": "2026-07-13",
+      "last_verified": "",
       "verified_by": "",
+      "added_edited_by": "Paty Buendia",
       "last_updated": "2025",
       "version": "",
       "resource_type": "Whitepaper",
@@ -84,11 +94,13 @@
       "_content_hash": "1b6c0e7da845d6c879d66a173b36a88fed801ea76604d06a565065c12552928a"
     },
     {
+      "id": "f37d4051",
       "resource_name": "Terminal-Bench",
       "url": "https://arxiv.org/abs/2601.11868",
       "source_organization": "CISPA / Academic Researchers",
-      "last_verified": "2026-07-13",
+      "last_verified": "",
       "verified_by": "",
+      "added_edited_by": "Paty Buendia",
       "last_updated": "2026",
       "version": "2",
       "resource_type": "Whitepaper",
@@ -101,11 +113,13 @@
       "_content_hash": "d1908bbd07c96fd08588c991b5b6b703b55a69980e313842ca028ffa9cd58d64"
     },
     {
+      "id": "acbc7354",
       "resource_name": "c-CRAB",
       "url": "https://arxiv.org/abs/2603.23448",
       "source_organization": "Academic Researchers",
-      "last_verified": "2026-07-13",
+      "last_verified": "",
       "verified_by": "",
+      "added_edited_by": "Paty Buendia",
       "last_updated": "2026",
       "version": "1",
       "resource_type": "Whitepaper",
@@ -118,11 +132,13 @@
       "_content_hash": "77247d81fb6845f8e1e22d4762c7369544bf09ce05137fd60927bb629e23df79"
     },
     {
+      "id": "edd19b89",
       "resource_name": "SWE-Explore",
       "url": "https://arxiv.org/abs/2606.07297",
       "source_organization": "Academic Researchers",
-      "last_verified": "2026-07-13",
+      "last_verified": "",
       "verified_by": "",
+      "added_edited_by": "Paty Buendia",
       "last_updated": "2026",
       "version": "1",
       "resource_type": "Whitepaper",

@@ -1,11 +1,13 @@
 {
   "sheet_name": "Knowledgebase",
   "columns": [
+    "id",
     "resource_name",
     "url",
     "source_organization",
     "last_verified",
     "verified_by",
+    "added_edited_by",
     "last_updated",
     "version",
     "resource_type",
@@ -19,11 +21,13 @@
   ],
   "records": [
     {
+      "id": "022e4e1c",
       "resource_name": "VS Code Copilot Agents Overview",
       "url": "https://code.visualstudio.com/docs/copilot/agents/overview",
       "source_organization": "Microsoft",
       "last_verified": "2026-05-15",
       "verified_by": "Paty Buendia",
+      "added_edited_by": "Paty Buendia",
       "last_updated": "2026-04-01",
       "version": "",
       "resource_type": "Documentation",
@@ -46,11 +50,13 @@
       "_content_hash": "c745e83e6236ad04a7072240165e1eb9aab838161fa220938d859f50514a753d"
     },
     {
+      "id": "2e9b6b2d",
       "resource_name": "Data Director",
       "url": "https://docs.google.com/document/d/1mu1_U1cWqn1aP3vtW83JnX5-aGhzM49K/edit",
       "source_organization": "Microsoft, RDA",
       "last_verified": "2026-05-26",
       "verified_by": "Paty Buendia",
+      "added_edited_by": "Paty Buendia",
       "last_updated": "2026-05-26",
       "version": "v0.1 DRAFT",
       "resource_type": "Specification",
@@ -70,11 +76,13 @@
       "_content_hash": "0281b846d052b0a66962358461c42f610c75ced7c0a42eca933e318492aa827e"
     },
     {
+      "id": "161f1860",
       "resource_name": "Agentic AI Tool",
       "url": "https://docs.github.com/en/copilot/agents",
       "source_organization": "GitHub",
-      "last_verified": "2026-05-08",
+      "last_verified": "",
       "verified_by": "",
+      "added_edited_by": "Paty Buendia",
       "last_updated": "2026-04-01",
       "version": "",
       "resource_type": "Documentation",
@@ -96,11 +104,13 @@
       "_content_hash": "a418d2cfb7456cdb0198e4e5739ac72b0dd5ef7ff65a5b8d0ea2fd5f7e993812"
     },
     {
+      "id": "abbd844c",
       "resource_name": "GitHub MCP Documentation",
       "url": "https://github.com/modelcontextprotocol",
       "source_organization": "GitHub/OpenAI",
-      "last_verified": "2026-05-08",
+      "last_verified": "",
       "verified_by": "",
+      "added_edited_by": "Paty Buendia",
       "last_updated": "2026-04-01",
       "version": "",
       "resource_type": "API Reference",
@@ -121,11 +131,13 @@
       "_content_hash": "f1cf1d171ca857b5f7937ef1773c8302f18de9638d6f8d6c8aeb23a90266ee1c"
     },
     {
+      "id": "b71baded",
       "resource_name": "OpenAI MCP Specification",
       "url": "https://spec.modelcontextprotocol.io",
       "source_organization": "OpenAI",
-      "last_verified": "2026-05-08",
+      "last_verified": "",
       "verified_by": "",
+      "added_edited_by": "Paty Buendia",
       "last_updated": "2026-04-01",
       "version": "",
       "resource_type": "Specification",
@@ -146,11 +158,13 @@
       "_content_hash": "9fea65dbaf05d27ff2b9a0dd098e5d9a7971c5702d68b48386571dd776b2d2f4"
     },
     {
+      "id": "2b23adbb",
       "resource_name": "Anthropic Model Context Protocol",
       "url": "https://modelcontextprotocol.io/specification/2025-11-25 ",
       "source_organization": "Anthropic",
       "last_verified": "2026-06-09",
       "verified_by": "Paty Buendia",
+      "added_edited_by": "Paty Buendia",
       "last_updated": "2025-11-01",
       "version": "",
       "resource_type": "Documentation",
@@ -170,11 +184,13 @@
       "_content_hash": "064afe240ebfff664f1bc136fbea253a0cebe8c21beaf818fffe6cc952dfa996"
     },
     {
+      "id": "d6d28dfa",
       "resource_name": "Kaggle Prototype to Production Whitepaper",
       "url": "https://www.kaggle.com/whitepaper-prototype-to-production",
       "source_organization": "Kaggle/Google",
       "last_verified": "2026-05-15",
       "verified_by": "Paty Buendia",
+      "added_edited_by": "Paty Buendia",
       "last_updated": "2025-11-14",
       "version": "NA",
       "resource_type": "Whitepaper",
@@ -195,11 +211,13 @@
       "_content_hash": "00c659f91a1ef85f2785ef5309f53bc8c05b1e3a4e44c7c43a1f9a0417284cc0"
     },
     {
+      "id": "bfda8877",
       "resource_name": "Google Vertex AI Agents Overview",
       "url": "https://cloud.google.com/vertex-ai/docs/agents",
       "source_organization": "Google",
-      "last_verified": "2026-05-08",
+      "last_verified": "",
       "verified_by": "",
+      "added_edited_by": "Paty Buendia",
       "last_updated": "2026-04-01",
       "version": "",
       "resource_type": "Documentation",
@@ -219,11 +237,13 @@
       "_content_hash": "ce1941ead1b4183cb935ada34acd72c1e57029e9ffa35c89fb369b3c02bc21d4"
     },
     {
+      "id": "f488464f",
       "resource_name": "HuggingFace Agents Documentation",
       "url": "https://huggingface.co/docs/agents",
       "source_organization": "HuggingFace",
-      "last_verified": "2026-05-08",
+      "last_verified": "",
       "verified_by": "",
+      "added_edited_by": "Paty Buendia",
       "last_updated": "2026-03-01",
       "version": "",
       "resource_type": "Documentation",
@@ -244,11 +264,13 @@
       "_content_hash": "31a7a1364c182ea5d455c5e97644fa46372326b33dc1f789fd95e8e823c2e33d"
     },
     {
+      "id": "dbe3741e",
       "resource_name": "LangChain Agents Overview",
       "url": "https://python.langchain.com/docs/modules/agents",
       "source_organization": "LangChain",
-      "last_verified": "2026-05-08",
+      "last_verified": "",
       "verified_by": "",
+      "added_edited_by": "Paty Buendia",
       "last_updated": "2026-04-01",
       "version": "",
       "resource_type": "Documentation",
@@ -269,11 +291,13 @@
       "_content_hash": "cf7ecd3015ce27add85ddd4492d89b5659c714c1e1981dd75e36cbbc14af1879"
     },
     {
+      "id": "ddd42289",
       "resource_name": "LlamaIndex Agents",
       "url": "https://docs.llamaindex.ai/en/stable/agent/",
       "source_organization": "LlamaIndex",
-      "last_verified": "2026-05-08",
+      "last_verified": "",
       "verified_by": "",
+      "added_edited_by": "Paty Buendia",
       "last_updated": "2026-04-01",
       "version": "",
       "resource_type": "Documentation",
@@ -294,11 +318,13 @@
       "_content_hash": "85037860af94f9f05b785d17612bc7e63f8a311a83809c8aa68c7c9e93db8d60"
     },
     {
+      "id": "c7e95f61",
       "resource_name": "Dagster Automation/Agent Patterns",
       "url": "https://docs.dagster.io/getting-started/ai-tools",
       "source_organization": "Dagster Labs",
-      "last_verified": "",
+      "last_verified": "2026-03-01",
       "verified_by": "Paty Buendia",
+      "added_edited_by": "Paty Buendia",
       "last_updated": "2026-03-01",
       "version": "1.3.15",
       "resource_type": "Documentation",
@@ -318,11 +344,13 @@
       "_content_hash": "42ba2ac98498c601f4942690f8294a08ad4bb26ed21513e9518947d8c6a0f8f5"
     },
     {
+      "id": "73426de0",
       "resource_name": "Prefect Automations/Agents",
       "url": "https://docs.prefect.io/latest/concepts/automations/",
       "source_organization": "Prefect",
-      "last_verified": "2026-05-08",
+      "last_verified": "",
       "verified_by": "",
+      "added_edited_by": "Paty Buendia",
       "last_updated": "2026-03-01",
       "version": "",
       "resource_type": "Documentation",
@@ -342,11 +370,13 @@
       "_content_hash": "4c75ac1056aa417cd66df1f6d37aae90e239b2cc4d1bcad430a39ad3edd03a80"
     },
     {
+      "id": "3294a13f",
       "resource_name": "Jupyter AI",
       "url": "https://jupyter-ai.readthedocs.io",
       "source_organization": "Project Jupyter",
       "last_verified": "",
       "verified_by": "",
+      "added_edited_by": "Paty Buendia",
       "last_updated": "2026-04-01",
       "version": "",
       "resource_type": "Documentation",
@@ -366,11 +396,13 @@
       "_content_hash": "1bf5c276596eb4941b8dbdc8c4c88de3f39e9d09453c82e84a88317eb2fbb277"
     },
     {
+      "id": "f51ea180",
       "resource_name": "Anthropic Tools API",
       "url": "https://docs.anthropic.com/en/docs/tools",
       "source_organization": "Anthropic",
-      "last_verified": "2026-05-08",
+      "last_verified": "",
       "verified_by": "",
+      "added_edited_by": "Paty Buendia",
       "last_updated": "2026-04-01",
       "version": "",
       "resource_type": "API Reference",
@@ -390,11 +422,13 @@
       "_content_hash": "a665313a4a758f404f7178c1e48f7e2da6ffd172f02fb70065d5fa38d173b8ec"
     },
     {
+      "id": "89f36cc1",
       "resource_name": "Microsoft Semantic Kernel Agents",
       "url": "https://learn.microsoft.com/semantic-kernel/agents",
       "source_organization": "Microsoft",
-      "last_verified": "2026-05-08",
+      "last_verified": "",
       "verified_by": "",
+      "added_edited_by": "Paty Buendia",
       "last_updated": "2026-04-01",
       "version": "",
       "resource_type": "Documentation",
@@ -415,11 +449,13 @@
       "_content_hash": "f8d154e74674756eced2906b11749831b2cd59fb22ef1aa0da40bdc882880318"
     },
     {
+      "id": "4ccfda21",
       "resource_name": "HuggingFace Inference Endpoints",
       "url": "https://huggingface.co/inference-endpoints",
       "source_organization": "HuggingFace",
-      "last_verified": "2026-05-08",
+      "last_verified": "",
       "verified_by": "",
+      "added_edited_by": "Paty Buendia",
       "last_updated": "2026-03-01",
       "version": "",
       "resource_type": "Documentation",
@@ -439,11 +475,13 @@
       "_content_hash": "5fae9574f13a51c2e5cb14136d3c872c2bdaf875f607c3296dc8883d52eb657a"
     },
     {
+      "id": "2e24be4d",
       "resource_name": "OpenAI Evaluations (Evals)",
       "url": "https://platform.openai.com/docs/guides/evals",
       "source_organization": "OpenAI",
-      "last_verified": "2026-05-08",
+      "last_verified": "",
       "verified_by": "",
+      "added_edited_by": "Paty Buendia",
       "last_updated": "2026-04-01",
       "version": "",
       "resource_type": "Documentation",
@@ -463,11 +501,13 @@
       "_content_hash": "0d917bc0b56b1ba0ed20cfea740a87e6d707faba7ceedd6ad46bb42494c3a1d1"
     },
     {
+      "id": "6b9e7398",
       "resource_name": "Anthropic Safety Guidelines",
       "url": "https://docs.anthropic.com/en/docs/safety",
       "source_organization": "Anthropic",
-      "last_verified": "2026-05-08",
+      "last_verified": "",
       "verified_by": "",
+      "added_edited_by": "Paty Buendia",
       "last_updated": "2026-04-01",
       "version": "",
       "resource_type": "Documentation",
@@ -487,11 +527,13 @@
       "_content_hash": "04e11ebc72f7ec2a0ff5a920718fb3fb39c13f96e43ee02baffea5384339ca2e"
     },
     {
+      "id": "69804f39",
       "resource_name": "Microsoft Responsible AI Standard",
       "url": "https://www.microsoft.com/ai/responsible-ai",
       "source_organization": "Microsoft",
-      "last_verified": "2026-05-08",
+      "last_verified": "",
       "verified_by": "",
+      "added_edited_by": "Paty Buendia",
       "last_updated": "2025-12-01",
       "version": "",
       "resource_type": "Governance Guidance",
@@ -512,11 +554,13 @@
       "_content_hash": "de5e97f98465ca95670a048157b22807cb76d39869868f2d93d5997bbb20b52d"
     },
     {
+      "id": "3758624e",
       "resource_name": "vLLM Documentation",
       "url": "https://docs.vllm.ai",
       "source_organization": "vLLM Project Team",
       "last_verified": "",
       "verified_by": "",
+      "added_edited_by": "Paty Buendia",
       "last_updated": "2026-04-01",
       "version": "",
       "resource_type": "Inference Framework",
@@ -538,11 +582,13 @@
       "_content_hash": "7ebcb5be361a22b3084856b643b4485c20bd6743d8874694a299bef4689db08f"
     },
     {
+      "id": "8a50b5eb",
       "resource_name": "Ollama Documentation",
       "url": "https://github.com/ollama/ollama",
       "source_organization": "Ollama Community",
-      "last_verified": "2026-05-08",
+      "last_verified": "",
       "verified_by": "",
+      "added_edited_by": "Paty Buendia",
       "last_updated": "2026-04-01",
       "version": "",
       "resource_type": "Local Application Sandbox",
@@ -562,11 +608,13 @@
       "_content_hash": "622072761e701385957afd65ee11e4e1ae30a60b9ae3be90b7411469bbdb08a1"
     },
     {
+      "id": "763797cd",
       "resource_name": "Llama.cpp ",
       "url": "https://github.com/ggerganov/llama.cpp",
       "source_organization": "Georgi Gerganov",
       "last_verified": "",
       "verified_by": "",
+      "added_edited_by": "Paty Buendia",
       "last_updated": "2026-05-20",
       "version": "b9253",
       "resource_type": "Github Code Repository",
@@ -587,11 +635,13 @@
       "_content_hash": "4ea5e4d5e4d6528229c8e5b661ab2d8440967df6b81824c37aec0bb7ad9f7971"
     },
     {
+      "id": "2d2470f7",
       "resource_name": "Open WebUI Documentation",
       "url": "https://docs.openwebui.com",
       "source_organization": "Open WebUI Core Team",
-      "last_verified": "2026-05-08",
+      "last_verified": "",
       "verified_by": "",
+      "added_edited_by": "Paty Buendia",
       "last_updated": "2026-04-01",
       "version": "",
       "resource_type": "Enterprise Control Interface",
@@ -611,11 +661,13 @@
       "_content_hash": "bba52df53b11d6f10b8ec1c0c5ee33eef430ac5e9974e433df9bbf77adea32e3"
     },
     {
+      "id": "eb79015c",
       "resource_name": "NVIDIA NIM Air-Gap Deployment Guide",
       "url": "https://docs.nvidia.com/nim/large-language-models/latest/deploy-air-gap.html",
       "source_organization": "NVIDIA",
       "last_verified": "",
       "verified_by": "",
+      "added_edited_by": "Paty Buendia",
       "last_updated": "2026",
       "version": "",
       "resource_type": "Reference Architecture",
@@ -637,11 +689,13 @@
       "_content_hash": "3b3f975628c00224313eb95ff9963054516c0b9542fc6eb693731a85f5ac41d0"
     },
     {
+      "id": "80527de7",
       "resource_name": "Harbor User Documentation",
       "url": "https://goharbor.io/docs/",
       "source_organization": "Cloud Native Computing Foundation (CNCF)",
-      "last_verified": "2026-05-08",
+      "last_verified": "",
       "verified_by": "",
+      "added_edited_by": "Paty Buendia",
       "last_updated": "2026",
       "version": "",
       "resource_type": "Container Registry",
@@ -663,11 +717,13 @@
       "_content_hash": "15affff9481b178ce96ece795107020c887524a4b20267534e5baa4bf811abed"
     },
     {
+      "id": "b4b5a468",
       "resource_name": "AI Engineering Blueprint for On-Premises RAG Systems",
       "url": "https://arxiv.org/abs/2604.01395",
       "source_organization": "arXiv (2604.01395)",
-      "last_verified": "2026-05-08",
+      "last_verified": "",
       "verified_by": "",
+      "added_edited_by": "Paty Buendia",
       "last_updated": "2026",
       "version": "",
       "resource_type": "Scientific Literature",
@@ -687,11 +743,13 @@
       "_content_hash": "02cad295f5062afcc0f26b75feb79751b2d529a384cf2cb9cbc0cf00f986f7b2"
     },
     {
+      "id": "0d0a50a7",
       "resource_name": "On-Premise vs Cloud: GenAI TCO (2026 Edition)",
       "url": "https://lenovopress.lenovo.com/lp2368-on-premise-vs-cloud-generative-ai-total-cost-of-ownership-2026-edition ",
       "source_organization": "Lenovo Press",
       "last_verified": "",
       "verified_by": "",
+      "added_edited_by": "Paty Buendia",
       "last_updated": "2026-02-01",
       "version": "NA",
       "resource_type": "Whitepaper",
@@ -711,11 +769,13 @@
       "_content_hash": "41dbb6ef32cdf51efe2ece34b10bc6f7e0f210e08228239f7b397b2a39aad939"
     },
     {
+      "id": "359b5ac8",
       "resource_name": "Coalition for Secure AI (CoSAI) ",
       "url": "https://www.coalitionforsecureai.org/",
       "source_organization": "Coalition for Secure AI (CoSAI) ",
       "last_verified": "2026-06-01",
       "verified_by": "Paty Buendia",
+      "added_edited_by": "Paty Buendia",
       "last_updated": "2026-06-01",
       "version": "",
       "resource_type": "Security Guidance & Resources",
@@ -735,11 +795,13 @@
       "_content_hash": "7966af0586c33ead28ea3850260825dcaa6dcaede44c19c60e41249f24fedac3"
     },
     {
+      "id": "5f3954c2",
       "resource_name": "Anthropic Project Glasswing",
       "url": "https://www.anthropic.com/glasswing",
       "source_organization": "Anthropic",
       "last_verified": "2026-06-09",
       "verified_by": "Paty Buendia",
+      "added_edited_by": "Paty Buendia",
       "last_updated": "2026-04-07",
       "version": "",
       "resource_type": "Security Guidance & Resources",
@@ -758,11 +820,13 @@
       "_content_hash": "08892a82827888ea4146e56cc6389d8cdfb7654ecd1451637c6658d791e5c794"
     },
     {
+      "id": "1c277820",
       "resource_name": "Docker AI Governance & Sandboxes",
       "url": "https://docs.docker.com/ai/sandboxes/governance/org/",
       "source_organization": "Docker",
       "last_verified": "2026-07-16",
       "verified_by": "Paty Buendia",
+      "added_edited_by": "Paty Buendia",
       "last_updated": "2026-07-10",
       "version": "0.35.0",
       "resource_type": "Documentation",
@@ -781,11 +845,13 @@
       "_content_hash": "4064595e21ca205783da147c493404513ed7cf6818ea3fc702c27b3c0d48401a"
     },
     {
+      "id": "b39dc1d1",
       "resource_name": "Responses API",
       "url": "https://developers.openai.com/api/docs/guides/migrate-to-responses",
       "source_organization": "OpenAI",
       "last_verified": "2026-07-17",
       "verified_by": "Paty Buendia",
+      "added_edited_by": "Paty Buendia",
       "last_updated": "2026-07-09",
       "version": "GPT-5.6",
       "resource_type": "Documentation",
