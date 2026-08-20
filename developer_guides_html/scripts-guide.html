@@ -426,7 +426,7 @@ img { max-width: 100%; border-radius: 6px; }
 <p>Old values are never lost — <code>data/json/</code> is git-tracked, so <code>git log</code>/<code>git blame</code> recovers them.</p>
 
 <blockquote>
-  <p><strong>Gotcha worth knowing:</strong> adding or removing a <em>column</em> changes every row's hash, so a schema change looks identical to "somebody edited all 40 rows" and would wipe every verification. That is exactly what happened when <code>Discovery Date</code> was first added. <strong>After any schema change, run with <code>--fresh</code></strong>, which re-establishes the baseline instead of diffing against differently-shaped JSON. <code>--fresh</code> also removes any need to delete files by hand.</p>
+  <p><strong>Gotcha worth knowing:</strong> adding or removing a <em>column</em> changes every row's hash, so a schema change looks identical to "somebody edited all rows" and would wipe every verification. <strong>After any schema change, run with <code>--fresh</code></strong>, which re-establishes the baseline instead of diffing against differently-shaped JSON. <code>--fresh</code> also removes any need to delete files by hand.</p>
 </blockquote>
 
 <p><strong>Structure validation</strong>: before converting anything, <code>validate_structure()</code> checks that every data sheet's columns exactly match what <code>Dictionary</code> declares for it — same headers, same order. A mismatch (missing column, unexpected column, wrong order) raises immediately and <strong>no JSON is written at all</strong>, so a malformed upload never partially converts.</p>
