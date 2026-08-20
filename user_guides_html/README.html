@@ -193,7 +193,7 @@ img { max-width: 100%; border-radius: 6px; }
 <article class="doc">
 <h1 id="submitting-an-update-to-the-vt-radar">Submitting an update to the VT Radar</h1>
 
-<p>This guide is for curators updating the VANTAGE Technology Radar (VT Radar) knowledge base by editing the spreadsheet — no <code>git</code> command line, no coding. Everything happens through GitHub's website.</p>
+<p>This guide is for <strong>contributors</strong> updating the VANTAGE Technology Radar (VT Radar) knowledge base by editing the spreadsheet — no <code>git</code> command line, no coding. Everything happens through GitHub's website. If you are the curator reviewing a submission, see <a href="#for-the-curator">For the curator</a> at the end.</p>
 
 <h2 id="what-youre-editing">What you're editing</h2>
 
@@ -207,8 +207,8 @@ img { max-width: 100%; border-radius: 6px; }
 <li><strong>Upload your edited copy.</strong> Use "Add file" → "Upload files" (or the upload option on the file page), drag in your edited file with the same filename so it replaces the old one.</li>
 <li><strong>Commit as a new branch.</strong> GitHub will offer to commit. Choose <em>"Create a new branch for this commit and start a pull request"</em> — it auto-names the branch for you, and opens a pull request (PR). You don't need to understand what a branch is; just follow the prompt.</li>
 <li><strong>Wait for the automatic sync.</strong> Once your PR is open, GitHub automatically converts your xlsx into the machine-readable JSON files and adds that as a second commit on your PR. You don't trigger this yourself — it just happens.</li>
-<li><strong>A curator reviews and approves.</strong> Someone with review rights reads the diff and approves the PR.</li>
-<li><strong>A publisher merges.</strong> Once merged, your changes are live.</li>
+<li><strong>The curator verifies and approves.</strong> They check the resources themselves, fill in who verified them, and approve.</li>
+<li><strong>The curator merges.</strong> Once merged, your changes are live.</li>
 </ol>
 
 <h2 id="rules-the-sync-follows-automatically">Rules the sync follows automatically</h2>
@@ -216,13 +216,27 @@ img { max-width: 100%; border-radius: 6px; }
 <p>You don't need to do anything special for these — they just happen when your file is processed:</p>
 
 <ul>
-<li><strong><code>Verified By</code> / <code>Last Verified</code> get cleared automatically</strong> whenever a row's content changes and you didn't fill in <em>both</em> fields yourself in the same edit. This is deliberate: a "verified" stamp should only survive if a human actually looked at the current version. If you're updating a row and want it to stay marked verified, fill in <strong>both</strong> <code>Verified By</code> and <code>Last Verified</code> yourself as part of that same edit.</li>
-<li><strong>Every row has a hidden <code>ID</code> column</strong> (column A on each data tab) that you generally shouldn't touch. It's how the sync recognizes "this is the same row as before" even if you rename it, and it gets assigned automatically for any new row you add — just leave it blank and it'll be filled in for you.</li>
+<li><strong>Leave <code>Verified By</code> and <code>Last Verified</code> alone.</strong> They record that a curator personally checked the resource — not that the row was edited. Whenever you change a row's content, both fields are cleared automatically, and the curator fills them back in after checking. Don't fill them in yourself, and don't put someone else's name in them.</li>
+<li><strong>Every row has an <code>ID</code> column</strong> (column A on each data tab) that you shouldn't touch. It's how the sync recognizes "this is the same row as before" even if you rename it, and it gets assigned automatically for any new row you add — just leave it blank and it'll be filled in for you.</li>
 <li><strong>Moving a row between tabs</strong> (e.g. a resource that's now deprecated): copy the <em>entire</em> row — including its <code>ID</code> — from <code>Knowledgebase</code> into <code>Deprecated</code>, then delete it from <code>Knowledgebase</code>. As long as the <code>ID</code> comes along, the sync recognizes it as a move, not a deletion, and its history is preserved.</li>
-<li><strong>Deleting a row outright</strong> (no move, it's just gone) is detected and reported, but today isn't blocked by anything automatic — a repo admin still needs to be the one to actually merge a PR that removes a row with no match anywhere else. If you're not sure whether something should be deleted vs. moved to <code>Deprecated</code>, ask first.</li>
+<li><strong>Deleting a row outright</strong> (no move, it's just gone) blocks the PR until a repo admin approves it. If you're not sure whether something should be deleted or moved to <code>Deprecated</code>, ask first.</li>
 <li><strong>Your file's structure is checked before anything else happens.</strong> If a column got renamed, removed, or reordered by accident, the sync refuses to run at all rather than guessing — you'll need to fix the structure and re-upload. Stick to editing cell <em>values</em>, not column headers or their order, unless you're deliberately proposing a schema change (in which case, flag it — that's a bigger conversation than a normal content update).</li>
-<li><strong><code>Added/Edited By</code></strong> records who or what last touched a row. Fill in your own name when you edit a row by hand; an AI agent fills in its own name. If you upload the xlsx via GitHub, this gets set to your GitHub handle automatically on any row you actually changed — you don't need to fill it in yourself in that case.</li>
+<li><strong><code>Added/Edited By</code></strong> records who last touched a row. When you upload via GitHub it's set to your GitHub handle automatically on any row you actually changed — you don't need to fill it in.</li>
 </ul>
+
+<h2 id="for-the-curator">For the curator</h2>
+
+<p>Approving a PR does <strong>not</strong> fill in <code>Verified By</code>/<code>Last Verified</code> — nothing writes them for you. To record a verification:</p>
+
+<ol>
+<li>Download the xlsx <strong>from the PR branch</strong>, not from <code>main</code>.</li>
+<li>Open the resources and actually check them.</li>
+<li>Fill in <strong>both</strong> <code>Verified By</code> (your name) and <code>Last Verified</code> (today) on the rows you checked. One without the other is treated as invalid and cleared.</li>
+<li>Re-upload that xlsx to the <strong>same PR branch</strong>. The sync keeps your verification and leaves <code>Added/Edited By</code> pointing at the contributor.</li>
+<li><strong>Then</strong> approve, and merge.</li>
+</ol>
+
+<p>Approve last: any push to the branch — including the automatic sync — cancels an earlier approval, so approving before step 4 will silently come undone.</p>
 
 <h2 id="questions-or-something-looks-wrong">Questions or something looks wrong</h2>
 
