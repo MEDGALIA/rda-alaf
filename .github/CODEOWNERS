@@ -1,3 +1,9 @@
 # VT Radar knowledge base — changes here require curator review.
 # See developer_guides/implementation-plan.md for the full GitOps design.
 data/json/** @pbuendia
+
+# Workflows and the admin list govern what the automation is allowed to do,
+# so a change here can widen every other permission in the repo.
+.github/workflows/** @pbuendia
+.github/CODEOWNERS @pbuendia
+.github/RADAR-ADMINS @pbuendia
