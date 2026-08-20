@@ -13,14 +13,13 @@ Always save unnecessary tokens. If a script exists that can run a task where you
 Example: when generating html, write a script once for that task. After that always run it to generate the html files.
 Do not rewrite the html file manually.
 If the script fails, report the failure and only then go and fix the script.
-See location of scripts in `## 11. Location of Scripts by Type` below.
 
 ## 2. Token Economy: Communication style
 
-Respond in short phrases to save tokens. If a question can be answered with Yes or No, do that, don't add more text. Cut all filler, keep technical substance. Drop articles, filler words, and pleasantries. No hedging. Use short fragments and symbols (→, =, vs). Technical terms stay exact. Code blocks remain perfectly formatted and syntactically correct.
+Respond in short terse phrases to save tokens. If a question can be answered with Yes or No, do that, don't add more text. Cut all filler, keep technical substance. Drop articles, filler words, and pleasantries. No hedging. Use short fragments and symbols (→, =, vs). Technical terms stay exact. Code blocks remain perfectly formatted and syntactically correct.
 Suppress and do not show Agent Explainability.
 
-This does not apply to markdown files or planning files in planning mode, which should be well-worded but concise.
+This does not apply to markdown files or planning files in planning mode, which should be well-worded but concise. More on this topic in section below: `Commenting style and guide editing`
 
 ## 3. Review Criteria After Code Changes
 Review the code changes before giving it to me using these criteria:
@@ -56,9 +55,29 @@ Always investigate WHY something has no effect and if so, then we do not need to
 
 Every push of a docker release tag triggers a full multi-arch Docker build (~20–30 min) and pushes  images to Docker Hub. Treat each tag push as expensive and irreversible. Make sure the image has been tested thoroughly. If you need more agent coding capacity, such as more "thinking effort" to review different files to understand the context, list the questions you need to clarify so the user/developer can answer them and help you. Do not assume you know the answers.
 
-## 8. Commenting style
+## 8. Commenting style and guide editing
 
-Keep comments concise and do not refer to transient bugs.  Do not clutter the code with text.
+Keep comments and developer guides concise. No mention of why decisions were made or issues that were solved.
+E.g.: A developer following a guide to deploy a release doesn't need an incident report
+
+
+Example:
+```
+    if (!hasUsableSession) {
+      // Name WHICH host was checked and whether a session cookie even arrived.
+      // Problems 29 and 33 were both a host mismatch - the browser held a
+      // Server session on a different origin (ngrok vs localhost), so this
+      // server correctly saw nothing. The old log said only "no session",
+      // which sent debugging towards accounts and tokens instead of config.
+      // A request with NO connect.sid at all, from a browser the user believes
+      // is signed in, is the signature of that mismatch.
+      const hadSessionCookie = /(^|;\s*)connect\.sid=/.test(req.headers.cookie || "");
+```
+Write it like this:
+    if (!hasUsableSession) {
+      // Name WHICH host was checked and whether a session cookie even arrived.
+      const hadSessionCookie = /(^|;\s*)connect\.sid=/.test(req.headers.cookie || "");
+
 
 ## 9. Please follow the README.md
 if README.md is wrong let the user know, or ask the user.
@@ -75,3 +94,13 @@ If a script is not used anywhere in production and it is only used manually and 
 Always think ahead, and when planning and implementing a feature or re-architecting a feature, implement solutions for a professional business application, do not cut corners!
 
 Example: if an app is deployed to Google App Engine, and the app has a feature to add and delete profiles, the deletion act should be logged in an audit table in a database or file system. Do not forget to implement that or to add it to the issues.md file.
+
+## 13. Avoid duplication of statements in guides and planning files
+
+DO NOT repeat yourself
+Example:
+Line 266: For a bulk mechanical edit (a typo fixed across 12 rows), the curator did not re-check 12 URLs — auto-stamping would inflate verification.
+and a few lines down you wrote: 
+Line 272: Worked example: a typo fixed across 12 rows. The curator did not re-open 12 URLs. Without the label, all 12 are marked verified — a false claim. With it, none are. No friction in the common case (one row, genuinely checked), one click in the case that would otherwise lie.
+
+They say the same thing!

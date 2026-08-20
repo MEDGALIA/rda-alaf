@@ -136,7 +136,7 @@ This applies the same way whether it's the row's *content* that changed, or only
 
 Old values are never lost — `data/json/` is git-tracked, so `git log`/`git blame` recovers them.
 
-> **Gotcha worth knowing:** adding or removing a *column* changes every row's hash, so a schema change looks identical to "somebody edited all 40 rows" and would wipe every verification. That is exactly what happened when `Discovery Date` was first added. **After any schema change, run with `--fresh`**, which re-establishes the baseline instead of diffing against differently-shaped JSON. `--fresh` also removes any need to delete files by hand.
+> **Gotcha worth knowing:** adding or removing a *column* changes every row's hash, so a schema change looks identical to "somebody edited all rows" and would wipe every verification. **After any schema change, run with `--fresh`**, which re-establishes the baseline instead of diffing against differently-shaped JSON. `--fresh` also removes any need to delete files by hand.
 
 **Structure validation**: before converting anything, `validate_structure()` checks that every data sheet's columns exactly match what `Dictionary` declares for it — same headers, same order. A mismatch (missing column, unexpected column, wrong order) raises immediately and **no JSON is written at all**, so a malformed upload never partially converts.
 

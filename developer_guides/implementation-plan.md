@@ -1,15 +1,26 @@
 # Implementation Plan
 
-The implementation plan has two steps so far :
+The implementation plan has two steps so far:
 
-1. VT Radar xlsx ⇄ JSON Two-Way Sync (Status: Started)
+1. VT Radar xlsx ⇄ JSON Two-Way Sync (Status: In progress)
 2. Agentic Process to update the VT Radar (Not implemented)
+3. Agentic Assessment Landscape Framework (ALAF)
 
 ## VT Radar xlsx ⇄ JSON Two-Way Sync
 
 ### Context
 
-`data/VANTAGE-Technology-Radar.xlsx` is the human-facing "Tech Radar" — a workbook a person downloads, reads, and edits in Excel. It has three **data** tabs (`Knowledgebase`, `Deprecated`, `SOTA Coding Agents Benchmarks`), which share a `Last Verified` + `Verified By` column pair, and three **metadata** tabs that define the schema rather than holding records:
+`data/VANTAGE-Technology-Radar.xlsx` is the human-facing "Tech Radar" — a workbook a person downloads, reads, and edits in Excel. It has three **data** tabs which share `ID`, `Last Verified`, `Verified By`, and `Added/Edited By` columns, and three **metadata** tabs that define the schema rather than holding records.
+
+**Data Tabs:**
+
+| Tab | Purpose |
+| --- | --- |
+| `Knowledgebase` | Active tracked resources |
+| `Deprecated` | Resources no longer valid or superseded |
+| `SOTA Coding Agents Benchmarks` | Coding-agent benchmark/comparison studies |
+
+**Metadata Tabs:**
 
 | Tab | One row per | Purpose |
 | --- | --- | --- |
@@ -17,51 +28,71 @@ The implementation plan has two steps so far :
 | `Vocabulary` | controlled term | Term, definition, and its ontology mapping |
 | `Standards` | external standard | The standards the vocabulary draws on |
 
-**Controlled-vocabulary decision**: [EDAM ontology](http://edamontology.org/topic_3071) (`Data management` branch) is the primary vocabulary — an open ontology with permanent per-term URIs, chosen over DAMA-DMBOK, which is a paywalled book with no citable term identifiers. [NIST AI RMF 1.0](https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.pdf)'s seven trustworthy-AI characteristics are available as an optional secondary axis for framing EDAM doesn't cover. Terms with no ontology mapping are deliberately project-local, not force-fitted to an external standard. (NIST's own Data Governance and Management Profile was evaluated and rejected for now — still pre-draft, no published taxonomy.)
+The controlled vocabulary is backed by four standards where a genuine match exists: [EDAM ontology](http://edamontology.org/topic_3071) (`Data management` branch, primary), [NIST AI RMF 1.0](https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.pdf) (secondary axis), ACM Computing Classification System 2012, and Schema.org. Terms with no ontology mapping are project-local.
 
-We want a machine-readable mirror in `data/json/` (one JSON file per tab) that agents can read and edit directly, plus a way to publish those edits back into the xlsx for the human to see. Any add/remove/edit of a json row must clear that row's `Verified By`/`Last Verified` — a human re-approving content they never saw would be a false claim. Old values aren't lost; they're recoverable from git history on the json files.
+`data/json/` is a machine-readable mirror (one JSON file per tab) that agents can read and edit directly; `xlsx_to_json.py` and `json_to_xlsx.py` keep it and the xlsx in sync. Any added/removed/edited row clears that row's `Verified By`/`Last Verified` — a human re-approving content they never saw would be a false claim. Old values aren't lost; they're recoverable from git history on the json files.
 
 ### GitOps Implementation
 
-**Decision**: git/GitHub pull requests are the versioning, review, and audit system for `data/json/*.json` — chosen over a custom status-field model or an event-sourced log, since GitHub's own review/merge/history mechanics already cover this at the project's current scale.
+git/GitHub pull requests are the versioning, review, and audit system for `data/json/*.json`.
 
 **Roles**
 - **Curator** — required PR reviewer for `data/json/**` (`.github/CODEOWNERS` + branch protection). Approving a PR is the act of verifying.
-- **Publisher** — merges the PR and triggers the xlsx rebuild. Can be the same person as curator.
+- **Publisher** — merges the PR. Can be the same person as curator.
+- **Admin** (`.github/RADAR-ADMINS`) — must approve any PR that deletes a row with no match anywhere else in the workbook.
 
-**Source of truth**: `data/json/*.json`, fully git-tracked. Git history (`git log`/`git blame`) is the audit trail — no separate backup files or log. The xlsx is a build artifact: regenerated from json and attached to a GitHub Release, not committed as a binary diff on every publish.
+**GitHub repository role to grant**
+
+| Project role | GitHub role | Notes |
+| --- | --- | --- |
+| Curator | **Write** | Minimum for an approval to count toward branch protection — a review from a Read or Triage user does not. Also the minimum for a CODEOWNERS entry to be requestable. |
+| Publisher | **Write** | Write already permits merging. |
+| Admin | **Admin** | Only Admin can edit branch protection or bypass a failing required check. |
+
+Do **not** grant Maintain to a curator: over Write it adds only repository-metadata powers (description, topics, wikis, merge settings, Pages, Copilot exclusions) that no curator needs, and no review or merge capability that Write lacks.
+
+Write permits merging once branch protection is satisfied (approvals + required checks); it cannot bypass. Admin can merge regardless while `enforce_admins` is `false`.
+
+Repository roles alone do not separate "may approve" from "may merge" — both are Write, so a curator can merge their own PR once someone else approves it. To make Curator/Publisher a real boundary, set branch protection `restrictions` (currently unset) naming who may push/merge to `main`. Until then the split is convention only.
+
+Once a second Write collaborator exists, set `enforce_admins: true` on `main`. It is currently `false` so that a solo admin isn't locked out by rules requiring a second person; that exemption stops being necessary — and becomes a standing hole — as soon as someone else can review.
+
+**Source of truth**: `data/json/*.json`, fully git-tracked. Git history (`git log`/`git blame`) is the audit trail. The xlsx is a build artifact: regenerated from json and attached to a GitHub Release, not committed as a binary diff on every publish.
+
+**Row identity**: each row's `ID` (not `Resource Name`) is the key matched across runs, so renaming a resource doesn't look like a delete-plus-add. `Added/Edited By` records who or what last touched a row's content — self-declared by default, overwritten with a trusted identity (e.g. `github.actor`) when a script run supplies `--actor`.
 
 **Workflow**
 1. Bootstrap (one time): `xlsx_to_json.py` converts the xlsx into `data/json/*.json`.
-2. Ongoing edits go through a PR — either directly to the json, or by uploading a changed xlsx (a GitHub Action converts the upload into the same kind of json diff).
-3. Any added/removed/edited row has `Verified By`/`Last Verified` cleared automatically as part of that conversion.
+2. Ongoing edits go through a PR — either directly to the json, or by uploading a changed xlsx (`xlsx-to-json.yml` converts the upload into the same kind of json diff, stamping `Added/Edited By` with the uploader's GitHub handle).
+3. Any added/removed/edited row has `Verified By`/`Last Verified` cleared automatically as part of that conversion. A row that disappears with no match in any other sheet requires an admin's approval (`deletion-authorization.yml`, a required status check) before the PR can merge.
 4. Curator reviews and approves the PR.
 5. Publisher merges, then triggers `json_to_xlsx.py` to regenerate the xlsx and publish it as a new Release.
 
 No git CLI or branch-pushing is required of curators or publishers — every step is available through GitHub's native web UI (edit-in-browser, drag-and-drop upload, "Approve" button, "Merge" button).
 
-**Status**
+### Status
 
 | Component | Status |
 | --- | --- |
-| `src/scripts/radar_sync_common.py` | Done — includes `load_workbook_schema()`, the single source of truth for column types |
-| `src/scripts/tech_radar_analysis.py` | Done — see `data/reports/workbook_analysis.md` (data quality + vocabulary/ontology coverage) |
-| Workbook metadata tabs (`Dictionary`/`Vocabulary`/`Standards`) | Done — normalized from the original prose glossary; 17 columns (incl. `ID`), 76 vocabulary terms, 4 standards |
+| `src/scripts/radar_sync_common.py` | Done |
+| `src/scripts/tech_radar_analysis.py` | Done — see `data/reports/workbook_analysis.md` |
+| Workbook metadata tabs (`Dictionary`/`Vocabulary`/`Standards`) | Done — 18 columns (incl. `ID`, `Added/Edited By`), 76 vocabulary terms, 4 standards |
 | `.github/CODEOWNERS` for `data/json/**` | Done — names `@pbuendia` |
-| Branch protection on `main` | Done — PR + 1 code-owner approval required; admin bypass allowed (no second curator yet, flip off once one exists); no required status checks yet (no CI) |
-| `src/scripts/xlsx_to_json.py` | Done — schema-driven; `controlled_multi` columns become JSON arrays; `--fresh` re-baselines after schema changes; auto-assigns a stable `ID` to any row missing one; validates workbook structure against `Dictionary` before converting anything; detects and reports cross-sheet row moves vs. deletions |
-| `src/scripts/json_to_xlsx.py` | Done — rebuilds the entire workbook from `data/json/`; round-trip tested field-by-field against the source JSON |
-| GitHub Action — xlsx upload → json diff | Written (`.github/workflows/xlsx-to-json.yml`); **not yet exercised by a real PR** |
-| Deletion authorization (admin-`merged_by` required status check) | Designed, not built — see `drafts/VANTAGE-Tech-Radar-Sync-Plan.md`'s Approval System section |
+| Branch protection on `main` | Done — PR + 1 code-owner approval required; `Deletion authorization / check` required; admin bypass allowed |
+| `src/scripts/xlsx_to_json.py` | Done — schema-driven; auto-assigns `ID`; validates workbook structure before converting; detects cross-sheet row moves vs. deletions; `--actor` stamps `Added/Edited By` |
+| `src/scripts/json_to_xlsx.py` | Done — rebuilds the entire workbook from `data/json/` |
+| `src/scripts/check_deletion_authorization.py` | Done — blocks a PR that deletes a row unless an admin approved it |
+| GitHub Action — xlsx upload → json diff (`xlsx-to-json.yml`) | Done, confirmed on a real PR |
+| GitHub Action — deletion authorization (`deletion-authorization.yml`) | Done, confirmed on a real PR |
 | GitHub Action — publish (`workflow_dispatch` → Release) | Not started |
-| Developer/user documentation | In progress (this file + `scripts-guide.md` + `user_guides/README.md`) |
+| Developer/user documentation | This file + `scripts-guide.md` + `user_guides/README.md` |
 
-**Known gaps**:
-- No CI check yet enforces the verification rule (that a row's `Verified By` is never non-empty while its content hash differs from the verified baseline). Today the rule is enforced only by `xlsx_to_json.py` at conversion time, so a hand-edited JSON commit could bypass it. Worth adding as a required status check once the publish Action lands.
-- Deletion detection is script-side only (`xlsx_to_json.py` reports a move vs. a true deletion on stdout); nothing yet *blocks* an unauthorized deletion from being merged. That enforcement belongs in a GitHub Action, since only the Action has the PR/merge context needed to know who's involved.
-
-**Deferred**: a GitHub Pages UI as a friendlier front-end for the same GitHub API actions (edit, upload, approve, merge, publish) — not required to start; would use a fine-grained personal access token for auth initially.
+**Known gap**: no check yet enforces the verification rule against a hand-edited JSON commit (that `Verified By` is never non-empty while its content hash differs from the verified baseline) — today it's enforced only when `xlsx_to_json.py` itself does the conversion.
 
 ## Agentic Process to update the VT Radar
+
+Not implemented. No design decisions made yet.
+
+## Agentic Assessment Landscape Framework (ALAF)
 
 Not implemented. No design decisions made yet.

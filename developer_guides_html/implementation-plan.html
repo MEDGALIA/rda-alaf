@@ -193,18 +193,46 @@ img { max-width: 100%; border-radius: 6px; }
 <article class="doc">
 <h1 id="implementation-plan">Implementation Plan</h1>
 
-<p>The implementation plan has two steps so far :</p>
+<p>The implementation plan has two steps so far:</p>
 
 <ol>
-<li>VT Radar xlsx ⇄ JSON Two-Way Sync (Status: Started)</li>
+<li>VT Radar xlsx ⇄ JSON Two-Way Sync (Status: In progress)</li>
 <li>Agentic Process to update the VT Radar (Not implemented)</li>
+<li>Agentic Assessment Landscape Framework (ALAF)</li>
 </ol>
 
 <h2 id="vt-radar-xlsx-json-two-way-sync">VT Radar xlsx ⇄ JSON Two-Way Sync</h2>
 
 <h3 id="context">Context</h3>
 
-<p><code>data/VANTAGE-Technology-Radar.xlsx</code> is the human-facing "Tech Radar" — a workbook a person downloads, reads, and edits in Excel. It has three <strong>data</strong> tabs (<code>Knowledgebase</code>, <code>Deprecated</code>, <code>SOTA Coding Agents Benchmarks</code>), which share a <code>Last Verified</code> + <code>Verified By</code> column pair, and three <strong>metadata</strong> tabs that define the schema rather than holding records:</p>
+<p><code>data/VANTAGE-Technology-Radar.xlsx</code> is the human-facing "Tech Radar" — a workbook a person downloads, reads, and edits in Excel. It has three <strong>data</strong> tabs which share <code>ID</code>, <code>Last Verified</code>, <code>Verified By</code>, and <code>Added/Edited By</code> columns, and three <strong>metadata</strong> tabs that define the schema rather than holding records.</p>
+
+<p><strong>Data Tabs:</strong></p>
+
+<table>
+<thead>
+<tr>
+  <th>Tab</th>
+  <th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td><code>Knowledgebase</code></td>
+  <td>Active tracked resources</td>
+</tr>
+<tr>
+  <td><code>Deprecated</code></td>
+  <td>Resources no longer valid or superseded</td>
+</tr>
+<tr>
+  <td><code>SOTA Coding Agents Benchmarks</code></td>
+  <td>Coding-agent benchmark/comparison studies</td>
+</tr>
+</tbody>
+</table>
+
+<p><strong>Metadata Tabs:</strong></p>
 
 <table>
 <thead>
@@ -233,30 +261,70 @@ img { max-width: 100%; border-radius: 6px; }
 </tbody>
 </table>
 
-<p><strong>Controlled-vocabulary decision</strong>: <a href="http://edamontology.org/topic_3071">EDAM ontology</a> (<code>Data management</code> branch) is the primary vocabulary — an open ontology with permanent per-term URIs, chosen over DAMA-DMBOK, which is a paywalled book with no citable term identifiers. <a href="https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.pdf">NIST AI RMF 1.0</a>'s seven trustworthy-AI characteristics are available as an optional secondary axis for framing EDAM doesn't cover. Terms with no ontology mapping are deliberately project-local, not force-fitted to an external standard. (NIST's own Data Governance and Management Profile was evaluated and rejected for now — still pre-draft, no published taxonomy.)</p>
+<p>The controlled vocabulary is backed by four standards where a genuine match exists: <a href="http://edamontology.org/topic_3071">EDAM ontology</a> (<code>Data management</code> branch, primary), <a href="https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.pdf">NIST AI RMF 1.0</a> (secondary axis), ACM Computing Classification System 2012, and Schema.org. Terms with no ontology mapping are project-local.</p>
 
-<p>We want a machine-readable mirror in <code>data/json/</code> (one JSON file per tab) that agents can read and edit directly, plus a way to publish those edits back into the xlsx for the human to see. Any add/remove/edit of a json row must clear that row's <code>Verified By</code>/<code>Last Verified</code> — a human re-approving content they never saw would be a false claim. Old values aren't lost; they're recoverable from git history on the json files.</p>
+<p><code>data/json/</code> is a machine-readable mirror (one JSON file per tab) that agents can read and edit directly; <code>xlsx_to_json.py</code> and <code>json_to_xlsx.py</code> keep it and the xlsx in sync. Any added/removed/edited row clears that row's <code>Verified By</code>/<code>Last Verified</code> — a human re-approving content they never saw would be a false claim. Old values aren't lost; they're recoverable from git history on the json files.</p>
 
 <h3 id="gitops-implementation">GitOps Implementation</h3>
 
-<p><strong>Decision</strong>: git/GitHub pull requests are the versioning, review, and audit system for <code>data/json/*.json</code> — chosen over a custom status-field model or an event-sourced log, since GitHub's own review/merge/history mechanics already cover this at the project's current scale.</p>
+<p>git/GitHub pull requests are the versioning, review, and audit system for <code>data/json/*.json</code>.</p>
 
 <p><strong>Roles</strong>
 - <strong>Curator</strong> — required PR reviewer for <code>data/json/**</code> (<code>.github/CODEOWNERS</code> + branch protection). Approving a PR is the act of verifying.
-- <strong>Publisher</strong> — merges the PR and triggers the xlsx rebuild. Can be the same person as curator.</p>
+- <strong>Publisher</strong> — merges the PR. Can be the same person as curator.
+- <strong>Admin</strong> (<code>.github/RADAR-ADMINS</code>) — must approve any PR that deletes a row with no match anywhere else in the workbook.</p>
 
-<p><strong>Source of truth</strong>: <code>data/json/*.json</code>, fully git-tracked. Git history (<code>git log</code>/<code>git blame</code>) is the audit trail — no separate backup files or log. The xlsx is a build artifact: regenerated from json and attached to a GitHub Release, not committed as a binary diff on every publish.</p>
+<p><strong>GitHub repository role to grant</strong></p>
+
+<table>
+<thead>
+<tr>
+  <th>Project role</th>
+  <th>GitHub role</th>
+  <th>Notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+  <td>Curator</td>
+  <td><strong>Write</strong></td>
+  <td>Minimum for an approval to count toward branch protection — a review from a Read or Triage user does not. Also the minimum for a CODEOWNERS entry to be requestable.</td>
+</tr>
+<tr>
+  <td>Publisher</td>
+  <td><strong>Write</strong></td>
+  <td>Write already permits merging.</td>
+</tr>
+<tr>
+  <td>Admin</td>
+  <td><strong>Admin</strong></td>
+  <td>Only Admin can edit branch protection or bypass a failing required check.</td>
+</tr>
+</tbody>
+</table>
+
+<p>Do <strong>not</strong> grant Maintain to a curator: over Write it adds only repository-metadata powers (description, topics, wikis, merge settings, Pages, Copilot exclusions) that no curator needs, and no review or merge capability that Write lacks.</p>
+
+<p>Write permits merging once branch protection is satisfied (approvals + required checks); it cannot bypass. Admin can merge regardless while <code>enforce_admins</code> is <code>false</code>.</p>
+
+<p>Repository roles alone do not separate "may approve" from "may merge" — both are Write, so a curator can merge their own PR once someone else approves it. To make Curator/Publisher a real boundary, set branch protection <code>restrictions</code> (currently unset) naming who may push/merge to <code>main</code>. Until then the split is convention only.</p>
+
+<p>Once a second Write collaborator exists, set <code>enforce_admins: true</code> on <code>main</code>. It is currently <code>false</code> so that a solo admin isn't locked out by rules requiring a second person; that exemption stops being necessary — and becomes a standing hole — as soon as someone else can review.</p>
+
+<p><strong>Source of truth</strong>: <code>data/json/*.json</code>, fully git-tracked. Git history (<code>git log</code>/<code>git blame</code>) is the audit trail. The xlsx is a build artifact: regenerated from json and attached to a GitHub Release, not committed as a binary diff on every publish.</p>
+
+<p><strong>Row identity</strong>: each row's <code>ID</code> (not <code>Resource Name</code>) is the key matched across runs, so renaming a resource doesn't look like a delete-plus-add. <code>Added/Edited By</code> records who or what last touched a row's content — self-declared by default, overwritten with a trusted identity (e.g. <code>github.actor</code>) when a script run supplies <code>--actor</code>.</p>
 
 <p><strong>Workflow</strong>
 1. Bootstrap (one time): <code>xlsx_to_json.py</code> converts the xlsx into <code>data/json/*.json</code>.
-2. Ongoing edits go through a PR — either directly to the json, or by uploading a changed xlsx (a GitHub Action converts the upload into the same kind of json diff).
-3. Any added/removed/edited row has <code>Verified By</code>/<code>Last Verified</code> cleared automatically as part of that conversion.
+2. Ongoing edits go through a PR — either directly to the json, or by uploading a changed xlsx (<code>xlsx-to-json.yml</code> converts the upload into the same kind of json diff, stamping <code>Added/Edited By</code> with the uploader's GitHub handle).
+3. Any added/removed/edited row has <code>Verified By</code>/<code>Last Verified</code> cleared automatically as part of that conversion. A row that disappears with no match in any other sheet requires an admin's approval (<code>deletion-authorization.yml</code>, a required status check) before the PR can merge.
 4. Curator reviews and approves the PR.
 5. Publisher merges, then triggers <code>json_to_xlsx.py</code> to regenerate the xlsx and publish it as a new Release.</p>
 
 <p>No git CLI or branch-pushing is required of curators or publishers — every step is available through GitHub's native web UI (edit-in-browser, drag-and-drop upload, "Approve" button, "Merge" button).</p>
 
-<p><strong>Status</strong></p>
+<h3 id="status">Status</h3>
 
 <table>
 <thead>
@@ -268,15 +336,15 @@ img { max-width: 100%; border-radius: 6px; }
 <tbody>
 <tr>
   <td><code>src/scripts/radar_sync_common.py</code></td>
-  <td>Done — includes <code>load_workbook_schema()</code>, the single source of truth for column types</td>
+  <td>Done</td>
 </tr>
 <tr>
   <td><code>src/scripts/tech_radar_analysis.py</code></td>
-  <td>Done — see <code>data/reports/workbook_analysis.md</code> (data quality + vocabulary/ontology coverage)</td>
+  <td>Done — see <code>data/reports/workbook_analysis.md</code></td>
 </tr>
 <tr>
   <td>Workbook metadata tabs (<code>Dictionary</code>/<code>Vocabulary</code>/<code>Standards</code>)</td>
-  <td>Done — normalized from the original prose glossary; 17 columns (incl. <code>ID</code>), 76 vocabulary terms, 4 standards</td>
+  <td>Done — 18 columns (incl. <code>ID</code>, <code>Added/Edited By</code>), 76 vocabulary terms, 4 standards</td>
 </tr>
 <tr>
   <td><code>.github/CODEOWNERS</code> for <code>data/json/**</code></td>
@@ -284,23 +352,27 @@ img { max-width: 100%; border-radius: 6px; }
 </tr>
 <tr>
   <td>Branch protection on <code>main</code></td>
-  <td>Done — PR + 1 code-owner approval required; admin bypass allowed (no second curator yet, flip off once one exists); no required status checks yet (no CI)</td>
+  <td>Done — PR + 1 code-owner approval required; <code>Deletion authorization / check</code> required; admin bypass allowed</td>
 </tr>
 <tr>
   <td><code>src/scripts/xlsx_to_json.py</code></td>
-  <td>Done — schema-driven; <code>controlled_multi</code> columns become JSON arrays; <code>--fresh</code> re-baselines after schema changes; auto-assigns a stable <code>ID</code> to any row missing one; validates workbook structure against <code>Dictionary</code> before converting anything; detects and reports cross-sheet row moves vs. deletions</td>
+  <td>Done — schema-driven; auto-assigns <code>ID</code>; validates workbook structure before converting; detects cross-sheet row moves vs. deletions; <code>--actor</code> stamps <code>Added/Edited By</code></td>
 </tr>
 <tr>
   <td><code>src/scripts/json_to_xlsx.py</code></td>
-  <td>Done — rebuilds the entire workbook from <code>data/json/</code>; round-trip tested field-by-field against the source JSON</td>
+  <td>Done — rebuilds the entire workbook from <code>data/json/</code></td>
 </tr>
 <tr>
-  <td>GitHub Action — xlsx upload → json diff</td>
-  <td>Written (<code>.github/workflows/xlsx-to-json.yml</code>); <strong>not yet exercised by a real PR</strong></td>
+  <td><code>src/scripts/check_deletion_authorization.py</code></td>
+  <td>Done — blocks a PR that deletes a row unless an admin approved it</td>
 </tr>
 <tr>
-  <td>Deletion authorization (admin-<code>merged_by</code> required status check)</td>
-  <td>Designed, not built — see <code>drafts/VANTAGE-Tech-Radar-Sync-Plan.md</code>'s Approval System section</td>
+  <td>GitHub Action — xlsx upload → json diff (<code>xlsx-to-json.yml</code>)</td>
+  <td>Done, confirmed on a real PR</td>
+</tr>
+<tr>
+  <td>GitHub Action — deletion authorization (<code>deletion-authorization.yml</code>)</td>
+  <td>Done, confirmed on a real PR</td>
 </tr>
 <tr>
   <td>GitHub Action — publish (<code>workflow_dispatch</code> → Release)</td>
@@ -308,18 +380,18 @@ img { max-width: 100%; border-radius: 6px; }
 </tr>
 <tr>
   <td>Developer/user documentation</td>
-  <td>In progress (this file + <code>scripts-guide.md</code> + <code>user_guides/README.md</code>)</td>
+  <td>This file + <code>scripts-guide.md</code> + <code>user_guides/README.md</code></td>
 </tr>
 </tbody>
 </table>
 
-<p><strong>Known gaps</strong>:
-- No CI check yet enforces the verification rule (that a row's <code>Verified By</code> is never non-empty while its content hash differs from the verified baseline). Today the rule is enforced only by <code>xlsx_to_json.py</code> at conversion time, so a hand-edited JSON commit could bypass it. Worth adding as a required status check once the publish Action lands.
-- Deletion detection is script-side only (<code>xlsx_to_json.py</code> reports a move vs. a true deletion on stdout); nothing yet <em>blocks</em> an unauthorized deletion from being merged. That enforcement belongs in a GitHub Action, since only the Action has the PR/merge context needed to know who's involved.</p>
-
-<p><strong>Deferred</strong>: a GitHub Pages UI as a friendlier front-end for the same GitHub API actions (edit, upload, approve, merge, publish) — not required to start; would use a fine-grained personal access token for auth initially.</p>
+<p><strong>Known gap</strong>: no check yet enforces the verification rule against a hand-edited JSON commit (that <code>Verified By</code> is never non-empty while its content hash differs from the verified baseline) — today it's enforced only when <code>xlsx_to_json.py</code> itself does the conversion.</p>
 
 <h2 id="agentic-process-to-update-the-vt-radar">Agentic Process to update the VT Radar</h2>
+
+<p>Not implemented. No design decisions made yet.</p>
+
+<h2 id="agentic-assessment-landscape-framework-alaf">Agentic Assessment Landscape Framework (ALAF)</h2>
 
 <p>Not implemented. No design decisions made yet.</p>
 
