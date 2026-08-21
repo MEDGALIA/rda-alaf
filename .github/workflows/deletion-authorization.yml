@@ -14,11 +14,15 @@ name: Deletion authorization
 # merge past a failing check via branch protection's admin-bypass setting,
 # the same way they can already bypass the required-review rule.
 
+# No `paths:` filter, deliberately. This is a required status check, and a
+# required check that is skipped never reports, leaving the PR blocked. A
+# contributor's first push also touches only the workbook, so a data/json/**
+# filter would delay the result until after a review was submitted -- the
+# check exists to inform that decision, not follow it. It costs a few
+# seconds and exits immediately when no row was deleted.
 on:
   pull_request:
     types: [opened, synchronize, reopened]
-    paths:
-      - "data/json/**"
   pull_request_review:
     types: [submitted]
 
@@ -30,8 +34,12 @@ jobs:
   check:
     runs-on: ubuntu-latest
     steps:
+      # Both refs are named explicitly. On a pull_request_review event the
+      # default checkout ref is the base branch, not the PR head -- leaving
+      # it implicit would compare base against base and always pass.
       - uses: actions/checkout@v4
         with:
+          ref: ${{ github.event.pull_request.head.sha }}
           path: head
 
       - uses: actions/checkout@v4

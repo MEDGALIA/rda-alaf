@@ -41,14 +41,18 @@ jobs:
           PR_ACTOR: ${{ github.actor }}
         run: python src/scripts/xlsx_to_json.py --actor "@$PR_ACTOR"
 
-      - name: Commit and push data/json/ if it changed
+      # Both paths must be staged. xlsx_to_json.py writes back into the
+      # workbook too -- blanking cleared verification cells and stamping
+      # Added/Edited By. Staging only data/json/ discards those edits when
+      # the job ends, leaving the JSON and the xlsx disagreeing.
+      - name: Commit and push the sync result if it changed
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/json/
+          git add data/json/ data/VANTAGE-Technology-Radar.xlsx
           if git diff --cached --quiet; then
             echo "No changes to sync"
           else
-            git commit -m "Sync data/json/ from uploaded xlsx [skip ci]"
+            git commit -m "Sync data/json/ and workbook from uploaded xlsx [skip ci]"
             git push origin HEAD:"${{ github.head_ref }}"
           fi

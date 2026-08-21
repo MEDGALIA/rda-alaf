@@ -104,3 +104,14 @@ and a few lines down you wrote:
 Line 272: Worked example: a typo fixed across 12 rows. The curator did not re-open 12 URLs. Without the label, all 12 are marked verified — a false claim. With it, none are. No friction in the common case (one row, genuinely checked), one click in the case that would otherwise lie.
 
 They say the same thing!
+
+## 14. Add ToDo Checklists
+
+Please add ToDo Checklists in these format at the top of each issue or planning file. Keep it short and link to sections with more details.
+```
+## ToDo Checklist
+- [x] 0. Save this approved plan as `drafts/VANTAGE-Tech-Radar-Sync-Plan.md`
+- [x] 1. Add `openpyxl` to `src/scripts/requirements.txt` and install into `.venv`
+- [x] 2. Write `src/scripts/radar_sync_common.py` (shared helpers, reusable across any architecture)
+- [x] 3. Write the read-only data-quality scan as described in section `Data Quality Scan`
+```
