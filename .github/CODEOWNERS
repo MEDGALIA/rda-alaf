@@ -1,6 +1,9 @@
 # VT Radar knowledge base — changes here require curator review.
 # See developer_guides/implementation-plan.md for the full GitOps design.
 data/json/** @pbuendia
+# Also the workbook itself, so a contributor's upload requests review
+# immediately rather than only after the sync bot commits the JSON.
+data/VANTAGE-Technology-Radar.xlsx @pbuendia
 
 # Workflows and the admin list govern what the automation is allowed to do,
 # so a change here can widen every other permission in the repo.
