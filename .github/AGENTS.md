@@ -93,7 +93,7 @@ Then you find out that "command X does B but not A"
 
 You do not need to ask me about fixing what is wrong if it has no repercussions and you only recently wrote or coded it and it is not in production. Just fix it and inform me that you are fixing it because it is incorrect.
 
-Example: If a script is not used anywhere in production and it is only used manually and the script is obviously WRONG, then either fix it or create one that works and tell user that script is bad. It could be a legacy script leftover by some junior developer. Add such bugs to the issues.md file
+Example: If a script is not used anywhere in production and it is only used manually and the script is obviously WRONG, then either fix it or create one that works and tell user that script is bad. It could be a legacy script leftover by some junior developer. Add such bugs to an issues .md file
 
 ## 12. Do not cut corners: Implement solution for a professional business application
 
