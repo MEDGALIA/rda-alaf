@@ -37,27 +37,27 @@ The controlled vocabulary is backed by four standards where a genuine match exis
 git/GitHub pull requests are the versioning, review, and audit system for `data/json/*.json`.
 
 **Roles**
-- **Curator** — required PR reviewer for `data/json/**` (`.github/CODEOWNERS` + branch protection). Approving a PR is the act of verifying.
-- **Publisher** — merges the PR. Can be the same person as curator.
+- **Contributor** — submits an updated xlsx as a PR. Does not fill in `Verified By`/`Last Verified`: they propose content, they don't attest to having checked it.
+- **Curator** — verifies the content, fills in `Verified By`/`Last Verified`, approves, and merges. Required PR reviewer for `data/json/**` (`.github/CODEOWNERS` + branch protection).
 - **Admin** (`.github/RADAR-ADMINS`) — must approve any PR that deletes a row with no match anywhere else in the workbook.
 
 **GitHub repository role to grant**
 
 | Project role | GitHub role | Notes |
 | --- | --- | --- |
+| Contributor | **Write** | Needed to push a branch and open a PR from inside the repo. Cannot merge without a curator's approval. |
 | Curator | **Write** | Minimum for an approval to count toward branch protection — a review from a Read or Triage user does not. Also the minimum for a CODEOWNERS entry to be requestable. |
-| Publisher | **Write** | Write already permits merging. |
 | Admin | **Admin** | Only Admin can edit branch protection or bypass a failing required check. |
 
-Do **not** grant Maintain to a curator: over Write it adds only repository-metadata powers (description, topics, wikis, merge settings, Pages, Copilot exclusions) that no curator needs, and no review or merge capability that Write lacks.
+Do **not** grant Maintain: over Write it adds only repository-metadata powers (description, topics, wikis, merge settings, Pages, Copilot exclusions) that neither role needs, and no review or merge capability that Write lacks.
 
 Write permits merging once branch protection is satisfied (approvals + required checks); it cannot bypass. Admin can merge regardless while `enforce_admins` is `false`.
 
-Repository roles alone do not separate "may approve" from "may merge" — both are Write, so a curator can merge their own PR once someone else approves it. To make Curator/Publisher a real boundary, set branch protection `restrictions` (currently unset) naming who may push/merge to `main`. Until then the split is convention only.
+Repository roles alone do not separate "may approve" from "may merge" — both are Write, so a contributor could merge their own PR once a curator approves it. To make that a real boundary, set branch protection `restrictions` (currently unset) naming who may push/merge to `main`. Until then it is convention only.
 
 Once a second Write collaborator exists, set `enforce_admins: true` on `main`. It is currently `false` so that a solo admin isn't locked out by rules requiring a second person; that exemption stops being necessary — and becomes a standing hole — as soon as someone else can review.
 
-**Source of truth**: `data/json/*.json`, fully git-tracked. Git history (`git log`/`git blame`) is the audit trail. The xlsx is a build artifact: regenerated from json and attached to a GitHub Release, not committed as a binary diff on every publish.
+**Source of truth**: `data/json/*.json`, fully git-tracked. Git history (`git log`/`git blame`) is the audit trail. The xlsx is committed alongside it and kept in sync by targeted cell writes, so it is already correct when a PR merges — there is no separate publish step.
 
 **Row identity**: each row's `ID` (not `Resource Name`) is the key matched across runs, so renaming a resource doesn't look like a delete-plus-add. `Added/Edited By` records who or what last touched a row's content — self-declared by default, overwritten with a trusted identity (e.g. `github.actor`) when a script run supplies `--actor`.
 
@@ -65,10 +65,10 @@ Once a second Write collaborator exists, set `enforce_admins: true` on `main`. I
 1. Bootstrap (one time): `xlsx_to_json.py` converts the xlsx into `data/json/*.json`.
 2. Ongoing edits go through a PR — either directly to the json, or by uploading a changed xlsx (`xlsx-to-json.yml` converts the upload into the same kind of json diff, stamping `Added/Edited By` with the uploader's GitHub handle).
 3. Any added/removed/edited row has `Verified By`/`Last Verified` cleared automatically as part of that conversion. A row that disappears with no match in any other sheet requires an admin's approval (`deletion-authorization.yml`, a required status check) before the PR can merge.
-4. Curator reviews and approves the PR.
-5. Publisher merges, then triggers `json_to_xlsx.py` to regenerate the xlsx and publish it as a new Release.
+4. Curator verifies the content, fills in `Verified By`/`Last Verified` by re-uploading the xlsx to the same PR branch, then approves. A fresh, fully-supplied verification survives the sync; the contributor stays recorded in `Added/Edited By`.
+5. Curator merges.
 
-No git CLI or branch-pushing is required of curators or publishers — every step is available through GitHub's native web UI (edit-in-browser, drag-and-drop upload, "Approve" button, "Merge" button).
+No git CLI or branch-pushing is required of contributors or curators — every step is available through GitHub's native web UI (edit-in-browser, drag-and-drop upload, "Approve" button, "Merge" button).
 
 ### Status
 
@@ -84,7 +84,8 @@ No git CLI or branch-pushing is required of curators or publishers — every ste
 | `src/scripts/check_deletion_authorization.py` | Done — blocks a PR that deletes a row unless an admin approved it |
 | GitHub Action — xlsx upload → json diff (`xlsx-to-json.yml`) | Done, confirmed on a real PR |
 | GitHub Action — deletion authorization (`deletion-authorization.yml`) | Done, confirmed on a real PR |
-| GitHub Action — publish (`workflow_dispatch` → Release) | Not started |
+| GitHub Action — publish (`workflow_dispatch` → Release) | Dropped — the xlsx is already in sync at merge time, so nothing needs regenerating |
+| GitHub Action — stamp `Verified By` from the approval | Not built. Blocked: the Actions app cannot be granted `bypass_pull_request_allowances`, so a workflow cannot push to `main`. Curators fill the fields manually instead (step 4 above) |
 | Developer/user documentation | This file + `scripts-guide.md` + `user_guides/README.md` |
 
 **Known gap**: no check yet enforces the verification rule against a hand-edited JSON commit (that `Verified By` is never non-empty while its content hash differs from the verified baseline) — today it's enforced only when `xlsx_to_json.py` itself does the conversion.

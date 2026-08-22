@@ -270,8 +270,8 @@ img { max-width: 100%; border-radius: 6px; }
 <p>git/GitHub pull requests are the versioning, review, and audit system for <code>data/json/*.json</code>.</p>
 
 <p><strong>Roles</strong>
-- <strong>Curator</strong> — required PR reviewer for <code>data/json/**</code> (<code>.github/CODEOWNERS</code> + branch protection). Approving a PR is the act of verifying.
-- <strong>Publisher</strong> — merges the PR. Can be the same person as curator.
+- <strong>Contributor</strong> — submits an updated xlsx as a PR. Does not fill in <code>Verified By</code>/<code>Last Verified</code>: they propose content, they don't attest to having checked it.
+- <strong>Curator</strong> — verifies the content, fills in <code>Verified By</code>/<code>Last Verified</code>, approves, and merges. Required PR reviewer for <code>data/json/**</code> (<code>.github/CODEOWNERS</code> + branch protection).
 - <strong>Admin</strong> (<code>.github/RADAR-ADMINS</code>) — must approve any PR that deletes a row with no match anywhere else in the workbook.</p>
 
 <p><strong>GitHub repository role to grant</strong></p>
@@ -286,14 +286,14 @@ img { max-width: 100%; border-radius: 6px; }
 </thead>
 <tbody>
 <tr>
+  <td>Contributor</td>
+  <td><strong>Write</strong></td>
+  <td>Needed to push a branch and open a PR from inside the repo. Cannot merge without a curator's approval.</td>
+</tr>
+<tr>
   <td>Curator</td>
   <td><strong>Write</strong></td>
   <td>Minimum for an approval to count toward branch protection — a review from a Read or Triage user does not. Also the minimum for a CODEOWNERS entry to be requestable.</td>
-</tr>
-<tr>
-  <td>Publisher</td>
-  <td><strong>Write</strong></td>
-  <td>Write already permits merging.</td>
 </tr>
 <tr>
   <td>Admin</td>
@@ -303,15 +303,15 @@ img { max-width: 100%; border-radius: 6px; }
 </tbody>
 </table>
 
-<p>Do <strong>not</strong> grant Maintain to a curator: over Write it adds only repository-metadata powers (description, topics, wikis, merge settings, Pages, Copilot exclusions) that no curator needs, and no review or merge capability that Write lacks.</p>
+<p>Do <strong>not</strong> grant Maintain: over Write it adds only repository-metadata powers (description, topics, wikis, merge settings, Pages, Copilot exclusions) that neither role needs, and no review or merge capability that Write lacks.</p>
 
 <p>Write permits merging once branch protection is satisfied (approvals + required checks); it cannot bypass. Admin can merge regardless while <code>enforce_admins</code> is <code>false</code>.</p>
 
-<p>Repository roles alone do not separate "may approve" from "may merge" — both are Write, so a curator can merge their own PR once someone else approves it. To make Curator/Publisher a real boundary, set branch protection <code>restrictions</code> (currently unset) naming who may push/merge to <code>main</code>. Until then the split is convention only.</p>
+<p>Repository roles alone do not separate "may approve" from "may merge" — both are Write, so a contributor could merge their own PR once a curator approves it. To make that a real boundary, set branch protection <code>restrictions</code> (currently unset) naming who may push/merge to <code>main</code>. Until then it is convention only.</p>
 
 <p>Once a second Write collaborator exists, set <code>enforce_admins: true</code> on <code>main</code>. It is currently <code>false</code> so that a solo admin isn't locked out by rules requiring a second person; that exemption stops being necessary — and becomes a standing hole — as soon as someone else can review.</p>
 
-<p><strong>Source of truth</strong>: <code>data/json/*.json</code>, fully git-tracked. Git history (<code>git log</code>/<code>git blame</code>) is the audit trail. The xlsx is a build artifact: regenerated from json and attached to a GitHub Release, not committed as a binary diff on every publish.</p>
+<p><strong>Source of truth</strong>: <code>data/json/*.json</code>, fully git-tracked. Git history (<code>git log</code>/<code>git blame</code>) is the audit trail. The xlsx is committed alongside it and kept in sync by targeted cell writes, so it is already correct when a PR merges — there is no separate publish step.</p>
 
 <p><strong>Row identity</strong>: each row's <code>ID</code> (not <code>Resource Name</code>) is the key matched across runs, so renaming a resource doesn't look like a delete-plus-add. <code>Added/Edited By</code> records who or what last touched a row's content — self-declared by default, overwritten with a trusted identity (e.g. <code>github.actor</code>) when a script run supplies <code>--actor</code>.</p>
 
@@ -319,10 +319,10 @@ img { max-width: 100%; border-radius: 6px; }
 1. Bootstrap (one time): <code>xlsx_to_json.py</code> converts the xlsx into <code>data/json/*.json</code>.
 2. Ongoing edits go through a PR — either directly to the json, or by uploading a changed xlsx (<code>xlsx-to-json.yml</code> converts the upload into the same kind of json diff, stamping <code>Added/Edited By</code> with the uploader's GitHub handle).
 3. Any added/removed/edited row has <code>Verified By</code>/<code>Last Verified</code> cleared automatically as part of that conversion. A row that disappears with no match in any other sheet requires an admin's approval (<code>deletion-authorization.yml</code>, a required status check) before the PR can merge.
-4. Curator reviews and approves the PR.
-5. Publisher merges, then triggers <code>json_to_xlsx.py</code> to regenerate the xlsx and publish it as a new Release.</p>
+4. Curator verifies the content, fills in <code>Verified By</code>/<code>Last Verified</code> by re-uploading the xlsx to the same PR branch, then approves. A fresh, fully-supplied verification survives the sync; the contributor stays recorded in <code>Added/Edited By</code>.
+5. Curator merges.</p>
 
-<p>No git CLI or branch-pushing is required of curators or publishers — every step is available through GitHub's native web UI (edit-in-browser, drag-and-drop upload, "Approve" button, "Merge" button).</p>
+<p>No git CLI or branch-pushing is required of contributors or curators — every step is available through GitHub's native web UI (edit-in-browser, drag-and-drop upload, "Approve" button, "Merge" button).</p>
 
 <h3 id="status">Status</h3>
 
@@ -376,7 +376,11 @@ img { max-width: 100%; border-radius: 6px; }
 </tr>
 <tr>
   <td>GitHub Action — publish (<code>workflow_dispatch</code> → Release)</td>
-  <td>Not started</td>
+  <td>Dropped — the xlsx is already in sync at merge time, so nothing needs regenerating</td>
+</tr>
+<tr>
+  <td>GitHub Action — stamp <code>Verified By</code> from the approval</td>
+  <td>Not built. Blocked: the Actions app cannot be granted <code>bypass_pull_request_allowances</code>, so a workflow cannot push to <code>main</code>. Curators fill the fields manually instead (step 4 above)</td>
 </tr>
 <tr>
   <td>Developer/user documentation</td>
