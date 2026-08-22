@@ -85,9 +85,15 @@ if README.md is wrong let the user know, or ask the user.
 ## 10. Fix my typos
 Feel free to fix my spelling in any planning document or .md file where you see typos.
 
-## 11. Fix a bug, don't work around it
+## 11. Fix obvious errors without asking, don't ignore or work around them
 
-If a script is not used anywhere in production and it is only used manually and the script is obviously WRONG, then either fix it or create one that works and tell user that script is bad. It could be a legacy script leftover by some junior developer. Add such bugs to the issues.md file
+Example: You write a guide, or comment that says "command X does A"
+
+Then you find out that "command X does B but not A"
+
+You do not need to ask me about fixing what is wrong if it has no repercussions and you only recently wrote or coded it and it is not in production. Just fix it and inform me that you are fixing it because it is incorrect.
+
+Example: If a script is not used anywhere in production and it is only used manually and the script is obviously WRONG, then either fix it or create one that works and tell user that script is bad. It could be a legacy script leftover by some junior developer. Add such bugs to an issues .md file
 
 ## 12. Do not cut corners: Implement solution for a professional business application
 

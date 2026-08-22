@@ -11,11 +11,26 @@ this script.
 
 Cosmetic details (column widths, frozen header row, bold headers) are sane
 regenerated defaults, not a pixel-for-pixel clone of any hand-tweaked
-formatting a curator may have applied to a previous xlsx -- content is
-what's guaranteed to round-trip, not manual styling.
+formatting a curator may have applied to a previous xlsx.
+
+URL hyperlinks and the Maturity Level / Topic Focus / "recently verified"
+conditional-formatting colours *are* regenerated, though -- they were
+present in the original workbook (commit 55f1514) and are content-adjacent
+enough (a link you can click, a status colour you can scan) that silently
+dropping them on every regenerate is a real functional loss, not just
+cosmetics. All are resolved by column *name* against the schema, not a
+hardcoded letter, so they can't drift out of alignment the way the original
+workbook's did after later column inserts (see
+drafts/Color-coded-standards.md).
+
+The "recently verified" cutoff date comes from .github/RADAR-CONFIG
+(recently_verified_after: YYYY-MM-DD), not a hardcoded constant -- the
+original workbook's version of this rule was a literal Excel serial number
+baked in once and left to drift into meaninglessness. CODEOWNERS restricts
+that file to the admin.
 
 Usage:
-    python json_to_xlsx.py [--json-dir data/json] [--out PATH]
+    python json_to_xlsx.py [--json-dir data/json] [--out PATH] [--config .github/RADAR-CONFIG]
 """
 
 from __future__ import annotations
@@ -25,12 +40,15 @@ import datetime
 from pathlib import Path
 
 import openpyxl
-from openpyxl.styles import Font
+from openpyxl.formatting.rule import CellIsRule, FormulaRule
+from openpyxl.styles import Font, PatternFill
 from openpyxl.utils import get_column_letter
 from openpyxl.worksheet.worksheet import Worksheet
 
 from radar_sync_common import (
     CONTROLLED_TYPES,
+    DEFAULT_RADAR_CONFIG,
+    load_radar_config,
     load_sheet_json,
 )
 
@@ -42,6 +60,19 @@ DEFAULT_OUT = Path("data/VANTAGE-Technology-Radar.xlsx")
 DATA_SHEET_ORDER = ["knowledgebase", "deprecated", "sota_coding_agents_benchmarks"]
 
 HEADER_FONT = Font(bold=True)
+HYPERLINK_FONT = Font(color="FF0563C1", underline="single")
+
+# Colours as they existed in the original workbook (commit 55f1514).
+# "Adolescent" is deliberately dropped: not a real Maturity Level term (the
+# vocabulary is Deprecated/Emerging/Mature/Research), a dead rule even then.
+MATURITY_FILL = {
+    "Emerging": "FFB7E1CD",
+    "Mature": "FFA4C2F4",
+    "Research": "FFFFE599",
+    "Deprecated": "FFDD7E6B",
+}
+TOPIC_FOCUS_FILL = "FFB7E1CD"
+RECENTLY_VERIFIED_FILL = "FFD9D2E9"
 
 
 def _autosize(ws: Worksheet, headers: list[str]) -> None:
@@ -73,7 +104,56 @@ def _cell_value_for(value_type: str | None, separator: str | None, raw):
     return raw
 
 
-def build_data_sheet(wb, sheet_json: dict, columns_by_key: dict[str, dict]) -> None:
+def _apply_url_hyperlinks(ws: Worksheet, keys: list[str], last_row: int) -> None:
+    if "url" not in keys:
+        return
+    col = keys.index("url") + 1
+    letter = get_column_letter(col)
+    for row_idx in range(2, last_row + 1):
+        cell = ws[f"{letter}{row_idx}"]
+        if cell.value:
+            cell.hyperlink = cell.value
+            cell.font = HYPERLINK_FONT
+
+
+def _apply_conditional_formatting(
+    ws: Worksheet, keys: list[str], last_row: int, recently_verified_after: datetime.date | None
+) -> None:
+    if last_row < 2:
+        return
+
+    if "maturity_level" in keys:
+        letter = get_column_letter(keys.index("maturity_level") + 1)
+        rng = f"{letter}2:{letter}{last_row}"
+        for term, colour in MATURITY_FILL.items():
+            ws.conditional_formatting.add(
+                rng, CellIsRule(operator="equal", formula=[f'"{term}"'], fill=_solid_fill(colour))
+            )
+
+    if "topic_focus" in keys:
+        letter = get_column_letter(keys.index("topic_focus") + 1)
+        rng = f"{letter}2:{letter}{last_row}"
+        ws.conditional_formatting.add(
+            rng, FormulaRule(formula=[f"LEN(TRIM({letter}2))>0"], fill=_solid_fill(TOPIC_FOCUS_FILL))
+        )
+
+    if "last_verified" in keys and recently_verified_after is not None:
+        letter = get_column_letter(keys.index("last_verified") + 1)
+        rng = f"{letter}2:{letter}{last_row}"
+        d = recently_verified_after
+        ws.conditional_formatting.add(
+            rng,
+            FormulaRule(formula=[f"{letter}2>=DATE({d.year},{d.month},{d.day})"], fill=_solid_fill(RECENTLY_VERIFIED_FILL)),
+        )
+
+
+def _solid_fill(rgb: str) -> PatternFill:
+    return PatternFill(start_color=rgb, end_color=rgb, fill_type="solid")
+
+
+def build_data_sheet(
+    wb, sheet_json: dict, columns_by_key: dict[str, dict], recently_verified_after: datetime.date | None
+) -> None:
     ws = wb.create_sheet(sheet_json["sheet_name"])
     keys = sheet_json["columns"]
     headers = [columns_by_key[k]["name"] if k in columns_by_key else k for k in keys]
@@ -85,6 +165,10 @@ def build_data_sheet(wb, sheet_json: dict, columns_by_key: dict[str, dict]) -> N
             value_type = spec["value_type"] if spec else None
             separator = spec["separator"] if spec else None
             ws.cell(row=row_idx, column=col_idx, value=_cell_value_for(value_type, separator, record.get(key)))
+
+    last_row = len(sheet_json["records"]) + 1
+    _apply_url_hyperlinks(ws, keys, last_row)
+    _apply_conditional_formatting(ws, keys, last_row, recently_verified_after)
 
 
 def build_dictionary_sheet(wb, schema: dict) -> None:
@@ -148,18 +232,30 @@ def discover_data_sheet_files(json_dir: Path) -> list[Path]:
     return sorted(files, key=sort_key)
 
 
-def convert(json_dir: Path, out_path: Path) -> None:
+def _load_recently_verified_cutoff(config_path: Path) -> datetime.date | None:
+    raw = load_radar_config(config_path).get("recently_verified_after")
+    if not raw:
+        return None
+    try:
+        return datetime.date.fromisoformat(raw)
+    except ValueError:
+        print(f"warning: {config_path} has recently_verified_after={raw!r}, not a YYYY-MM-DD date -- skipping the highlight")
+        return None
+
+
+def convert(json_dir: Path, out_path: Path, config_path: Path = DEFAULT_RADAR_CONFIG) -> None:
     schema = load_sheet_json(json_dir / "dictionary.json")
     if schema is None:
         raise FileNotFoundError(f"{json_dir / 'dictionary.json'} not found -- nothing to build from")
     columns_by_key = {c["key"]: c for c in schema["columns"]}
+    recently_verified_after = _load_recently_verified_cutoff(config_path)
 
     wb = openpyxl.Workbook()
     wb.remove(wb.active)  # drop the default blank sheet
 
     for path in discover_data_sheet_files(json_dir):
         sheet_json = load_sheet_json(path)
-        build_data_sheet(wb, sheet_json, columns_by_key)
+        build_data_sheet(wb, sheet_json, columns_by_key, recently_verified_after)
         print(f"{sheet_json['sheet_name']}: wrote {len(sheet_json['records'])} rows")
 
     build_dictionary_sheet(wb, schema)
@@ -178,9 +274,10 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Regenerate the VT Radar xlsx from data/json/*.json.")
     parser.add_argument("--json-dir", type=Path, default=DEFAULT_JSON_DIR)
     parser.add_argument("--out", type=Path, default=DEFAULT_OUT)
+    parser.add_argument("--config", type=Path, default=DEFAULT_RADAR_CONFIG)
     args = parser.parse_args()
 
-    convert(args.json_dir, args.out)
+    convert(args.json_dir, args.out, args.config)
 
 
 if __name__ == "__main__":
