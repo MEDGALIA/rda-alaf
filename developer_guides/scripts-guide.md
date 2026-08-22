@@ -187,4 +187,4 @@ No "corrected" value is ever suggested — deciding what a bad cell *should* say
 
 1. Manually copy the `.docx` into `drafts/` (gitignored — safe for working files), then manually run `docx_to_md.py` to produce the `.md`. Nothing watches this folder — both steps are run by hand, on demand.
 2. To publish developer-facing documentation, place the `.md` source in `developer_guides/`, then manually re-run `md_to_html.py developer_guides developer_guides_html` to regenerate the HTML.
-3. To publish curator/end-user-facing documentation (e.g. `user_guides/README.md`, "how to submit an xlsx update"), place the `.md` source in `user_guides/`, then manually re-run `md_to_html.py user_guides user_guides_html`.
+3. To publish curator/end-user-facing documentation (e.g. `user_guides/VT_RADAR.md`, "how to submit an xlsx update"), place the `.md` source in `user_guides/`, then manually re-run `md_to_html.py user_guides user_guides_html`.
