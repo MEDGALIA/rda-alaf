@@ -11,8 +11,16 @@ this script.
 
 Cosmetic details (column widths, frozen header row, bold headers) are sane
 regenerated defaults, not a pixel-for-pixel clone of any hand-tweaked
-formatting a curator may have applied to a previous xlsx -- content is
-what's guaranteed to round-trip, not manual styling.
+formatting a curator may have applied to a previous xlsx.
+
+URL hyperlinks and the Maturity Level / Topic Focus conditional-formatting
+colours *are* regenerated, though -- they were present in the original
+workbook (commit 55f1514) and are content-adjacent enough (a link you can
+click, a status colour you can scan) that silently dropping them on every
+regenerate is a real functional loss, not just cosmetics. Both are resolved
+by column *name* against the schema, not a hardcoded letter, so they can't
+drift out of alignment the way the original workbook's did after later
+column inserts (see drafts/Color-coded-standards.md).
 
 Usage:
     python json_to_xlsx.py [--json-dir data/json] [--out PATH]
@@ -25,7 +33,8 @@ import datetime
 from pathlib import Path
 
 import openpyxl
-from openpyxl.styles import Font
+from openpyxl.formatting.rule import CellIsRule, FormulaRule
+from openpyxl.styles import Font, PatternFill
 from openpyxl.utils import get_column_letter
 from openpyxl.worksheet.worksheet import Worksheet
 
@@ -42,6 +51,18 @@ DEFAULT_OUT = Path("data/VANTAGE-Technology-Radar.xlsx")
 DATA_SHEET_ORDER = ["knowledgebase", "deprecated", "sota_coding_agents_benchmarks"]
 
 HEADER_FONT = Font(bold=True)
+HYPERLINK_FONT = Font(color="FF0563C1", underline="single")
+
+# Colours as they existed in the original workbook (commit 55f1514).
+# "Adolescent" is deliberately dropped: not a real Maturity Level term (the
+# vocabulary is Deprecated/Emerging/Mature/Research), a dead rule even then.
+MATURITY_FILL = {
+    "Emerging": "FFB7E1CD",
+    "Mature": "FFA4C2F4",
+    "Research": "FFFFE599",
+    "Deprecated": "FFDD7E6B",
+}
+TOPIC_FOCUS_FILL = "FFB7E1CD"
 
 
 def _autosize(ws: Worksheet, headers: list[str]) -> None:
@@ -73,6 +94,42 @@ def _cell_value_for(value_type: str | None, separator: str | None, raw):
     return raw
 
 
+def _apply_url_hyperlinks(ws: Worksheet, keys: list[str], last_row: int) -> None:
+    if "url" not in keys:
+        return
+    col = keys.index("url") + 1
+    letter = get_column_letter(col)
+    for row_idx in range(2, last_row + 1):
+        cell = ws[f"{letter}{row_idx}"]
+        if cell.value:
+            cell.hyperlink = cell.value
+            cell.font = HYPERLINK_FONT
+
+
+def _apply_conditional_formatting(ws: Worksheet, keys: list[str], last_row: int) -> None:
+    if last_row < 2:
+        return
+
+    if "maturity_level" in keys:
+        letter = get_column_letter(keys.index("maturity_level") + 1)
+        rng = f"{letter}2:{letter}{last_row}"
+        for term, colour in MATURITY_FILL.items():
+            ws.conditional_formatting.add(
+                rng, CellIsRule(operator="equal", formula=[f'"{term}"'], fill=_solid_fill(colour))
+            )
+
+    if "topic_focus" in keys:
+        letter = get_column_letter(keys.index("topic_focus") + 1)
+        rng = f"{letter}2:{letter}{last_row}"
+        ws.conditional_formatting.add(
+            rng, FormulaRule(formula=[f"LEN(TRIM({letter}2))>0"], fill=_solid_fill(TOPIC_FOCUS_FILL))
+        )
+
+
+def _solid_fill(rgb: str) -> PatternFill:
+    return PatternFill(start_color=rgb, end_color=rgb, fill_type="solid")
+
+
 def build_data_sheet(wb, sheet_json: dict, columns_by_key: dict[str, dict]) -> None:
     ws = wb.create_sheet(sheet_json["sheet_name"])
     keys = sheet_json["columns"]
@@ -85,6 +142,10 @@ def build_data_sheet(wb, sheet_json: dict, columns_by_key: dict[str, dict]) -> N
             value_type = spec["value_type"] if spec else None
             separator = spec["separator"] if spec else None
             ws.cell(row=row_idx, column=col_idx, value=_cell_value_for(value_type, separator, record.get(key)))
+
+    last_row = len(sheet_json["records"]) + 1
+    _apply_url_hyperlinks(ws, keys, last_row)
+    _apply_conditional_formatting(ws, keys, last_row)
 
 
 def build_dictionary_sheet(wb, schema: dict) -> None:
