@@ -20,6 +20,8 @@ METADATA_SHEETS = ("Dictionary", "Vocabulary", "Standards")
 
 CONTROLLED_TYPES = ("controlled_single", "controlled_multi")
 
+DEFAULT_RADAR_CONFIG = Path(".github/RADAR-CONFIG")
+
 
 def slugify(header: str) -> str:
     """'Notes / Key Takeaways' -> 'notes_key_takeaways'"""
@@ -50,6 +52,26 @@ def cell_display_value(value) -> str:
     if isinstance(value, (datetime.date, datetime.datetime)):
         return value.date().isoformat() if isinstance(value, datetime.datetime) else value.isoformat()
     return str(value)
+
+
+def load_radar_config(path: Path = DEFAULT_RADAR_CONFIG) -> dict[str, str]:
+    """Parse .github/RADAR-CONFIG: one 'key: value' per line, '#' comments.
+
+    Admin-only by convention (protected via CODEOWNERS), not by anything
+    this function enforces -- it just reads whatever is there. Missing file
+    returns an empty dict rather than raising, so a caller can fall back to
+    a sane default instead of every consumer needing its own existence check.
+    """
+    if not path.exists():
+        return {}
+    config = {}
+    for line in path.read_text(encoding="utf-8").splitlines():
+        line = line.split("#", 1)[0].strip()
+        if not line or ":" not in line:
+            continue
+        key, _, value = line.partition(":")
+        config[key.strip()] = value.strip()
+    return config
 
 
 def load_sheet_json(path: Path) -> dict | None:

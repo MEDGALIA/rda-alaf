@@ -10,3 +10,4 @@ data/VANTAGE-Technology-Radar.xlsx @pbuendia
 .github/workflows/** @pbuendia
 .github/CODEOWNERS @pbuendia
 .github/RADAR-ADMINS @pbuendia
+.github/RADAR-CONFIG @pbuendia

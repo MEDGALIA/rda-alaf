@@ -1,0 +1,8 @@
+# Config for VT Radar automation. Editable only by admin (protected via
+# CODEOWNERS). One 'key: value' per line, '#' starts a comment.
+
+# Rows with Last Verified on or after this date get the "recently verified"
+# highlight in json_to_xlsx.py. A frozen date makes the highlight meaningless
+# over time -- update it periodically rather than leaving it to drift, the
+# way the original workbook's copy of this rule was left to drift for months.
+recently_verified_after: 2026-05-09
