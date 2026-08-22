@@ -11,10 +11,13 @@ This guide is for **contributors** updating the VANTAGE Technology Radar (VT Rad
 1. **Download and edit.** Get the current workbook from `data/VANTAGE-Technology-Radar.xlsx` in the repo, edit it in Excel (or another real spreadsheet app), save.
 2. **Go to the `data/` folder on github.com.** Stay in the folder listing — "Upload files" is not available from inside the file itself, only from the folder view.
 3. **Upload your edited copy.** From the folder listing, "Add file" → "Upload files" (or drag your file directly onto the page), select your edited file with the exact same name so it replaces the old one.
-4. **Commit as a new branch.** GitHub will offer to commit. Choose *"Create a new branch for this commit and start a pull request"* — it auto-names the branch for you, and opens a pull request (PR). You don't need to understand what a branch is; just follow the prompt.
-5. **Wait for the automatic sync.** Once your PR is open, GitHub automatically converts your xlsx into the machine-readable JSON files and adds that as a second commit on your PR. You don't trigger this yourself — it just happens.
-6. **The curator verifies and approves.** They check the resources themselves, fill in who verified them, and approve.
-7. **The curator merges.** Once merged, your changes are live.
+   - **Check the filename before you select it.** If you've downloaded the workbook more than once, your OS may have saved the second copy as `VANTAGE-Technology-Radar (1).xlsx` or similar. Uploading that adds a new, unrelated file instead of replacing the real one — nothing syncs, and the PR does nothing useful. Rename it back to exactly `VANTAGE-Technology-Radar.xlsx` first.
+   - **Confirm before committing.** GitHub shows *"This will replace VANTAGE-Technology-Radar.xlsx"* above the commit box once the name matches. If you don't see that line, stop and check the filename — you're about to add a stray file, not update the real one.
+4.  **Click the "Propose Changes" button**. Accept the branch name provided. This will commit as a new branch and open a pull request (PR). You don't need to understand what a branch is, just follow the prompt.
+5. **Click "Create Pull Request" button** in the page that opens. 
+6. **Wait for the automatic sync.** Once your PR is open, GitHub automatically converts your xlsx into the machine-readable JSON files and adds that as a second commit on your PR. You don't trigger this yourself — it just happens.
+7. **The curator verifies and approves.** They check the resources themselves, fill in who verified them, and approve.
+8. **The curator merges.** Once merged, your changes are live.
 
 ## Rules the sync follows automatically
 
@@ -31,7 +34,7 @@ You don't need to do anything special for these — they just happen when your f
 
 Approving a PR does **not** fill in `Verified By`/`Last Verified` — nothing writes them for you. To record a verification:
 
-1. Download the xlsx **from the PR branch**, not from `main`.
+1. Download the xlsx **from the PR branch**, not from `main`. On the PR, open the "Files changed" tab and use the branch switcher (top-left of the repo page, shows `main` by default) to switch to the PR's branch — its name is shown at the top of the PR — then navigate to `data/VANTAGE-Technology-Radar.xlsx` and download from there. Downloading from `main` gets the pre-PR version, missing the contributor's edit entirely.
 2. Open the resources and actually check them.
 3. Fill in **both** `Verified By` (your name) and `Last Verified` (today) on the rows you checked. One without the other is treated as invalid and cleared.
 4. Re-upload that xlsx to the **same PR branch**. The sync keeps your verification and leaves `Added/Edited By` pointing at the contributor.
