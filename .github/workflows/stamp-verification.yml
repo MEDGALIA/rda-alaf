@@ -92,12 +92,28 @@ jobs:
             echo "merge_sha=${MERGE_SHA}"
           } >> "$GITHUB_OUTPUT"
 
+      # Minted BEFORE the checkout on purpose. actions/checkout persists
+      # whatever token it is given as a git http.extraheader, and that header
+      # beats any credentials placed in the remote URL later -- so a checkout
+      # using the default GITHUB_TOKEN makes the push go out as
+      # github-actions[bot], which main's protection rejects with a 403
+      # (observed on PR #20). Checking out *with* the App token instead means
+      # the persisted credentials are already the right ones.
+      - name: Mint an installation token for vt-radar-verification-bot
+        id: app-token
+        if: steps.decide.outputs.proceed == 'true'
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.VT_RADAR_APP_ID }}
+          private-key: ${{ secrets.VT_RADAR_APP_PRIVATE_KEY }}
+
       - uses: actions/checkout@v4
         if: steps.decide.outputs.proceed == 'true'
         with:
           fetch-depth: 0
           ref: main
           path: main
+          token: ${{ steps.app-token.outputs.token }}
 
       - uses: actions/setup-python@v5
         if: steps.decide.outputs.proceed == 'true'
@@ -123,14 +139,6 @@ jobs:
           echo "Comparing against ${BASE_SHA} (main before this PR)"
           git worktree add "${GITHUB_WORKSPACE}/base" "$BASE_SHA"
 
-      - name: Mint an installation token for vt-radar-verification-bot
-        id: app-token
-        if: steps.decide.outputs.proceed == 'true'
-        uses: actions/create-github-app-token@v1
-        with:
-          app-id: ${{ secrets.VT_RADAR_APP_ID }}
-          private-key: ${{ secrets.VT_RADAR_APP_PRIVATE_KEY }}
-
       - name: Stamp verification from the approval
         if: steps.decide.outputs.proceed == 'true'
         working-directory: main
@@ -151,7 +159,6 @@ jobs:
         if: steps.decide.outputs.proceed == 'true'
         working-directory: main
         env:
-          GH_TOKEN: ${{ steps.app-token.outputs.token }}
           PR_NUMBER: ${{ steps.decide.outputs.pr_number }}
         run: |
           set -euo pipefail
@@ -162,7 +169,7 @@ jobs:
             echo "No file changes to push."
           else
             git commit -m "Stamp verification: PR #${PR_NUMBER}"
-            git remote set-url origin "https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git"
+            # No remote set-url: the checkout already carries the App token.
             git push origin HEAD:main
             echo "Pushed the stamp commit to main."
           fi
