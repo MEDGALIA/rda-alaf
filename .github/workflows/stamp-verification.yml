@@ -1,0 +1,97 @@
+name: Stamp verification on approval
+
+# After a PR merges, if it carried an APPROVED review, writes that reviewer
+# and the approval date into Verified By/Last Verified for whichever rows
+# actually changed in the PR and are still blank. Approving a PR is meant
+# to be the act of verifying; nothing wrote that into the data before this.
+# See drafts/VANTAGE-Tech-Radar-Sync-Plan.md, Step 4.
+#
+# Pushes straight to main: the built-in Actions app can't be granted
+# bypass_pull_request_allowances (tested -- accepted with HTTP 200, then
+# silently dropped), so this authenticates as the vt-radar-verification-bot
+# GitHub App instead, which main's branch protection names as a bypass
+# actor. VT_RADAR_APP_ID/VT_RADAR_APP_PRIVATE_KEY mint a short-lived
+# installation token at runtime; no long-lived secret is ever stored.
+#
+# No loop risk: this workflow's own stamp commit only touches
+# verified_by/last_verified, which content_hash() excludes from what
+# counts as "changed" -- so pushing it never re-triggers stamping, and it
+# isn't a PR merge anyway (a direct push to main doesn't fire
+# pull_request: closed).
+#
+# The 'no-verify' PR label skips stamping entirely, for a bulk/mechanical
+# edit where approving isn't the curator personally re-checking every row.
+
+on:
+  pull_request:
+    types: [closed]
+
+permissions:
+  contents: read
+  pull-requests: read
+
+concurrency:
+  group: stamp-verification-main
+  cancel-in-progress: false
+
+jobs:
+  stamp:
+    if: >-
+      github.event.pull_request.merged == true &&
+      !contains(github.event.pull_request.labels.*.name, 'no-verify')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.base.sha }}
+          path: base
+
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: main
+          path: main
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        working-directory: main
+        run: pip install openpyxl
+
+      - name: Mint an installation token for vt-radar-verification-bot
+        id: app-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.VT_RADAR_APP_ID }}
+          private-key: ${{ secrets.VT_RADAR_APP_PRIVATE_KEY }}
+
+      - name: Stamp verification from the approval
+        working-directory: main
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python src/scripts/stamp_verification.py \
+            --base-dir ../base/data/json \
+            --write-dir data/json \
+            --xlsx data/VANTAGE-Technology-Radar.xlsx \
+            --repo ${{ github.repository }} \
+            --pr-number ${{ github.event.pull_request.number }}
+
+      - name: Commit and push to main if anything was stamped
+        working-directory: main
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
+        run: |
+          git config user.name "vt-radar-verification-bot[bot]"
+          git config user.email "vt-radar-verification-bot[bot]@users.noreply.github.com"
+          git add data/json/ data/VANTAGE-Technology-Radar.xlsx
+          if git diff --cached --quiet; then
+            echo "Nothing to stamp"
+          else
+            git commit -m "Stamp verification: PR #${{ github.event.pull_request.number }} [skip ci]"
+            git remote set-url origin "https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git"
+            git push origin HEAD:main
+          fi

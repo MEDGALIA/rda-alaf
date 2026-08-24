@@ -86,7 +86,7 @@ No git CLI or branch-pushing is required of contributors or curators — every s
 | GitHub Action — deletion authorization (`deletion-authorization.yml`) | Done, confirmed on a real PR |
 | GitHub Action — publish (`workflow_dispatch` → Release) | Dropped — the xlsx is already in sync at merge time, so nothing needs regenerating |
 | GitHub Action — stamp `Verified By` from the approval | Not built. Blocked: the Actions app cannot be granted `bypass_pull_request_allowances`, so a workflow cannot push to `main`. Curators fill the fields manually instead (step 4 above) |
-| Developer/user documentation | This file + `scripts-guide.md` + `user_guides/README.md` |
+| Developer/user documentation | This file + `scripts-guide.md` + `user_guides/VT_RADAR.md` |
 
 **Known gap**: no check yet enforces the verification rule against a hand-edited JSON commit (that `Verified By` is never non-empty while its content hash differs from the verified baseline) — today it's enforced only when `xlsx_to_json.py` itself does the conversion.
 

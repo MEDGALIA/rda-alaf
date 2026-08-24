@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>README</title>
+<title>VT RADAR</title>
 <style>
 pre { line-height: 125%; }
 td.linenos .normal { color: inherit; background-color: transparent; padding-left: 5px; padding-right: 5px; }
@@ -203,9 +203,14 @@ img { max-width: 100%; border-radius: 6px; }
 
 <ol>
 <li><strong>Download and edit.</strong> Get the current workbook from <code>data/VANTAGE-Technology-Radar.xlsx</code> in the repo, edit it in Excel (or another real spreadsheet app), save.</li>
-<li><strong>Go to the file on github.com.</strong> Navigate to <code>data/</code> in the repository, click <code>VANTAGE-Technology-Radar.xlsx</code>.</li>
-<li><strong>Upload your edited copy.</strong> Use "Add file" → "Upload files" (or the upload option on the file page), drag in your edited file with the same filename so it replaces the old one.</li>
-<li><strong>Commit as a new branch.</strong> GitHub will offer to commit. Choose <em>"Create a new branch for this commit and start a pull request"</em> — it auto-names the branch for you, and opens a pull request (PR). You don't need to understand what a branch is; just follow the prompt.</li>
+<li><strong>Go to the <code>data/</code> folder on github.com.</strong> Stay in the folder listing — "Upload files" is not available from inside the file itself, only from the folder view.</li>
+<li><strong>Upload your edited copy.</strong> From the folder listing, "Add file" → "Upload files" (or drag your file directly onto the page), select your edited file with the exact same name so it replaces the old one.
+<ul>
+<li><strong>Check the filename before you select it.</strong> If you've downloaded the workbook more than once, your OS may have saved the second copy as <code>VANTAGE-Technology-Radar (1).xlsx</code> or similar. Uploading that adds a new, unrelated file instead of replacing the real one — nothing syncs, and the PR does nothing useful. Rename it back to exactly <code>VANTAGE-Technology-Radar.xlsx</code> first.</li>
+<li><strong>Confirm before committing.</strong> GitHub shows <em>"This will replace VANTAGE-Technology-Radar.xlsx"</em> above the commit box once the name matches. If you don't see that line, stop and check the filename — you're about to add a stray file, not update the real one.</li>
+</ul></li>
+<li><strong>Click the "Propose Changes" button</strong>. Accept the branch name provided. This will commit as a new branch and open a pull request (PR). You don't need to understand what a branch is, just follow the prompt.</li>
+<li><strong>Click "Create Pull Request" button</strong> in the page that opens. </li>
 <li><strong>Wait for the automatic sync.</strong> Once your PR is open, GitHub automatically converts your xlsx into the machine-readable JSON files and adds that as a second commit on your PR. You don't trigger this yourself — it just happens.</li>
 <li><strong>The curator verifies and approves.</strong> They check the resources themselves, fill in who verified them, and approve.</li>
 <li><strong>The curator merges.</strong> Once merged, your changes are live.</li>
@@ -229,7 +234,7 @@ img { max-width: 100%; border-radius: 6px; }
 <p>Approving a PR does <strong>not</strong> fill in <code>Verified By</code>/<code>Last Verified</code> — nothing writes them for you. To record a verification:</p>
 
 <ol>
-<li>Download the xlsx <strong>from the PR branch</strong>, not from <code>main</code>.</li>
+<li>Download the xlsx <strong>from the PR branch</strong>, not from <code>main</code>. On the PR, open the "Files changed" tab and use the branch switcher (top-left of the repo page, shows <code>main</code> by default) to switch to the PR's branch — its name is shown at the top of the PR — then navigate to <code>data/VANTAGE-Technology-Radar.xlsx</code> and download from there. Downloading from <code>main</code> gets the pre-PR version, missing the contributor's edit entirely.</li>
 <li>Open the resources and actually check them.</li>
 <li>Fill in <strong>both</strong> <code>Verified By</code> (your name) and <code>Last Verified</code> (today) on the rows you checked. One without the other is treated as invalid and cleared.</li>
 <li>Re-upload that xlsx to the <strong>same PR branch</strong>. The sync keeps your verification and leaves <code>Added/Edited By</code> pointing at the contributor.</li>
