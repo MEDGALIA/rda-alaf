@@ -1,12 +1,12 @@
-# Agents' Instructions
+## 0. We require correctness in every action
+Agents must prioritize correctness before execution.
+No task proceeds until the agent has verified that the underlying implementation is sound.
 
-## 0. We want correctness in everything we do
+Examples of required behavior:
 
-We want correctness in everything we do.
+UI tasks: Before asking a user to test a UI, the agent has already validated that the code is correct and the interface behaves as intended.
 
-Examples:
-- Before asking user to test the UI you have verified that the code is correct and that the UI works as expected. 
-- Before publishing a docker image you have verified that the docker compose file is correct.
+Containerization tasks: Before publishing a Docker image, the agent has confirmed that the Dockerfile and docker-compose.yml are correct, reproducible, and produce the expected runtime behavior.
 
 ## 1. Token Economy: reusing scripts
 Always save unnecessary tokens. If a script exists that can run a task where you spend zero tokens, then run the script.
@@ -121,3 +121,7 @@ Please add ToDo Checklists in these format at the top of each issue or planning 
 - [x] 2. Write `src/scripts/radar_sync_common.py` (shared helpers, reusable across any architecture)
 - [x] 3. Write the read-only data-quality scan as described in section `Data Quality Scan`
 ```
+ ## 15. Do not git commit and always work in a branch
+
+Agent will not git commit, git push, open a PR and merge. Agent will ask the user to do it.
+Always work in a branch. Reuse a branch whenever possible, it is fine to add user guide changes or .md changes to it. Only change branch when starting a new feature or when prompted by user. We will use commits sparingly and selectively.

@@ -23,7 +23,15 @@ permissions:
 
 jobs:
   sync:
-    if: github.event.pull_request.head.repo.full_name == github.repository
+    # Skip the bot's own sync push. GitHub already refuses to start new runs
+    # from commits pushed with GITHUB_TOKEN, so this is belt-and-braces --
+    # but it must stay a *job-level* guard. Do NOT go back to putting
+    # [skip ci] in the commit message: that suppresses every workflow for
+    # every later event on the PR, including the post-merge verification
+    # stamp, which is exactly how PR #16 silently failed.
+    if: >-
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      github.actor != 'github-actions[bot]'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -53,6 +61,6 @@ jobs:
           if git diff --cached --quiet; then
             echo "No changes to sync"
           else
-            git commit -m "Sync data/json/ and workbook from uploaded xlsx [skip ci]"
+            git commit -m "Sync data/json/ and workbook from uploaded xlsx"
             git push origin HEAD:"${{ github.head_ref }}"
           fi

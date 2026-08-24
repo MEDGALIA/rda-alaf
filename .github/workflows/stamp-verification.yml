@@ -13,22 +13,31 @@ name: Stamp verification on approval
 # actor. VT_RADAR_APP_ID/VT_RADAR_APP_PRIVATE_KEY mint a short-lived
 # installation token at runtime; no long-lived secret is ever stored.
 #
-# No loop risk: this workflow's own stamp commit only touches
-# verified_by/last_verified, which content_hash() excludes from what
-# counts as "changed" -- so pushing it never re-triggers stamping, and it
-# isn't a PR merge anyway (a direct push to main doesn't fire
-# pull_request: closed).
+# This job deliberately has no job-level `if:`. It always runs and always
+# logs the decision it made, because a job skipped by a condition leaves an
+# unexplained empty entry in the Actions tab -- and that is indistinguishable
+# at a glance from the failure mode that broke PR #16, where a [skip ci] in
+# the PR's head commit stopped GitHub creating a run at all. Always running
+# means "no entry in the Actions tab" now has exactly one meaning: GitHub
+# never dispatched the event.
 #
-# The 'no-verify' PR label skips stamping entirely, for a bulk/mechanical
-# edit where approving isn't the curator personally re-checking every row.
+# No loop risk: this workflow's own stamp commit only touches
+# verified_by/last_verified, which content_hash() excludes from what counts
+# as "changed", and nothing in this repo triggers on `push` anyway.
 
 on:
   pull_request:
     types: [closed]
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: "PR number to stamp (use if an automatic run was missed)"
+        required: true
+        type: string
 
 permissions:
   contents: read
-  pull-requests: read
+  pull-requests: write
 
 concurrency:
   group: stamp-verification-main
@@ -36,62 +45,146 @@ concurrency:
 
 jobs:
   stamp:
-    if: >-
-      github.event.pull_request.merged == true &&
-      !contains(github.event.pull_request.labels.*.name, 'no-verify')
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.pull_request.base.sha }}
-          path: base
+      - name: Decide whether to stamp, and say why
+        id: decide
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ github.event.pull_request.number || inputs.pr_number }}
+          REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          echo "Triggered by: ${{ github.event_name }}"
+          echo "Pull request: #${PR_NUMBER}"
+
+          # One API call, parsed with gh's own built-in jq so the job doesn't
+          # depend on a standalone jq being present on the runner image.
+          IFS=$'\t' read -r MERGED MERGE_SHA LABELS < <(
+            gh api "repos/${REPO}/pulls/${PR_NUMBER}" \
+              --jq '[.merged, .merge_commit_sha, ([.labels[].name] | join(","))] | @tsv'
+          )
+
+          echo "Merged: ${MERGED}"
+          echo "Labels: ${LABELS:-(none)}"
+          echo "Merge commit: ${MERGE_SHA}"
+
+          if [ "$MERGED" != "true" ]; then
+            echo "DECISION: do nothing -- this PR was closed without being merged."
+            echo "### Stamp verification: nothing to do" >> "$GITHUB_STEP_SUMMARY"
+            echo "PR #${PR_NUMBER} was closed without being merged." >> "$GITHUB_STEP_SUMMARY"
+            echo "proceed=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          if echo ",${LABELS}," | grep -q ",no-verify,"; then
+            echo "DECISION: do nothing -- the 'no-verify' label is set, so approving this PR was not a row-by-row verification."
+            echo "### Stamp verification: skipped by label" >> "$GITHUB_STEP_SUMMARY"
+            echo "PR #${PR_NUMBER} carries the \`no-verify\` label." >> "$GITHUB_STEP_SUMMARY"
+            echo "proceed=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          echo "DECISION: proceed -- PR is merged and carries no 'no-verify' label."
+          {
+            echo "proceed=true"
+            echo "pr_number=${PR_NUMBER}"
+            echo "merge_sha=${MERGE_SHA}"
+          } >> "$GITHUB_OUTPUT"
 
       - uses: actions/checkout@v4
+        if: steps.decide.outputs.proceed == 'true'
         with:
           fetch-depth: 0
           ref: main
           path: main
-          token: ${{ secrets.GITHUB_TOKEN }}
 
       - uses: actions/setup-python@v5
+        if: steps.decide.outputs.proceed == 'true'
         with:
           python-version: "3.12"
 
       - name: Install dependencies
+        if: steps.decide.outputs.proceed == 'true'
         working-directory: main
         run: pip install openpyxl
 
+      - name: Check out the state of main from before this PR
+        if: steps.decide.outputs.proceed == 'true'
+        working-directory: main
+        env:
+          MERGE_SHA: ${{ steps.decide.outputs.merge_sha }}
+        run: |
+          set -euo pipefail
+          # First parent of the merge commit is main as it stood before this
+          # PR landed. Derived from git rather than read from the event
+          # payload, so the manual workflow_dispatch path behaves identically.
+          BASE_SHA=$(git rev-parse "${MERGE_SHA}^1")
+          echo "Comparing against ${BASE_SHA} (main before this PR)"
+          git worktree add "${GITHUB_WORKSPACE}/base" "$BASE_SHA"
+
       - name: Mint an installation token for vt-radar-verification-bot
         id: app-token
+        if: steps.decide.outputs.proceed == 'true'
         uses: actions/create-github-app-token@v1
         with:
           app-id: ${{ secrets.VT_RADAR_APP_ID }}
           private-key: ${{ secrets.VT_RADAR_APP_PRIVATE_KEY }}
 
       - name: Stamp verification from the approval
+        if: steps.decide.outputs.proceed == 'true'
         working-directory: main
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ steps.decide.outputs.pr_number }}
+          REPO: ${{ github.repository }}
         run: |
+          set -euo pipefail
           python src/scripts/stamp_verification.py \
-            --base-dir ../base/data/json \
+            --base-dir "${GITHUB_WORKSPACE}/base/data/json" \
             --write-dir data/json \
             --xlsx data/VANTAGE-Technology-Radar.xlsx \
-            --repo ${{ github.repository }} \
-            --pr-number ${{ github.event.pull_request.number }}
+            --repo "${REPO}" \
+            --pr-number "${PR_NUMBER}" 2>&1 | tee "${GITHUB_WORKSPACE}/stamp-output.txt"
 
       - name: Commit and push to main if anything was stamped
+        if: steps.decide.outputs.proceed == 'true'
         working-directory: main
         env:
           GH_TOKEN: ${{ steps.app-token.outputs.token }}
+          PR_NUMBER: ${{ steps.decide.outputs.pr_number }}
         run: |
+          set -euo pipefail
           git config user.name "vt-radar-verification-bot[bot]"
           git config user.email "vt-radar-verification-bot[bot]@users.noreply.github.com"
           git add data/json/ data/VANTAGE-Technology-Radar.xlsx
           if git diff --cached --quiet; then
-            echo "Nothing to stamp"
+            echo "No file changes to push."
           else
-            git commit -m "Stamp verification: PR #${{ github.event.pull_request.number }} [skip ci]"
+            git commit -m "Stamp verification: PR #${PR_NUMBER}"
             git remote set-url origin "https://x-access-token:${GH_TOKEN}@github.com/${{ github.repository }}.git"
             git push origin HEAD:main
+            echo "Pushed the stamp commit to main."
           fi
+
+      - name: Report the outcome on the PR and in the run summary
+        if: always() && steps.decide.outputs.proceed == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ steps.decide.outputs.pr_number }}
+          REPO: ${{ github.repository }}
+          OUTCOME: ${{ job.status }}
+        run: |
+          set -uo pipefail
+          RESULT=$(cat "${GITHUB_WORKSPACE}/stamp-output.txt" 2>/dev/null || echo "The stamping step did not produce output -- it failed before running. See the workflow log.")
+
+          {
+            echo "### Stamp verification (${OUTCOME})"
+            echo ""
+            echo '```'
+            echo "${RESULT}"
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+          gh pr comment "${PR_NUMBER}" --repo "${REPO}" --body "$(printf '**Verification stamping: %s**\n\n```\n%s\n```\n\n[Full log](%s/%s/actions/runs/%s)' \
+            "${OUTCOME}" "${RESULT}" "${GITHUB_SERVER_URL}" "${REPO}" "${GITHUB_RUN_ID}")"
