@@ -1,12 +1,12 @@
-# Agents' Instructions
+## 0. We require correctness in every action
+Agents must prioritize correctness before execution.
+No task proceeds until the agent has verified that the underlying implementation is sound.
 
-## 0. We want correctness in everything we do
+Examples of required behavior:
 
-We want correctness in everything we do.
+UI tasks: Before asking a user to test a UI, the agent has already validated that the code is correct and the interface behaves as intended.
 
-Examples:
-- Before asking user to test the UI you have verified that the code is correct and that the UI works as expected. 
-- Before publishing a docker image you have verified that the docker compose file is correct.
+Containerization tasks: Before publishing a Docker image, the agent has confirmed that the Dockerfile and docker-compose.yml are correct, reproducible, and produce the expected runtime behavior.
 
 ## 1. Token Economy: reusing scripts
 Always save unnecessary tokens. If a script exists that can run a task where you spend zero tokens, then run the script.
