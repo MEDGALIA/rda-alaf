@@ -42,6 +42,14 @@ via `--actor` on any row whose content actually changed in this run. Omit
 Action passes its own trusted identity (e.g. `github.actor`) instead of
 trusting free text.
 
+`Last Updated` is the companion date: when this row's content was last
+added or edited, auto-stamped with today's date on the same trigger as
+`Added/Edited By` (content actually changed), unconditionally -- a date
+carries no identity to distrust, so unlike `--actor` it doesn't need a
+trusted caller to set it. This is *not* the resource's own date -- that's
+`Publication/Version Date` (or `Version`, for a resource that has one),
+which nothing here ever touches automatically.
+
 Before any of this, the workbook's structure is validated against
 `Dictionary`: if a data sheet's columns don't exactly match what `Dictionary`
 declares for it (same headers, same order), conversion refuses to run at
@@ -67,6 +75,7 @@ Usage:
 from __future__ import annotations
 
 import argparse
+import datetime
 from pathlib import Path
 
 import openpyxl
@@ -190,7 +199,11 @@ def sheet_to_records(ws, schema: dict) -> tuple[list[dict], list[str], dict[str,
 
 
 def merge_with_previous(
-    records: list[dict], previous: dict | None, key_field: str, actor: str | None = None
+    records: list[dict],
+    previous: dict | None,
+    key_field: str,
+    actor: str | None = None,
+    today: str | None = None,
 ) -> tuple[list[dict], list[str], list[str]]:
     """Clear verification on new/changed rows; report what changed.
 
@@ -200,7 +213,17 @@ def merge_with_previous(
     taking priority over whatever was self-declared in the cell. Left alone
     entirely when `actor` is None (e.g. a local run with no trusted identity
     to attribute changes to).
+
+    `last_updated` -- the date THIS ROW was last added or edited, not the
+    resource's own date (that's `publication_version_date`) -- is stamped
+    with `today` on the same trigger, unconditionally: unlike `actor`, a
+    date carries no identity to be untrusted, so there's no reason to gate
+    it behind a trusted-caller check the way `actor` is. Defaults to the
+    real current date; overridable for tests and for a deliberate historical
+    backfill (never for normal runs).
     """
+    if today is None:
+        today = datetime.date.today().isoformat()
     prev_by_key = {r[key_field]: r for r in (previous or {}).get("records", [])} if previous else {}
 
     cleared, kept_keys = [], set()
@@ -214,6 +237,8 @@ def merge_with_previous(
         content_changed = prev_record is None or prev_record.get("_content_hash") != new_hash
         if actor and content_changed and "added_edited_by" in record:
             record["added_edited_by"] = actor
+        if content_changed and "last_updated" in record:
+            record["last_updated"] = today
 
         if not any(f in record for f in VERIFICATION_FIELDS):
             record["_content_hash"] = new_hash

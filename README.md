@@ -63,8 +63,8 @@ proposed changes subject to human review and approval.
 The RDA-ALAF software is licensed under the [BSD 3-Clause License](LICENSE).
 
 The VT Radar knowledge base and other datasets are licensed under the
-[Creative Commons Attribution 4.0 International License](https://creativecommons.org/licenses/by/4.0/).
+[CC BY 4.0: Creative Commons Attribution 4.0 International License](https://creativecommons.org/licenses/by/4.0/).
 
 Future formal RDA Recommendations produced through the framework are intended
-to be licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/),
+to be licensed under [CC BY 4.0: Creative Commons Attribution 4.0 International License](https://creativecommons.org/licenses/by/4.0/),
 as appropriate to the applicable RDA process and requirements.

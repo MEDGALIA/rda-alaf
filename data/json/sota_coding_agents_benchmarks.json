@@ -10,6 +10,7 @@
     "added_edited_by",
     "last_updated",
     "version",
+    "publication_version_date",
     "resource_type",
     "agentic_features_covered",
     "maturity_level",
@@ -25,8 +26,9 @@
       "last_verified": "2026-07-13",
       "verified_by": "Paty Buendia",
       "added_edited_by": "Paty Buendia",
-      "last_updated": "2024",
+      "last_updated": "2026-07-13",
       "version": "N/A",
+      "publication_version_date": "",
       "resource_type": "Whitepaper",
       "agentic_features_covered": [
         "Coding Agents"
@@ -34,7 +36,7 @@
       "maturity_level": "Mature",
       "notes_key_takeaways": "Evaluates State-Of-The-Art agent performance on multi-million line codebases to assess real-world software engineering capabilities.",
       "discovery_date": "2026-07-13",
-      "_content_hash": "48de642d6fd0adac9c71c187a40197d2c16288ef6c807177cf861d14f481c87f"
+      "_content_hash": "5a643d24dcac6e202edc113859968ca7086be7e61b61f85f7875ce949f1efe37"
     },
     {
       "id": "4c170f7e",
@@ -44,8 +46,9 @@
       "last_verified": "2026-07-13",
       "verified_by": "Paty Buendia",
       "added_edited_by": "Paty Buendia",
-      "last_updated": "2026",
+      "last_updated": "2026-07-13",
       "version": "",
+      "publication_version_date": "",
       "resource_type": "Benchmark Collection",
       "agentic_features_covered": [
         "Coding Agents"
@@ -53,7 +56,7 @@
       "maturity_level": "Research",
       "notes_key_takeaways": "Papers with Code with State-Of-The-Art (SOTA) Codng Agent Benchmarks",
       "discovery_date": "2026-07-13",
-      "_content_hash": "36af802e158de2a34742f3bea01efe70304ad7ea034268fe592aba10319c5679"
+      "_content_hash": "c70689b85a6924ec8b42089b8bd2f113fde430eb3559065949dafd96979cfd29"
     },
     {
       "id": "b9ed03e7",
@@ -63,8 +66,9 @@
       "last_verified": "",
       "verified_by": "",
       "added_edited_by": "Paty Buendia",
-      "last_updated": "2025",
+      "last_updated": "",
       "version": "Pro",
+      "publication_version_date": "",
       "resource_type": "Whitepaper",
       "agentic_features_covered": [
         "Coding Agents"
@@ -72,7 +76,7 @@
       "maturity_level": "Mature",
       "notes_key_takeaways": "Addresses limitations of original SWE-bench by focusing on long-horizon, complex, multi-file software engineering tasks.",
       "discovery_date": "2026-07-13",
-      "_content_hash": "99facbb86d80edb3bebe54ebf2ed573d00a1b58fbfafb3e8bc7fcfc84f498654"
+      "_content_hash": "c5ccdc67ea940a48a84ecab51ccb9ff33e9fa564dbb6f6681da59870d1754cd1"
     },
     {
       "id": "f487cdc5",
@@ -82,8 +86,9 @@
       "last_verified": "",
       "verified_by": "",
       "added_edited_by": "Paty Buendia",
-      "last_updated": "2025",
+      "last_updated": "",
       "version": "",
+      "publication_version_date": "",
       "resource_type": "Whitepaper",
       "agentic_features_covered": [
         "Coding Agents"
@@ -91,7 +96,7 @@
       "maturity_level": "Research",
       "notes_key_takeaways": "Scalable framework that generates repository-level tasks from live GitHub PRs across 11 programming languages.",
       "discovery_date": "2026-07-13",
-      "_content_hash": "1b6c0e7da845d6c879d66a173b36a88fed801ea76604d06a565065c12552928a"
+      "_content_hash": "d6ede379242f45943e14b72b73ab66d7a76c9df9df5f39a8a72ad38c9b53fcb8"
     },
     {
       "id": "f37d4051",
@@ -101,8 +106,9 @@
       "last_verified": "",
       "verified_by": "",
       "added_edited_by": "Paty Buendia",
-      "last_updated": "2026",
+      "last_updated": "",
       "version": "2",
+      "publication_version_date": "",
       "resource_type": "Whitepaper",
       "agentic_features_covered": [
         "Coding Agents"
@@ -110,7 +116,7 @@
       "maturity_level": "Mature",
       "notes_key_takeaways": "Benchmarks agents on hard, realistic tasks within terminal/CLI environments.",
       "discovery_date": "2026-07-13",
-      "_content_hash": "d1908bbd07c96fd08588c991b5b6b703b55a69980e313842ca028ffa9cd58d64"
+      "_content_hash": "7739a5baacd33cf5503bdd29025fd997b7eea3730ec6a4830d97abe2e166d652"
     },
     {
       "id": "acbc7354",
@@ -120,8 +126,9 @@
       "last_verified": "",
       "verified_by": "",
       "added_edited_by": "Paty Buendia",
-      "last_updated": "2026",
+      "last_updated": "",
       "version": "1",
+      "publication_version_date": "",
       "resource_type": "Whitepaper",
       "agentic_features_covered": [
         "Coding Agents"
@@ -129,7 +136,7 @@
       "maturity_level": "Research",
       "notes_key_takeaways": "Benchmark specifically for evaluating the code review capabilities of AI agents.",
       "discovery_date": "2026-07-13",
-      "_content_hash": "77247d81fb6845f8e1e22d4762c7369544bf09ce05137fd60927bb629e23df79"
+      "_content_hash": "90d6c20003d90d3f4b495744d2cb5a7d4890fdb6fe7b346082aa4e88766778b3"
     },
     {
       "id": "edd19b89",
@@ -139,8 +146,9 @@
       "last_verified": "",
       "verified_by": "",
       "added_edited_by": "Paty Buendia",
-      "last_updated": "2026",
+      "last_updated": "",
       "version": "1",
+      "publication_version_date": "",
       "resource_type": "Whitepaper",
       "agentic_features_covered": [
         "Coding Agents"
@@ -148,7 +156,7 @@
       "maturity_level": "Research",
       "notes_key_takeaways": "Isolates the evaluation of repository exploration, context retrieval, and code localization capabilities.",
       "discovery_date": "2026-07-13",
-      "_content_hash": "37b3db78acf3a784034e19af92ef6c0482af56805278ce301e5726dff8f48a77"
+      "_content_hash": "525216bf5268108ed8970c12521881077a05d011a6d37ddb113d8273e16db99b"
     }
   ]
 }

@@ -13,15 +13,18 @@ Cosmetic details (column widths, frozen header row, bold headers) are sane
 regenerated defaults, not a pixel-for-pixel clone of any hand-tweaked
 formatting a curator may have applied to a previous xlsx.
 
-URL hyperlinks and the Maturity Level / Topic Focus / "recently verified"
-conditional-formatting colours *are* regenerated, though -- they were
-present in the original workbook (commit 55f1514) and are content-adjacent
-enough (a link you can click, a status colour you can scan) that silently
-dropping them on every regenerate is a real functional loss, not just
-cosmetics. All are resolved by column *name* against the schema, not a
-hardcoded letter, so they can't drift out of alignment the way the original
-workbook's did after later column inserts (see
-drafts/Color-coded-standards.md).
+URL hyperlinks and conditional-formatting colours *are* regenerated, though
+-- they were present in the original workbook (commit 55f1514) and are
+content-adjacent enough (a link you can click, a status colour you can
+scan) that silently dropping them on every regenerate is a real functional
+loss, not just cosmetics. Colours are entirely data-driven: every fill comes
+from a "Colour" cell on the Dictionary or Vocabulary tab (see
+load_workbook_schema in radar_sync_common.py), resolved by column *name*
+against the schema rather than a hardcoded letter, so a rule can't drift out
+of alignment the way the original workbook's did after later column
+inserts, and adding/recolouring a term needs no code change -- just an edit
+to the Vocabulary tab. See drafts/Color-coded-standards.md for how this
+diverged the first time and the original colour values.
 
 The "recently verified" cutoff date comes from .github/RADAR-CONFIG
 (recently_verified_after: YYYY-MM-DD), not a hardcoded constant -- the
@@ -62,17 +65,15 @@ DATA_SHEET_ORDER = ["knowledgebase", "deprecated", "sota_coding_agents_benchmark
 HEADER_FONT = Font(bold=True)
 HYPERLINK_FONT = Font(color="FF0563C1", underline="single")
 
-# Colours as they existed in the original workbook (commit 55f1514).
-# "Adolescent" is deliberately dropped: not a real Maturity Level term (the
-# vocabulary is Deprecated/Emerging/Mature/Research), a dead rule even then.
-MATURITY_FILL = {
-    "Emerging": "FFB7E1CD",
-    "Mature": "FFA4C2F4",
-    "Research": "FFFFE599",
-    "Deprecated": "FFDD7E6B",
-}
-TOPIC_FOCUS_FILL = "FFB7E1CD"
-RECENTLY_VERIFIED_FILL = "FFD9D2E9"
+# No colours are hardcoded here. Every fill comes from the "Colour" field on
+# Dictionary/Vocabulary rows (surfaced by radar_sync_common.load_workbook_schema
+# as columns[i]["colour"] and columns[i]["terms"][j]["colour"]), so a term
+# added, renamed, or recoloured in the Vocabulary tab takes effect on the
+# next regenerate with no code change. A term or column with no Colour set
+# simply gets no fill -- there is deliberately no fallback constant to drift
+# out of sync the way the original hardcoded values did. See
+# drafts/Color-coded-standards.md for the original colours and how they were
+# seeded into data/json/dictionary.json.
 
 
 def _autosize(ws: Worksheet, headers: list[str]) -> None:
@@ -117,34 +118,57 @@ def _apply_url_hyperlinks(ws: Worksheet, keys: list[str], last_row: int) -> None
 
 
 def _apply_conditional_formatting(
-    ws: Worksheet, keys: list[str], last_row: int, recently_verified_after: datetime.date | None
+    ws: Worksheet,
+    keys: list[str],
+    columns_by_key: dict[str, dict],
+    last_row: int,
+    recently_verified_after: datetime.date | None,
 ) -> None:
+    """Colour every column that carries a "Colour" in Dictionary/Vocabulary.
+
+    - controlled_single: one CellIsRule per term with a colour -- a cell
+      holds exactly one term, so a per-value colour is unambiguous.
+    - controlled_multi: a single blanket "non-blank" rule using the
+      *column's* colour. A multi-value cell like "Security; Governance"
+      can't be several colours at once, so per-term colours are recorded in
+      Vocabulary for other uses (legends, agent-facing palettes) but the
+      cell itself only ever gets the one column-level fill.
+    - Any other column with a column-level colour and a "recently verified"
+      cutoff (currently just Last Verified) gets a date-threshold highlight.
+    """
     if last_row < 2:
         return
 
-    if "maturity_level" in keys:
-        letter = get_column_letter(keys.index("maturity_level") + 1)
+    for key in keys:
+        col = columns_by_key.get(key)
+        if not col:
+            continue
+        letter = get_column_letter(keys.index(key) + 1)
         rng = f"{letter}2:{letter}{last_row}"
-        for term, colour in MATURITY_FILL.items():
+
+        if col["value_type"] == "controlled_single":
+            for term in col.get("terms", []):
+                if not term.get("colour"):
+                    continue
+                ws.conditional_formatting.add(
+                    rng,
+                    CellIsRule(operator="equal", formula=[f'"{term["name"]}"'], fill=_solid_fill(term["colour"])),
+                )
+
+        elif col["value_type"] == "controlled_multi":
+            if col.get("colour"):
+                ws.conditional_formatting.add(
+                    rng, FormulaRule(formula=[f"LEN(TRIM({letter}2))>0"], fill=_solid_fill(col["colour"]))
+                )
+
+        elif key == "last_verified" and col.get("colour") and recently_verified_after is not None:
+            d = recently_verified_after
             ws.conditional_formatting.add(
-                rng, CellIsRule(operator="equal", formula=[f'"{term}"'], fill=_solid_fill(colour))
+                rng,
+                FormulaRule(
+                    formula=[f"{letter}2>=DATE({d.year},{d.month},{d.day})"], fill=_solid_fill(col["colour"])
+                ),
             )
-
-    if "topic_focus" in keys:
-        letter = get_column_letter(keys.index("topic_focus") + 1)
-        rng = f"{letter}2:{letter}{last_row}"
-        ws.conditional_formatting.add(
-            rng, FormulaRule(formula=[f"LEN(TRIM({letter}2))>0"], fill=_solid_fill(TOPIC_FOCUS_FILL))
-        )
-
-    if "last_verified" in keys and recently_verified_after is not None:
-        letter = get_column_letter(keys.index("last_verified") + 1)
-        rng = f"{letter}2:{letter}{last_row}"
-        d = recently_verified_after
-        ws.conditional_formatting.add(
-            rng,
-            FormulaRule(formula=[f"{letter}2>=DATE({d.year},{d.month},{d.day})"], fill=_solid_fill(RECENTLY_VERIFIED_FILL)),
-        )
 
 
 def _solid_fill(rgb: str) -> PatternFill:
@@ -168,12 +192,12 @@ def build_data_sheet(
 
     last_row = len(sheet_json["records"]) + 1
     _apply_url_hyperlinks(ws, keys, last_row)
-    _apply_conditional_formatting(ws, keys, last_row, recently_verified_after)
+    _apply_conditional_formatting(ws, keys, columns_by_key, last_row, recently_verified_after)
 
 
 def build_dictionary_sheet(wb, schema: dict) -> None:
     ws = wb.create_sheet("Dictionary")
-    headers = ["Position", "Column Name", "Applies To", "Value Type", "Separator", "Description"]
+    headers = ["Position", "Column Name", "Applies To", "Value Type", "Separator", "Description", "Colour"]
     _write_header(ws, headers)
     ws.column_dimensions["F"].width = 80
 
@@ -184,11 +208,12 @@ def build_dictionary_sheet(wb, schema: dict) -> None:
         ws.cell(row=row_idx, column=4, value=col["value_type"])
         ws.cell(row=row_idx, column=5, value=col["separator"])
         ws.cell(row=row_idx, column=6, value=col["description"] or None)
+        ws.cell(row=row_idx, column=7, value=col.get("colour") or None)
 
 
 def build_vocabulary_sheet(wb, schema: dict) -> None:
     ws = wb.create_sheet("Vocabulary")
-    headers = ["Column Name", "Term", "Definition", "Ontology", "Ontology ID", "Ontology URL"]
+    headers = ["Column Name", "Term", "Definition", "Ontology", "Ontology ID", "Ontology URL", "Colour"]
     _write_header(ws, headers)
     ws.column_dimensions["C"].width = 80
 
@@ -203,6 +228,7 @@ def build_vocabulary_sheet(wb, schema: dict) -> None:
             ws.cell(row=row_idx, column=4, value=term["ontology"] or None)
             ws.cell(row=row_idx, column=5, value=term["ontology_id"] or None)
             ws.cell(row=row_idx, column=6, value=term["ontology_url"] or None)
+            ws.cell(row=row_idx, column=7, value=term.get("colour") or None)
             row_idx += 1
 
 
