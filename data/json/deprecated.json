@@ -8,8 +8,10 @@
     "last_verified",
     "verified_by",
     "added_edited_by",
-    "deprecation_date_last_updated",
+    "last_updated",
     "version",
+    "publication_version_date",
+    "deprecation_date",
     "resource_type",
     "agentic_features_covered",
     "topic_focus",
@@ -27,8 +29,10 @@
       "last_verified": "2026-05-08",
       "verified_by": "Paty Buendia",
       "added_edited_by": "Paty Buendia",
-      "deprecation_date_last_updated": "2026-08-26",
+      "last_updated": "2026-05-08",
       "version": "",
+      "publication_version_date": "",
+      "deprecation_date": "",
       "resource_type": "API Reference",
       "agentic_features_covered": [
         "Tools",
@@ -43,7 +47,7 @@
       "maturity_level": "Deprecated",
       "notes_key_takeaways": "Stable API surface.",
       "discovery_date": "2026-05-08",
-      "_content_hash": "7419f57d7c71f946e6d072aa7f165dca5bac4483a6b4dee8bafaa26db6173107"
+      "_content_hash": "7b5543434e1e00d884da2c03a930ccf5a47842713c43a444ac8f6a37ec71dc05"
     }
   ]
 }

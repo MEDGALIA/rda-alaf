@@ -42,6 +42,14 @@ via `--actor` on any row whose content actually changed in this run. Omit
 Action passes its own trusted identity (e.g. `github.actor`) instead of
 trusting free text.
 
+`Last Updated` is the companion date: when this row's content was last
+added or edited, auto-stamped with today's date on the same trigger as
+`Added/Edited By` (content actually changed), unconditionally -- a date
+carries no identity to distrust, so unlike `--actor` it doesn't need a
+trusted caller to set it. This is *not* the resource's own date -- that's
+`Publication/Version Date` (or `Version`, for a resource that has one),
+which nothing here ever touches automatically.
+
 Before any of this, the workbook's structure is validated against
 `Dictionary`: if a data sheet's columns don't exactly match what `Dictionary`
 declares for it (same headers, same order), conversion refuses to run at
@@ -67,6 +75,7 @@ Usage:
 from __future__ import annotations
 
 import argparse
+import datetime
 from pathlib import Path
 
 import openpyxl
@@ -190,7 +199,11 @@ def sheet_to_records(ws, schema: dict) -> tuple[list[dict], list[str], dict[str,
 
 
 def merge_with_previous(
-    records: list[dict], previous: dict | None, key_field: str, actor: str | None = None
+    records: list[dict],
+    previous: dict | None,
+    key_field: str,
+    actor: str | None = None,
+    today: str | None = None,
 ) -> tuple[list[dict], list[str], list[str]]:
     """Clear verification on new/changed rows; report what changed.
 
@@ -200,7 +213,17 @@ def merge_with_previous(
     taking priority over whatever was self-declared in the cell. Left alone
     entirely when `actor` is None (e.g. a local run with no trusted identity
     to attribute changes to).
+
+    `last_updated` -- the date THIS ROW was last added or edited, not the
+    resource's own date (that's `publication_version_date`) -- is stamped
+    with `today` on the same trigger, unconditionally: unlike `actor`, a
+    date carries no identity to be untrusted, so there's no reason to gate
+    it behind a trusted-caller check the way `actor` is. Defaults to the
+    real current date; overridable for tests and for a deliberate historical
+    backfill (never for normal runs).
     """
+    if today is None:
+        today = datetime.date.today().isoformat()
     prev_by_key = {r[key_field]: r for r in (previous or {}).get("records", [])} if previous else {}
 
     cleared, kept_keys = [], set()
@@ -214,6 +237,8 @@ def merge_with_previous(
         content_changed = prev_record is None or prev_record.get("_content_hash") != new_hash
         if actor and content_changed and "added_edited_by" in record:
             record["added_edited_by"] = actor
+        if content_changed and "last_updated" in record:
+            record["last_updated"] = today
 
         if not any(f in record for f in VERIFICATION_FIELDS):
             record["_content_hash"] = new_hash
@@ -298,6 +323,14 @@ def convert(xlsx_path: Path, out_dir: Path, fresh: bool = False, actor: str | No
     # drift apart.
     to_stamp: list[tuple[str, int, str]] = []
 
+    # (sheet_name, row_idx, value) for rows where last_updated was
+    # auto-stamped in memory -- same drift risk as to_stamp above, but for
+    # last_updated instead of added_edited_by: without writing it back, the
+    # xlsx cell keeps its stale value, and the *next* run reads that stale
+    # value as the row's current last_updated and silently reverts the
+    # stamp, since a no-op run never re-stamps it.
+    to_stamp_last_updated: list[tuple[str, int, str]] = []
+
     # Per-sheet results, kept until every sheet's been processed -- a row
     # "removed" from one sheet can't be classified as moved vs. deleted until
     # we know what's currently present across *all* sheets, including ones
@@ -313,6 +346,12 @@ def convert(xlsx_path: Path, out_dir: Path, fresh: bool = False, actor: str | No
         if not columns:
             continue
         key_field = columns[0]
+
+        # merge_with_previous mutates `records` in place, so the xlsx's raw
+        # last_updated must be captured before the call -- afterward there's
+        # no way to tell "auto-stamped this run" from "already held today's
+        # date" by looking at the record alone.
+        original_last_updated = {r[key_field]: r.get("last_updated") for r in records}
 
         out_path = out_dir / f"{slugify(sheet_name)}.json"
         previous = None if fresh else load_sheet_json(out_path)
@@ -331,6 +370,9 @@ def convert(xlsx_path: Path, out_dir: Path, fresh: bool = False, actor: str | No
                 letter = header_letters.get("added_edited_by")
                 if letter and str(ws[f"{letter}{row_idx}"].value or "") != actor:
                     to_stamp.append((sheet_name, row_idx, actor))
+            new_last_updated = record.get("last_updated")
+            if new_last_updated and new_last_updated != original_last_updated.get(record[key_field]):
+                to_stamp_last_updated.append((sheet_name, row_idx, new_last_updated))
             present_elsewhere[record[key_field]] = (sheet_name, record.get("resource_name", ""))
 
         save_sheet_json(out_path, {"sheet_name": sheet_name, "columns": columns, "records": merged})
@@ -356,7 +398,7 @@ def convert(xlsx_path: Path, out_dir: Path, fresh: bool = False, actor: str | No
 
     wb.close()
 
-    if to_blank or to_stamp:
+    if to_blank or to_stamp or to_stamp_last_updated:
         wb_write = openpyxl.load_workbook(xlsx_path)  # formulas preserved
         for sheet_name, row_idx, field in to_blank:
             ws = wb_write[sheet_name]
@@ -367,6 +409,14 @@ def convert(xlsx_path: Path, out_dir: Path, fresh: bool = False, actor: str | No
             ws = wb_write[sheet_name]
             header_letters = {slugify(h): c for c, h in iter_header(ws)}
             ws[f"{header_letters['added_edited_by']}{row_idx}"] = value
+        for sheet_name, row_idx, value in to_stamp_last_updated:
+            ws = wb_write[sheet_name]
+            header_letters = {slugify(h): c for c, h in iter_header(ws)}
+            try:
+                cell_value = datetime.date.fromisoformat(value)
+            except ValueError:
+                cell_value = value  # always a full ISO date in practice; text as a fallback
+            ws[f"{header_letters['last_updated']}{row_idx}"] = cell_value
         wb_write.save(xlsx_path)
         if to_blank:
             print(f"blanked {len(to_blank)} stale verification cell(s) directly in the xlsx (kept in sync with the JSON)")
@@ -375,6 +425,10 @@ def convert(xlsx_path: Path, out_dir: Path, fresh: bool = False, actor: str | No
         if to_stamp:
             print(f"stamped 'Added/Edited By' on {len(to_stamp)} changed row(s) directly in the xlsx")
             for sheet_name, row_idx, value in to_stamp:
+                print(f"  {sheet_name} row {row_idx}: {value!r}")
+        if to_stamp_last_updated:
+            print(f"stamped 'Last Updated' on {len(to_stamp_last_updated)} changed row(s) directly in the xlsx")
+            for sheet_name, row_idx, value in to_stamp_last_updated:
                 print(f"  {sheet_name} row {row_idx}: {value!r}")
 
 

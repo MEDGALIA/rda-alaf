@@ -65,8 +65,10 @@ Once a second Write collaborator exists, set `enforce_admins: true` on `main`. I
 1. Bootstrap (one time): `xlsx_to_json.py` converts the xlsx into `data/json/*.json`.
 2. Ongoing edits go through a PR — either directly to the json, or by uploading a changed xlsx (`xlsx-to-json.yml` converts the upload into the same kind of json diff, stamping `Added/Edited By` with the uploader's GitHub handle).
 3. Any added/removed/edited row has `Verified By`/`Last Verified` cleared automatically as part of that conversion. A row that disappears with no match in any other sheet requires an admin's approval (`deletion-authorization.yml`, a required status check) before the PR can merge.
-4. Curator verifies the content, fills in `Verified By`/`Last Verified` by re-uploading the xlsx to the same PR branch, then approves. A fresh, fully-supplied verification survives the sync; the contributor stays recorded in `Added/Edited By`.
-5. Curator merges.
+4. Curator checks the resources and approves. **Approving is the verification** — no downloading or re-uploading.
+5. Curator merges. `stamp-verification.yml` then writes `Verified By` = the approving reviewer and `Last Verified` = the approval's date into both the JSON and the xlsx, and pushes that to `main`. The contributor stays recorded in `Added/Edited By`.
+
+Stamping happens *after* the merge, not on the open PR: `dismiss_stale_reviews` is on, so a bot commit to the PR branch would cancel the very approval it is recording.
 
 No git CLI or branch-pushing is required of contributors or curators — every step is available through GitHub's native web UI (edit-in-browser, drag-and-drop upload, "Approve" button, "Merge" button).
 
@@ -78,14 +80,15 @@ No git CLI or branch-pushing is required of contributors or curators — every s
 | `src/scripts/tech_radar_analysis.py` | Done — see `data/reports/workbook_analysis.md` |
 | Workbook metadata tabs (`Dictionary`/`Vocabulary`/`Standards`) | Done — 18 columns (incl. `ID`, `Added/Edited By`), 76 vocabulary terms, 4 standards |
 | `.github/CODEOWNERS` for `data/json/**` | Done — names `@pbuendia` |
-| Branch protection on `main` | Done — PR + 1 code-owner approval required; `Deletion authorization / check` required; admin bypass allowed |
+| Branch protection on `main` | Done — a **repository ruleset** (not classic protection): PR + 1 code-owner approval, `check` required, no deletion, no force-push. Bypass actors: the `vt-radar-verification-bot` App and repository admins. Classic protection was removed; the two stack, and a ruleset is the only form with a bypass that covers *required status checks* |
 | `src/scripts/xlsx_to_json.py` | Done — schema-driven; auto-assigns `ID`; validates workbook structure before converting; detects cross-sheet row moves vs. deletions; `--actor` stamps `Added/Edited By` |
-| `src/scripts/json_to_xlsx.py` | Done — rebuilds the entire workbook from `data/json/` |
+| `src/scripts/json_to_xlsx.py` | Done — rebuilds the entire workbook from `data/json/`. Also applies conditional-formatting cell colours, entirely data-driven from a `Colour` field on the `Dictionary`/`Vocabulary` tabs (no hardcoded colours in Python) — `controlled_single` columns get one fill per term (`Maturity Level`'s 4 terms, `Resource Type`'s 14), `controlled_multi` columns get one blanket "populated" fill (`Topic Focus`; `Agentic Features Covered` not yet assigned a colour). Adding or recolouring a term needs only a `Vocabulary` edit, no code change. See `drafts/Color-coded-standards.md` for how the original workbook's colours drifted onto the wrong columns after later schema migrations, and `drafts/VANTAGE-Tech-Radar-Sync-Plan.md` checklist item 20 for the fix |
 | `src/scripts/check_deletion_authorization.py` | Done — blocks a PR that deletes a row unless an admin approved it |
 | GitHub Action — xlsx upload → json diff (`xlsx-to-json.yml`) | Done, confirmed on a real PR |
 | GitHub Action — deletion authorization (`deletion-authorization.yml`) | Done, confirmed on a real PR |
 | GitHub Action — publish (`workflow_dispatch` → Release) | Dropped — the xlsx is already in sync at merge time, so nothing needs regenerating |
-| GitHub Action — stamp `Verified By` from the approval | Not built. Blocked: the Actions app cannot be granted `bypass_pull_request_allowances`, so a workflow cannot push to `main`. Curators fill the fields manually instead (step 4 above) |
+| GitHub Action — stamp `Verified By` from the approval (`stamp-verification.yml`) | **Done, confirmed on a real PR (#25).** On merge, reads the approving review and writes `Verified By` = approver, `Last Verified` = the approval's date into both the JSON and the xlsx, then pushes to `main` as the `vt-radar-verification-bot` App. Only rows changed in the PR whose verification is still blank are stamped; the `no-verify` label skips it. Always produces a run and logs its decision, and comments the outcome on the PR. `workflow_dispatch` with a PR number re-runs it manually |
+| `src/scripts/preflight_stamp.py` | Done — read-only check that stamping *can* succeed: App exists, secrets present, App and admins in the ruleset bypass, no classic protection stacked, no `[skip ci]` in any workflow, App token minted before `actions/checkout`. Run it before any live test |
 | Developer/user documentation | This file + `scripts-guide.md` + `user_guides/VT_RADAR.md` |
 
 **Known gap**: no check yet enforces the verification rule against a hand-edited JSON commit (that `Verified By` is never non-empty while its content hash differs from the verified baseline) — today it's enforced only when `xlsx_to_json.py` itself does the conversion.

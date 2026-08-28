@@ -202,18 +202,14 @@ img { max-width: 100%; border-radius: 6px; }
 <h2 id="step-by-step">Step by step</h2>
 
 <ol>
-<li><strong>Download and edit.</strong> Get the current workbook from <code>data/VANTAGE-Technology-Radar.xlsx</code> in the repo, edit it in Excel (or another real spreadsheet app), save.</li>
+<li><strong>Download and edit.</strong> Get the current workbook from <code>data/VANTAGE-Technology-Radar.xlsx</code> in the repo, edit it in Excel (or another real spreadsheet app), save with name <code>VANTAGE-Technology-Radar.xlsx</code> or you will block the process.</li>
 <li><strong>Go to the <code>data/</code> folder on github.com.</strong> Stay in the folder listing — "Upload files" is not available from inside the file itself, only from the folder view.</li>
-<li><strong>Upload your edited copy.</strong> From the folder listing, "Add file" → "Upload files" (or drag your file directly onto the page), select your edited file with the exact same name so it replaces the old one.
-<ul>
-<li><strong>Check the filename before you select it.</strong> If you've downloaded the workbook more than once, your OS may have saved the second copy as <code>VANTAGE-Technology-Radar (1).xlsx</code> or similar. Uploading that adds a new, unrelated file instead of replacing the real one — nothing syncs, and the PR does nothing useful. Rename it back to exactly <code>VANTAGE-Technology-Radar.xlsx</code> first.</li>
-<li><strong>Confirm before committing.</strong> GitHub shows <em>"This will replace VANTAGE-Technology-Radar.xlsx"</em> above the commit box once the name matches. If you don't see that line, stop and check the filename — you're about to add a stray file, not update the real one.</li>
-</ul></li>
+<li><strong>Upload your edited copy.</strong> From the folder listing, "Add file" → "Upload files" (or drag your file directly onto the page), select your edited file with the <strong>exact same name</strong>, <code>VANTAGE-Technology-Radar.xlsx</code>, so it replaces the old one, or you will get an <strong>error</strong>.</li>
 <li><strong>Click the "Propose Changes" button</strong>. Accept the branch name provided. This will commit as a new branch and open a pull request (PR). You don't need to understand what a branch is, just follow the prompt.</li>
 <li><strong>Click "Create Pull Request" button</strong> in the page that opens. </li>
-<li><strong>Wait for the automatic sync.</strong> Once your PR is open, GitHub automatically converts your xlsx into the machine-readable JSON files and adds that as a second commit on your PR. You don't trigger this yourself — it just happens.</li>
-<li><strong>The curator verifies and approves.</strong> They check the resources themselves, fill in who verified them, and approve.</li>
-<li><strong>The curator merges.</strong> Once merged, your changes are live.</li>
+<li><strong>Wait for the automatic sync.</strong> Once your PR is open, GitHub automatically converts your xlsx into the machine-readable JSON files and adds that as a second commit on your PR. You don't trigger this yourself — it just happens. You will see the warning <strong>Merging is blocked</strong> as the curator needs to approve the merge.</li>
+<li><strong>The curator verifies and approves.</strong> They check the resources themselves and click Approve — that approval <em>is</em> the verification.</li>
+<li><strong>The curator merges.</strong> Once merged, your changes are live, and <code>Verified By</code>/<code>Last Verified</code> are filled in automatically from the approval.</li>
 </ol>
 
 <h2 id="rules-the-sync-follows-automatically">Rules the sync follows automatically</h2>
@@ -221,7 +217,7 @@ img { max-width: 100%; border-radius: 6px; }
 <p>You don't need to do anything special for these — they just happen when your file is processed:</p>
 
 <ul>
-<li><strong>Leave <code>Verified By</code> and <code>Last Verified</code> alone.</strong> They record that a curator personally checked the resource — not that the row was edited. Whenever you change a row's content, both fields are cleared automatically, and the curator fills them back in after checking. Don't fill them in yourself, and don't put someone else's name in them.</li>
+<li><strong>Leave <code>Verified By</code> and <code>Last Verified</code> alone.</strong> They record that a curator personally checked the resource — not that the row was edited. Whenever you change a row's content, both fields are cleared automatically, and they are filled back in from the curator's approval once the PR merges. Don't fill them in yourself, and don't put someone else's name in them.</li>
 <li><strong>Every row has an <code>ID</code> column</strong> (column A on each data tab) that you shouldn't touch. It's how the sync recognizes "this is the same row as before" even if you rename it, and it gets assigned automatically for any new row you add — just leave it blank and it'll be filled in for you.</li>
 <li><strong>Moving a row between tabs</strong> (e.g. a resource that's now deprecated): copy the <em>entire</em> row — including its <code>ID</code> — from <code>Knowledgebase</code> into <code>Deprecated</code>, then delete it from <code>Knowledgebase</code>. As long as the <code>ID</code> comes along, the sync recognizes it as a move, not a deletion, and its history is preserved.</li>
 <li><strong>Deleting a row outright</strong> (no move, it's just gone) blocks the PR until a repo admin approves it. If you're not sure whether something should be deleted or moved to <code>Deprecated</code>, ask first.</li>
@@ -231,17 +227,19 @@ img { max-width: 100%; border-radius: 6px; }
 
 <h2 id="for-the-curator">For the curator</h2>
 
-<p>Approving a PR does <strong>not</strong> fill in <code>Verified By</code>/<code>Last Verified</code> — nothing writes them for you. To record a verification:</p>
+<p><strong>Approving the PR <em>is</em> the verification.</strong> You never type into <code>Verified By</code>/<code>Last Verified</code> — a bot fills them in for you once the PR merges. There is no downloading, no editing, no re-uploading.</p>
 
 <ol>
-<li>Download the xlsx <strong>from the PR branch</strong>, not from <code>main</code>. On the PR, open the "Files changed" tab and use the branch switcher (top-left of the repo page, shows <code>main</code> by default) to switch to the PR's branch — its name is shown at the top of the PR — then navigate to <code>data/VANTAGE-Technology-Radar.xlsx</code> and download from there. Downloading from <code>main</code> gets the pre-PR version, missing the contributor's edit entirely.</li>
-<li>Open the resources and actually check them.</li>
-<li>Fill in <strong>both</strong> <code>Verified By</code> (your name) and <code>Last Verified</code> (today) on the rows you checked. One without the other is treated as invalid and cleared.</li>
-<li>Re-upload that xlsx to the <strong>same PR branch</strong>. The sync keeps your verification and leaves <code>Added/Edited By</code> pointing at the contributor.</li>
-<li><strong>Then</strong> approve, and merge.</li>
+<li>If the Checks tab says <em>"N workflows awaiting approval"</em>, click <strong>Approve Workflows to run</strong>. This only lets the automation run — it records nothing about verification.</li>
+<li>Read the <code>data/json/</code> diff, and actually open the resource links to check them.</li>
+<li><strong>Files changed</strong> → <strong>Review changes</strong> → <strong>Approve</strong> → <strong>Submit review</strong>. <em>This</em> is the verification.</li>
+<li><strong>Merge pull request</strong>. Confirm the header then reads <strong>"Merged"</strong> (purple), not "Closed" (red).</li>
+<li>Within about a minute, a commit from <code>vt-radar-verification-bot</code> appears on <code>main</code> writing <code>Verified By</code> = your handle and <code>Last Verified</code> = the date you approved (not the merge date), into both the JSON and the xlsx. The bot also comments on the PR saying what it stamped.</li>
 </ol>
 
-<p>Approve last: any push to the branch — including the automatic sync — cancels an earlier approval, so approving before step 4 will silently come undone.</p>
+<p>Two "Approve" buttons exist and only the one in step 3 counts — step 1's button releases the automation, nothing more.</p>
+
+<p>Only rows that actually changed in the PR <strong>and</strong> whose verification is still blank get stamped, so a row someone verified by hand keeps that person's name. If a PR is a bulk or mechanical edit that you did not check row by row, add the <strong><code>no-verify</code></strong> label before merging and nothing will be stamped.</p>
 
 <h2 id="questions-or-something-looks-wrong">Questions or something looks wrong</h2>
 

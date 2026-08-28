@@ -116,6 +116,36 @@ def check_ruleset_bypass(repo: str) -> Check:
     )
 
 
+def check_admin_can_bypass(repo: str) -> Check:
+    """A repo admin must be able to merge a PR they authored themselves.
+
+    GitHub forbids self-approval, and CODEOWNERS names the curator for
+    data/json/**, so on a PR the curator opened there is nobody whose approval
+    satisfies the rule. Classic protection covered this with
+    `enforce_admins: false`; a ruleset needs RepositoryRole 5 (admin) listed
+    in bypass_actors. Migrating without it silently strands the curator on
+    their own PRs with "Merging is blocked".
+    """
+    c = Check("Repo admins can bypass (can merge their own PRs)")
+    rules = gh_json("repos/{repo}/rules/branches/main", repo)
+    if not rules:
+        return c.failed("no ruleset applies to main")
+    for rid in {r["ruleset_id"] for r in rules if "ruleset_id" in r}:
+        detail = gh_json(f"repos/{{repo}}/rulesets/{rid}", repo)
+        if not detail:
+            continue
+        for actor in detail.get("bypass_actors", []):
+            if actor.get("actor_type") in ("RepositoryRole", "OrganizationAdmin"):
+                return c.passed(
+                    f"{actor['actor_type']} id {actor['actor_id']}, "
+                    f"mode={actor.get('bypass_mode')}"
+                )
+    return c.failed(
+        "no admin role in bypass_actors -- the curator cannot merge their own "
+        "PRs (self-approval is forbidden, so nothing can satisfy the review rule)"
+    )
+
+
 def check_classic_protection_gone(repo: str) -> Check:
     """Classic protection and a ruleset stack; the strictest wins.
 
@@ -226,6 +256,7 @@ def main() -> int:
         check_app_exists(args.repo),
         check_secrets(args.repo),
         check_ruleset_bypass(args.repo),
+        check_admin_can_bypass(args.repo),
         check_classic_protection_gone(args.repo),
         check_no_skip_ci(),
         check_token_before_checkout(),

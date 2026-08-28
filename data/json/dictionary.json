@@ -42,6 +42,7 @@
       "value_type": "id",
       "separator": null,
       "description": "System-generated unique identifier, independent of Resource Name. Auto-assigned by xlsx_to_json.py the first time it sees a row with this cell blank (new rows, and every existing row during this migration) -- don't fill it in by hand. The one exception: when moving a row to a different sheet (e.g. Knowledgebase -> Deprecated), copy its ID along with the rest of the row so the sync scripts recognize it as the same resource rather than a deletion plus a new entry.",
+      "colour": "",
       "terms": []
     },
     {
@@ -56,6 +57,7 @@
       "value_type": "free_text",
       "separator": null,
       "description": "Short, human-readable name. Also the natural key used to match a row across sync runs. Example: VS Code Copilot Agents Overview",
+      "colour": "",
       "terms": []
     },
     {
@@ -70,6 +72,7 @@
       "value_type": "free_text",
       "separator": null,
       "description": "Canonical link to the resource.",
+      "colour": "",
       "terms": []
     },
     {
@@ -84,6 +87,7 @@
       "value_type": "free_text",
       "separator": null,
       "description": "Who maintains it? Examples: Microsoft, GitHub, OpenAI, Kaggle, Anthropic, Google, HuggingFace. This matters because some orgs update weekly, others yearly.",
+      "colour": "",
       "terms": []
     },
     {
@@ -98,6 +102,7 @@
       "value_type": "date",
       "separator": null,
       "description": "Date a curator last checked the page. Set by a human during verification; cleared automatically when the row's content changes.",
+      "colour": "FFD9D2E9",
       "terms": []
     },
     {
@@ -112,6 +117,7 @@
       "value_type": "person",
       "separator": null,
       "description": "Curator who last verified this row. Set by a human only, never by an agent; cleared automatically when the row's content changes.",
+      "colour": "",
       "terms": []
     },
     {
@@ -126,6 +132,7 @@
       "value_type": "actor",
       "separator": null,
       "description": "Who last added or edited this row's content -- a human curator's name, an AI agent's name (tagged '(requested by ...)' if invoked interactively, '(autonomous, ...)' if it ran on a schedule with no human present), or a GitHub handle for a direct xlsx upload. Distinct from Verified By, which is restricted to human review.",
+      "colour": "",
       "terms": []
     },
     {
@@ -134,27 +141,17 @@
       "key": "last_updated",
       "applies_to": [
         "Knowledgebase",
+        "Deprecated",
         "SOTA Coding Agents Benchmarks"
       ],
       "value_type": "date",
       "separator": null,
-      "description": "The page's own update timestamp. Helps track fast-moving agent ecosystems.",
+      "description": "Date this row's content was last added or edited -- auto-stamped by the sync scripts whenever the row's content actually changes, alongside Added/Edited By. Not the resource's own date -- see Publication/Version Date for that.",
+      "colour": "",
       "terms": []
     },
     {
       "position": 9,
-      "name": "Deprecation Date / Last Updated",
-      "key": "deprecation_date_last_updated",
-      "applies_to": [
-        "Deprecated"
-      ],
-      "value_type": "date",
-      "separator": null,
-      "description": "Most recent known date for this row, whichever kind of event produced it: when the resource was confirmed deprecated, or, absent that, whenever the row was last touched. An exact deprecation date isn't always knowable at the time a row is added or edited.",
-      "terms": []
-    },
-    {
-      "position": 10,
       "name": "Version",
       "key": "version",
       "applies_to": [
@@ -164,11 +161,40 @@
       ],
       "value_type": "version",
       "separator": null,
-      "description": "Version string of the resource or tool (e.g. 'v0.1 DRAFT', 'Pro'). Leave blank for article-type resources with no version - use Publication Date instead.",
+      "description": "Version string of the resource or tool (e.g. 'v0.1 DRAFT', 'Pro'). Leave blank for a resource with no version -- use Publication/Version Date instead.",
+      "colour": "",
+      "terms": []
+    },
+    {
+      "position": 10,
+      "name": "Publication/Version Date",
+      "key": "publication_version_date",
+      "applies_to": [
+        "Knowledgebase",
+        "Deprecated",
+        "SOTA Coding Agents Benchmarks"
+      ],
+      "value_type": "date",
+      "separator": null,
+      "description": "The resource's own date -- publication date, or a page's own last-updated date -- used in place of Version when the resource has no version string. Distinct from Last Updated, which is about this row, not the resource.",
+      "colour": "",
       "terms": []
     },
     {
       "position": 11,
+      "name": "Deprecation Date",
+      "key": "deprecation_date",
+      "applies_to": [
+        "Deprecated"
+      ],
+      "value_type": "date",
+      "separator": null,
+      "description": "Date the resource was confirmed deprecated, if known. Often blank -- an exact deprecation date isn't always knowable. Distinct from Last Updated, which is when this row itself was last touched (e.g. when it was moved here).",
+      "colour": "",
+      "terms": []
+    },
+    {
+      "position": 12,
       "name": "Resource Type",
       "key": "resource_type",
       "applies_to": [
@@ -179,109 +205,124 @@
       "value_type": "controlled_single",
       "separator": null,
       "description": "What kind of resource this is. Helps teams filter by what they need.",
+      "colour": "",
       "terms": [
         {
           "name": "Documentation",
           "definition": "",
           "ontology": "Schema.org",
           "ontology_id": "schema:TechArticle",
-          "ontology_url": "https://schema.org/TechArticle"
+          "ontology_url": "https://schema.org/TechArticle",
+          "colour": "FFB7E1CD"
         },
         {
           "name": "API Reference",
           "definition": "",
           "ontology": "Schema.org",
           "ontology_id": "schema:APIReference",
-          "ontology_url": "https://schema.org/APIReference"
+          "ontology_url": "https://schema.org/APIReference",
+          "colour": "FFA4C2F4"
         },
         {
           "name": "Specification",
           "definition": "",
           "ontology": "Schema.org",
           "ontology_id": "schema:TechArticle",
-          "ontology_url": "https://schema.org/TechArticle"
+          "ontology_url": "https://schema.org/TechArticle",
+          "colour": "FFB4A7D6"
         },
         {
           "name": "Whitepaper",
           "definition": "Vendor or organization technical whitepaper.",
           "ontology": "Schema.org",
           "ontology_id": "schema:TechArticle",
-          "ontology_url": "https://schema.org/TechArticle"
+          "ontology_url": "https://schema.org/TechArticle",
+          "colour": "FFFFE599"
         },
         {
           "name": "Scientific Literature",
           "definition": "Peer-reviewed publication or preprint. Distinct from a vendor Whitepaper.",
           "ontology": "Schema.org",
           "ontology_id": "schema:ScholarlyArticle",
-          "ontology_url": "https://schema.org/ScholarlyArticle"
+          "ontology_url": "https://schema.org/ScholarlyArticle",
+          "colour": "FFF4CCCC"
         },
         {
           "name": "Governance Guidance",
           "definition": "",
           "ontology": "Schema.org",
           "ontology_id": "schema:TechArticle",
-          "ontology_url": "https://schema.org/TechArticle"
+          "ontology_url": "https://schema.org/TechArticle",
+          "colour": "FFD9EAD3"
         },
         {
           "name": "Security Guidance & Resources",
           "definition": "",
           "ontology": "Schema.org",
           "ontology_id": "schema:TechArticle",
-          "ontology_url": "https://schema.org/TechArticle"
+          "ontology_url": "https://schema.org/TechArticle",
+          "colour": "FFEA9999"
         },
         {
           "name": "Reference Architecture",
           "definition": "",
           "ontology": "Schema.org",
           "ontology_id": "schema:TechArticle",
-          "ontology_url": "https://schema.org/TechArticle"
+          "ontology_url": "https://schema.org/TechArticle",
+          "colour": "FFC9DAF8"
         },
         {
           "name": "Container Registry",
           "definition": "",
           "ontology": "",
           "ontology_id": "",
-          "ontology_url": ""
+          "ontology_url": "",
+          "colour": "FFD0E0E3"
         },
         {
           "name": "Enterprise Control Interface",
           "definition": "",
           "ontology": "",
           "ontology_id": "",
-          "ontology_url": ""
+          "ontology_url": "",
+          "colour": "FFFCE5CD"
         },
         {
           "name": "Inference Framework",
           "definition": "",
           "ontology": "",
           "ontology_id": "",
-          "ontology_url": ""
+          "ontology_url": "",
+          "colour": "FFCFE2F3"
         },
         {
           "name": "Local Application Sandbox",
           "definition": "",
           "ontology": "",
           "ontology_id": "",
-          "ontology_url": ""
+          "ontology_url": "",
+          "colour": "FFEAD1DC"
         },
         {
           "name": "Github Code Repository",
           "definition": "",
           "ontology": "Schema.org",
           "ontology_id": "schema:SoftwareSourceCode",
-          "ontology_url": "https://schema.org/SoftwareSourceCode"
+          "ontology_url": "https://schema.org/SoftwareSourceCode",
+          "colour": "FFB6D7A8"
         },
         {
           "name": "Benchmark Collection",
           "definition": "A curated collection of benchmarks or comparison studies.",
           "ontology": "Schema.org",
           "ontology_id": "schema:Dataset",
-          "ontology_url": "https://schema.org/Dataset"
+          "ontology_url": "https://schema.org/Dataset",
+          "colour": "FFE06666"
         }
       ]
     },
     {
-      "position": 12,
+      "position": 13,
       "name": "Agentic Features Covered",
       "key": "agentic_features_covered",
       "applies_to": [
@@ -292,221 +333,252 @@
       "value_type": "controlled_multi",
       "separator": ";",
       "description": "Which agentic capabilities the resource covers. One of the most important columns.",
+      "colour": "",
       "terms": [
         {
           "name": "Hooks",
           "definition": "",
           "ontology": "",
           "ontology_id": "",
-          "ontology_url": ""
+          "ontology_url": "",
+          "colour": ""
         },
         {
           "name": "Skills",
           "definition": "",
           "ontology": "",
           "ontology_id": "",
-          "ontology_url": ""
+          "ontology_url": "",
+          "colour": ""
         },
         {
           "name": "MCP",
           "definition": "Model Context Protocol.",
           "ontology": "",
           "ontology_id": "",
-          "ontology_url": ""
+          "ontology_url": "",
+          "colour": ""
         },
         {
           "name": "Agent frameworks",
           "definition": "",
           "ontology": "",
           "ontology_id": "",
-          "ontology_url": ""
+          "ontology_url": "",
+          "colour": ""
         },
         {
           "name": "Agent Patterns",
           "definition": "",
           "ontology": "",
           "ontology_id": "",
-          "ontology_url": ""
+          "ontology_url": "",
+          "colour": ""
         },
         {
           "name": "Multi-Agent Patterns",
           "definition": "",
           "ontology": "",
           "ontology_id": "",
-          "ontology_url": ""
+          "ontology_url": "",
+          "colour": ""
         },
         {
           "name": "Context window management",
           "definition": "",
           "ontology": "",
           "ontology_id": "",
-          "ontology_url": ""
+          "ontology_url": "",
+          "colour": ""
         },
         {
           "name": "Deployment patterns",
           "definition": "",
           "ontology": "",
           "ontology_id": "",
-          "ontology_url": ""
+          "ontology_url": "",
+          "colour": ""
         },
         {
           "name": "Safety / guardrails",
           "definition": "",
           "ontology": "",
           "ontology_id": "",
-          "ontology_url": ""
+          "ontology_url": "",
+          "colour": ""
         },
         {
           "name": "Evaluation / testing",
           "definition": "",
           "ontology": "ACM-CCS",
           "ontology_id": "Software and its engineering~Software verification and validation~Software testing and debugging",
-          "ontology_url": "https://dl.acm.org/ccs"
+          "ontology_url": "https://dl.acm.org/ccs",
+          "colour": ""
         },
         {
           "name": "Risk Controls",
           "definition": "",
           "ontology": "",
           "ontology_id": "",
-          "ontology_url": ""
+          "ontology_url": "",
+          "colour": ""
         },
         {
           "name": "Safe Tool Use",
           "definition": "",
           "ontology": "",
           "ontology_id": "",
-          "ontology_url": ""
+          "ontology_url": "",
+          "colour": ""
         },
         {
           "name": "Tools",
           "definition": "",
           "ontology": "",
           "ontology_id": "",
-          "ontology_url": ""
+          "ontology_url": "",
+          "colour": ""
         },
         {
           "name": "Tool-Ready Endpoints",
           "definition": "",
           "ontology": "",
           "ontology_id": "",
-          "ontology_url": ""
+          "ontology_url": "",
+          "colour": ""
         },
         {
           "name": "Coding Agents",
           "definition": "",
           "ontology": "",
           "ontology_id": "",
-          "ontology_url": ""
+          "ontology_url": "",
+          "colour": ""
         },
         {
           "name": "Notebook Agents",
           "definition": "",
           "ontology": "",
           "ontology_id": "",
-          "ontology_url": ""
+          "ontology_url": "",
+          "colour": ""
         },
         {
           "name": "Workflow Agents",
           "definition": "",
           "ontology": "",
           "ontology_id": "",
-          "ontology_url": ""
+          "ontology_url": "",
+          "colour": ""
         },
         {
           "name": "Workflow Automation",
           "definition": "",
           "ontology": "",
           "ontology_id": "",
-          "ontology_url": ""
+          "ontology_url": "",
+          "colour": ""
         },
         {
           "name": "Orchestration",
           "definition": "",
           "ontology": "",
           "ontology_id": "",
-          "ontology_url": ""
+          "ontology_url": "",
+          "colour": ""
         },
         {
           "name": "Triggers",
           "definition": "",
           "ontology": "",
           "ontology_id": "",
-          "ontology_url": ""
+          "ontology_url": "",
+          "colour": ""
         },
         {
           "name": "Retrieval",
           "definition": "",
           "ontology": "ACM-CCS",
           "ontology_id": "Information systems~Information retrieval",
-          "ontology_url": "https://dl.acm.org/ccs"
+          "ontology_url": "https://dl.acm.org/ccs",
+          "colour": ""
         },
         {
           "name": "Retrieval Agents",
           "definition": "",
           "ontology": "ACM-CCS",
           "ontology_id": "Information systems~Information retrieval",
-          "ontology_url": "https://dl.acm.org/ccs"
+          "ontology_url": "https://dl.acm.org/ccs",
+          "colour": ""
         },
         {
           "name": "Sandbox",
           "definition": "",
           "ontology": "",
           "ontology_id": "",
-          "ontology_url": ""
+          "ontology_url": "",
+          "colour": ""
         },
         {
           "name": "Governance",
           "definition": "",
           "ontology": "",
           "ontology_id": "",
-          "ontology_url": ""
+          "ontology_url": "",
+          "colour": ""
         },
         {
           "name": "Cybersecurity",
           "definition": "",
           "ontology": "ACM-CCS",
           "ontology_id": "Security and privacy",
-          "ontology_url": "https://dl.acm.org/ccs"
+          "ontology_url": "https://dl.acm.org/ccs",
+          "colour": ""
         },
         {
           "name": "FAIR data",
           "definition": "Findable, Accessible, Interoperable, Reusable data principles.",
           "ontology": "EDAM",
           "ontology_id": "topic_4012",
-          "ontology_url": "http://edamontology.org/topic_4012"
+          "ontology_url": "http://edamontology.org/topic_4012",
+          "colour": ""
         },
         {
           "name": "API Integration",
           "definition": "",
           "ontology": "",
           "ontology_id": "",
-          "ontology_url": ""
+          "ontology_url": "",
+          "colour": ""
         },
         {
           "name": "Model Integration",
           "definition": "",
           "ontology": "",
           "ontology_id": "",
-          "ontology_url": ""
+          "ontology_url": "",
+          "colour": ""
         },
         {
           "name": "Server Integration",
           "definition": "",
           "ontology": "",
           "ontology_id": "",
-          "ontology_url": ""
+          "ontology_url": "",
+          "colour": ""
         },
         {
           "name": "Server Patterns",
           "definition": "",
           "ontology": "",
           "ontology_id": "",
-          "ontology_url": ""
+          "ontology_url": "",
+          "colour": ""
         }
       ]
     },
     {
-      "position": 13,
+      "position": 14,
       "name": "Topic Focus",
       "key": "topic_focus",
       "applies_to": [
@@ -516,207 +588,236 @@
       "value_type": "controlled_multi",
       "separator": ";",
       "description": "Subject areas the resource addresses. Helps research IT teams quickly find relevant material. Primary vocabulary is EDAM; NIST AI RMF characteristics are available as an optional secondary axis.",
+      "colour": "FFB7E1CD",
       "terms": [
         {
           "name": "Architecture",
           "definition": "",
           "ontology": "ACM-CCS",
           "ontology_id": "Computer systems organization~Architectures",
-          "ontology_url": "https://dl.acm.org/ccs"
+          "ontology_url": "https://dl.acm.org/ccs",
+          "colour": ""
         },
         {
           "name": "Security",
           "definition": "",
           "ontology": "ACM-CCS",
           "ontology_id": "Security and privacy",
-          "ontology_url": "https://dl.acm.org/ccs"
+          "ontology_url": "https://dl.acm.org/ccs",
+          "colour": ""
         },
         {
           "name": "Data governance",
           "definition": "Focuses specifically on the technical protocols, access controls, data-line security, and de-identification standards used to protect the integrity, quality, and privacy of information throughout its lifecycle",
           "ontology": "EDAM",
           "ontology_id": "topic_3571",
-          "ontology_url": "http://edamontology.org/topic_3571"
+          "ontology_url": "http://edamontology.org/topic_3571",
+          "colour": ""
         },
         {
           "name": "Governance",
           "definition": "The overarching organizational policies, compliance frameworks, and capital allocation strategies that dictate how an enterprise manages its broader IT infrastructure, risk tolerances, and vendor choices",
           "ontology": "",
           "ontology_id": "",
-          "ontology_url": ""
+          "ontology_url": "",
+          "colour": ""
         },
         {
           "name": "Implementation",
           "definition": "",
           "ontology": "ACM-CCS",
           "ontology_id": "Software and its engineering~Software creation and management",
-          "ontology_url": "https://dl.acm.org/ccs"
+          "ontology_url": "https://dl.acm.org/ccs",
+          "colour": ""
         },
         {
           "name": "Deployment",
           "definition": "The tactical, hands-on execution of installing, configuring, provisioning, and launching software or hardware systems within a specific operational environment",
           "ontology": "NIST-AI-RMF",
           "ontology_id": "AI lifecycle stage: Deploy",
-          "ontology_url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.pdf"
+          "ontology_url": "https://nvlpubs.nist.gov/nistpubs/ai/NIST.AI.100-1.pdf",
+          "colour": ""
         },
         {
           "name": "Workflows",
           "definition": "",
           "ontology": "EDAM",
           "ontology_id": "topic_0769",
-          "ontology_url": "http://edamontology.org/topic_0769"
+          "ontology_url": "http://edamontology.org/topic_0769",
+          "colour": ""
         },
         {
           "name": "Model selection",
           "definition": "",
           "ontology": "",
           "ontology_id": "",
-          "ontology_url": ""
+          "ontology_url": "",
+          "colour": ""
         },
         {
           "name": "Evaluation",
           "definition": "",
           "ontology": "ACM-CCS",
           "ontology_id": "Software and its engineering~Software verification and validation~Software testing and debugging",
-          "ontology_url": "https://dl.acm.org/ccs"
+          "ontology_url": "https://dl.acm.org/ccs",
+          "colour": ""
         },
         {
           "name": "Compute Infrastructure",
           "definition": "Physical node topologies, hardware constraints, VRAM bounds, and localized compute execution profiles.",
           "ontology": "",
           "ontology_id": "",
-          "ontology_url": ""
+          "ontology_url": "",
+          "colour": ""
         },
         {
           "name": "Network Isolation",
           "definition": "Non-egress boundaries, air-gapped artifact staging, localized cloud VPC containers, and firewalled local registries.",
           "ontology": "",
           "ontology_id": "",
-          "ontology_url": ""
+          "ontology_url": "",
+          "colour": ""
         },
         {
           "name": "Infrastructure Security",
           "definition": "For on-prem LLM deployments, it captures the security of the compute stack as well as the data pipelines",
           "ontology": "",
           "ontology_id": "",
-          "ontology_url": ""
+          "ontology_url": "",
+          "colour": ""
         },
         {
           "name": "Self‑hosted AI",
           "definition": "Self‑hosted, open‑weights models in contrast to API‑based models like OpenAI, Anthropic, or Gemini",
           "ontology": "",
           "ontology_id": "",
-          "ontology_url": ""
+          "ontology_url": "",
+          "colour": ""
         },
         {
           "name": "Data Protection",
           "definition": "Safeguarding sensitive data specifically. Distinct from the broader Security term.",
           "ontology": "EDAM",
           "ontology_id": "topic_4044",
-          "ontology_url": "http://edamontology.org/topic_4044"
+          "ontology_url": "http://edamontology.org/topic_4044",
+          "colour": ""
         },
         {
           "name": "FAIR data",
           "definition": "Findable, Accessible, Interoperable, Reusable data principles.",
           "ontology": "EDAM",
           "ontology_id": "topic_4012",
-          "ontology_url": "http://edamontology.org/topic_4012"
+          "ontology_url": "http://edamontology.org/topic_4012",
+          "colour": ""
         },
         {
           "name": "Data quality management",
           "definition": "",
           "ontology": "EDAM",
           "ontology_id": "topic_3572",
-          "ontology_url": "http://edamontology.org/topic_3572"
+          "ontology_url": "http://edamontology.org/topic_3572",
+          "colour": ""
         },
         {
           "name": "Data curation and archival",
           "definition": "",
           "ontology": "EDAM",
           "ontology_id": "topic_0219",
-          "ontology_url": "http://edamontology.org/topic_0219"
+          "ontology_url": "http://edamontology.org/topic_0219",
+          "colour": ""
         },
         {
           "name": "Data integration and warehousing",
           "definition": "",
           "ontology": "EDAM",
           "ontology_id": "topic_3366",
-          "ontology_url": "http://edamontology.org/topic_3366"
+          "ontology_url": "http://edamontology.org/topic_3366",
+          "colour": ""
         },
         {
           "name": "Data architecture, analysis and design",
           "definition": "",
           "ontology": "EDAM",
           "ontology_id": "topic_3365",
-          "ontology_url": "http://edamontology.org/topic_3365"
+          "ontology_url": "http://edamontology.org/topic_3365",
+          "colour": ""
         },
         {
           "name": "Data identity and mapping",
           "definition": "",
           "ontology": "EDAM",
           "ontology_id": "topic_3345",
-          "ontology_url": "http://edamontology.org/topic_3345"
+          "ontology_url": "http://edamontology.org/topic_3345",
+          "colour": ""
         },
         {
           "name": "Data rescue",
           "definition": "",
           "ontology": "EDAM",
           "ontology_id": "topic_4011",
-          "ontology_url": "http://edamontology.org/topic_4011"
+          "ontology_url": "http://edamontology.org/topic_4011",
+          "colour": ""
         },
         {
           "name": "Valid and Reliable",
           "definition": "NIST AI RMF trustworthy-AI characteristic.",
           "ontology": "NIST-AI-RMF",
           "ontology_id": "",
-          "ontology_url": ""
+          "ontology_url": "",
+          "colour": ""
         },
         {
           "name": "Safe",
           "definition": "NIST AI RMF trustworthy-AI characteristic.",
           "ontology": "NIST-AI-RMF",
           "ontology_id": "",
-          "ontology_url": ""
+          "ontology_url": "",
+          "colour": ""
         },
         {
           "name": "Secure and Resilient",
           "definition": "NIST AI RMF trustworthy-AI characteristic.",
           "ontology": "NIST-AI-RMF",
           "ontology_id": "",
-          "ontology_url": ""
+          "ontology_url": "",
+          "colour": ""
         },
         {
           "name": "Accountable and Transparent",
           "definition": "NIST AI RMF trustworthy-AI characteristic.",
           "ontology": "NIST-AI-RMF",
           "ontology_id": "",
-          "ontology_url": ""
+          "ontology_url": "",
+          "colour": ""
         },
         {
           "name": "Explainable and Interpretable",
           "definition": "NIST AI RMF trustworthy-AI characteristic.",
           "ontology": "NIST-AI-RMF",
           "ontology_id": "",
-          "ontology_url": ""
+          "ontology_url": "",
+          "colour": ""
         },
         {
           "name": "Privacy-Enhanced",
           "definition": "NIST AI RMF trustworthy-AI characteristic.",
           "ontology": "NIST-AI-RMF",
           "ontology_id": "",
-          "ontology_url": ""
+          "ontology_url": "",
+          "colour": ""
         },
         {
           "name": "Fair (harmful bias managed)",
           "definition": "NIST AI RMF trustworthy-AI characteristic: algorithmic non-discrimination. NOT the same as 'FAIR data'.",
           "ontology": "NIST-AI-RMF",
           "ontology_id": "",
-          "ontology_url": ""
+          "ontology_url": "",
+          "colour": ""
         }
       ]
     },
     {
-      "position": 14,
+      "position": 15,
       "name": "Relevance to Research Cyberinfrastructure",
       "key": "relevance_to_research_cyberinfrastructure",
       "applies_to": [
@@ -726,10 +827,11 @@
       "value_type": "free_text",
       "separator": null,
       "description": "Free-text note on why this matters to research platforms. Example themes: workflow orchestration, data portal integration, metadata / provenance, multi-agent coordination, HPC / cloud hybrid workflows, reproducibility, federated analysis, user-facing agent interfaces.",
+      "colour": "",
       "terms": []
     },
     {
-      "position": 15,
+      "position": 16,
       "name": "Maturity Level",
       "key": "maturity_level",
       "applies_to": [
@@ -740,39 +842,44 @@
       "value_type": "controlled_single",
       "separator": null,
       "description": "Not about the website - about the technology described. Helps teams know whether something is stable enough to consider.",
+      "colour": "",
       "terms": [
         {
           "name": "Emerging",
           "definition": "",
           "ontology": "",
           "ontology_id": "",
-          "ontology_url": ""
+          "ontology_url": "",
+          "colour": "FFB7E1CD"
         },
         {
           "name": "Research",
           "definition": "",
           "ontology": "",
           "ontology_id": "",
-          "ontology_url": ""
+          "ontology_url": "",
+          "colour": "FFFFE599"
         },
         {
           "name": "Mature",
           "definition": "",
           "ontology": "",
           "ontology_id": "",
-          "ontology_url": ""
+          "ontology_url": "",
+          "colour": "FFA4C2F4"
         },
         {
           "name": "Deprecated",
           "definition": "",
           "ontology": "",
           "ontology_id": "",
-          "ontology_url": ""
+          "ontology_url": "",
+          "colour": "FFDD7E6B"
         }
       ]
     },
     {
-      "position": 16,
+      "position": 17,
       "name": "Notes / Key Takeaways",
       "key": "notes_key_takeaways",
       "applies_to": [
@@ -783,18 +890,7 @@
       "value_type": "free_text",
       "separator": null,
       "description": "Short free-text field: breaking changes, important patterns, new capabilities, relevance to agentic workflows, implications for research platforms. This is where institutional knowledge accumulates.",
-      "terms": []
-    },
-    {
-      "position": 17,
-      "name": "Publication Date",
-      "key": "publication_date",
-      "applies_to": [
-        "Knowledgebase"
-      ],
-      "value_type": "date",
-      "separator": null,
-      "description": "Publication date for article-type resources that have no software version.",
+      "colour": "",
       "terms": []
     },
     {
@@ -809,6 +905,7 @@
       "value_type": "date",
       "separator": null,
       "description": "Date this resource first entered the VT Radar.",
+      "colour": "",
       "terms": []
     }
   ]

@@ -10,13 +10,13 @@
     "added_edited_by",
     "last_updated",
     "version",
+    "publication_version_date",
     "resource_type",
     "agentic_features_covered",
     "topic_focus",
     "relevance_to_research_cyberinfrastructure",
     "maturity_level",
     "notes_key_takeaways",
-    "publication_date",
     "discovery_date"
   ],
   "records": [
@@ -28,8 +28,9 @@
       "last_verified": "2026-05-15",
       "verified_by": "Paty Buendia",
       "added_edited_by": "Paty Buendia",
-      "last_updated": "2026-04-01",
+      "last_updated": "2026-05-15",
       "version": "",
+      "publication_version_date": "2026-05-20",
       "resource_type": "Documentation",
       "agentic_features_covered": [
         "Hooks",
@@ -45,9 +46,8 @@
       "relevance_to_research_cyberinfrastructure": "IDE integration for agentic workflows",
       "maturity_level": "Emerging",
       "notes_key_takeaways": "Canonical reference for VS Code agent capabilities.",
-      "publication_date": "2026-05-20",
       "discovery_date": "2026-04-01",
-      "_content_hash": "c745e83e6236ad04a7072240165e1eb9aab838161fa220938d859f50514a753d"
+      "_content_hash": "3059e550840f5fb4c2d06112a8a6c1a47ede3fa9e85946f20b97511672f72467"
     },
     {
       "id": "2e9b6b2d",
@@ -59,6 +59,7 @@
       "added_edited_by": "Paty Buendia",
       "last_updated": "2026-05-26",
       "version": "v0.1 DRAFT",
+      "publication_version_date": "",
       "resource_type": "Specification",
       "agentic_features_covered": [
         "FAIR data",
@@ -71,9 +72,8 @@
       "relevance_to_research_cyberinfrastructure": "Makes data outputs FAIR at the point of publication",
       "maturity_level": "Emerging",
       "notes_key_takeaways": "",
-      "publication_date": "",
       "discovery_date": "2026-05-26",
-      "_content_hash": "0281b846d052b0a66962358461c42f610c75ced7c0a42eca933e318492aa827e"
+      "_content_hash": "f0e56bd389f8e18410e0df4010e1c3c7829fd64fb488b0d88cfdb5acd01cf5cb"
     },
     {
       "id": "161f1860",
@@ -83,8 +83,9 @@
       "last_verified": "",
       "verified_by": "",
       "added_edited_by": "Paty Buendia",
-      "last_updated": "2026-04-01",
+      "last_updated": "",
       "version": "",
+      "publication_version_date": "",
       "resource_type": "Documentation",
       "agentic_features_covered": [
         "Hooks",
@@ -99,9 +100,8 @@
       "relevance_to_research_cyberinfrastructure": "Relevant for CI/CD and code-review automation",
       "maturity_level": "Emerging",
       "notes_key_takeaways": "Strong alignment with developer workflows.",
-      "publication_date": "",
       "discovery_date": "2026-04-01",
-      "_content_hash": "a418d2cfb7456cdb0198e4e5739ac72b0dd5ef7ff65a5b8d0ea2fd5f7e993812"
+      "_content_hash": "fcaf7cf51ab85ac30bfa8c6d3a73963d442de16682c1f8f66f818132b59d319e"
     },
     {
       "id": "abbd844c",
@@ -111,8 +111,9 @@
       "last_verified": "",
       "verified_by": "",
       "added_edited_by": "Paty Buendia",
-      "last_updated": "2026-04-01",
+      "last_updated": "",
       "version": "",
+      "publication_version_date": "",
       "resource_type": "API Reference",
       "agentic_features_covered": [
         "MCP",
@@ -126,9 +127,8 @@
       "relevance_to_research_cyberinfrastructure": "Key for interoperable agent tools",
       "maturity_level": "Emerging",
       "notes_key_takeaways": "Fast-moving ecosystem.",
-      "publication_date": "",
       "discovery_date": "2026-04-01",
-      "_content_hash": "f1cf1d171ca857b5f7937ef1773c8302f18de9638d6f8d6c8aeb23a90266ee1c"
+      "_content_hash": "33a14c9d62e9a38466753cf976ca6142775055883e5e7c19f68bf81a4687c4b8"
     },
     {
       "id": "b71baded",
@@ -138,8 +138,9 @@
       "last_verified": "",
       "verified_by": "",
       "added_edited_by": "Paty Buendia",
-      "last_updated": "2026-04-01",
+      "last_updated": "",
       "version": "",
+      "publication_version_date": "",
       "resource_type": "Specification",
       "agentic_features_covered": [
         "MCP",
@@ -153,9 +154,8 @@
       "relevance_to_research_cyberinfrastructure": "Critical for cross-platform agent interoperability",
       "maturity_level": "Emerging",
       "notes_key_takeaways": "Becoming a de facto standard.",
-      "publication_date": "",
       "discovery_date": "2026-04-01",
-      "_content_hash": "9fea65dbaf05d27ff2b9a0dd098e5d9a7971c5702d68b48386571dd776b2d2f4"
+      "_content_hash": "3550223b3215ff2d1a9bf3f3763ade346148e11995448cc452b4b2810eb39bd8"
     },
     {
       "id": "2b23adbb",
@@ -165,8 +165,9 @@
       "last_verified": "2026-06-09",
       "verified_by": "Paty Buendia",
       "added_edited_by": "Paty Buendia",
-      "last_updated": "2025-11-01",
+      "last_updated": "2026-06-09",
       "version": "",
+      "publication_version_date": "2025-11-11",
       "resource_type": "Documentation",
       "agentic_features_covered": [
         "MCP",
@@ -179,9 +180,8 @@
       "relevance_to_research_cyberinfrastructure": "Integration between LLM applications and external data sources and tools",
       "maturity_level": "Emerging",
       "notes_key_takeaways": "Strong safety emphasis.",
-      "publication_date": "2025-11-11",
       "discovery_date": "2025-11-01",
-      "_content_hash": "064afe240ebfff664f1bc136fbea253a0cebe8c21beaf818fffe6cc952dfa996"
+      "_content_hash": "9d6767fbb335baf25fbdaa1d26fae33ccceae8bc6038f76ea07e27f5ec48c19a"
     },
     {
       "id": "d6d28dfa",
@@ -191,8 +191,9 @@
       "last_verified": "2026-05-15",
       "verified_by": "Paty Buendia",
       "added_edited_by": "Paty Buendia",
-      "last_updated": "2025-11-14",
+      "last_updated": "2026-05-15",
       "version": "NA",
+      "publication_version_date": "",
       "resource_type": "Whitepaper",
       "agentic_features_covered": [
         "Deployment patterns",
@@ -206,9 +207,8 @@
       "relevance_to_research_cyberinfrastructure": "Helps teams move prototypes to production",
       "maturity_level": "Mature",
       "notes_key_takeaways": "Technical guide to the operational life cycle of AI agents, focusing on deployment & security",
-      "publication_date": "",
       "discovery_date": "2025-11-14",
-      "_content_hash": "00c659f91a1ef85f2785ef5309f53bc8c05b1e3a4e44c7c43a1f9a0417284cc0"
+      "_content_hash": "f9224937ca25ba3b2b7387c36f7d1e254e650e5382924e8bda2cb0bf078ea433"
     },
     {
       "id": "bfda8877",
@@ -218,8 +218,9 @@
       "last_verified": "",
       "verified_by": "",
       "added_edited_by": "Paty Buendia",
-      "last_updated": "2026-04-01",
+      "last_updated": "",
       "version": "",
+      "publication_version_date": "",
       "resource_type": "Documentation",
       "agentic_features_covered": [
         "Agent frameworks",
@@ -232,9 +233,8 @@
       "relevance_to_research_cyberinfrastructure": "Useful for cloud-based scientific workflows",
       "maturity_level": "Research",
       "notes_key_takeaways": "Strong enterprise alignment.",
-      "publication_date": "",
       "discovery_date": "2026-04-01",
-      "_content_hash": "ce1941ead1b4183cb935ada34acd72c1e57029e9ffa35c89fb369b3c02bc21d4"
+      "_content_hash": "cf43e7eb5fc01c0c12db4e0bbeace3ca4d5cf646a5f4e81d5118fc6a6bcb9136"
     },
     {
       "id": "f488464f",
@@ -244,8 +244,9 @@
       "last_verified": "",
       "verified_by": "",
       "added_edited_by": "Paty Buendia",
-      "last_updated": "2026-03-01",
+      "last_updated": "",
       "version": "",
+      "publication_version_date": "",
       "resource_type": "Documentation",
       "agentic_features_covered": [
         "Tools",
@@ -259,9 +260,8 @@
       "relevance_to_research_cyberinfrastructure": "Useful for open-source agent experimentation",
       "maturity_level": "Emerging",
       "notes_key_takeaways": "Rapidly evolving.",
-      "publication_date": "",
       "discovery_date": "2026-03-01",
-      "_content_hash": "31a7a1364c182ea5d455c5e97644fa46372326b33dc1f789fd95e8e823c2e33d"
+      "_content_hash": "e534bea375be2d730ce60e5d508f1f20f9225f17fb86e4288057ae3fd70440c2"
     },
     {
       "id": "dbe3741e",
@@ -271,8 +271,9 @@
       "last_verified": "",
       "verified_by": "",
       "added_edited_by": "Paty Buendia",
-      "last_updated": "2026-04-01",
+      "last_updated": "",
       "version": "",
+      "publication_version_date": "",
       "resource_type": "Documentation",
       "agentic_features_covered": [
         "Tools",
@@ -286,9 +287,8 @@
       "relevance_to_research_cyberinfrastructure": "Relevant for workflow prototyping",
       "maturity_level": "Research",
       "notes_key_takeaways": "Widely used in research.",
-      "publication_date": "",
       "discovery_date": "2026-04-01",
-      "_content_hash": "cf7ecd3015ce27add85ddd4492d89b5659c714c1e1981dd75e36cbbc14af1879"
+      "_content_hash": "120b7440c355c848e0d1433656d26d7e9c3c6a00641a898146f1e86b170d236e"
     },
     {
       "id": "ddd42289",
@@ -298,8 +298,9 @@
       "last_verified": "",
       "verified_by": "",
       "added_edited_by": "Paty Buendia",
-      "last_updated": "2026-04-01",
+      "last_updated": "",
       "version": "",
+      "publication_version_date": "",
       "resource_type": "Documentation",
       "agentic_features_covered": [
         "Tools",
@@ -313,9 +314,8 @@
       "relevance_to_research_cyberinfrastructure": "Useful for data-rich research platforms",
       "maturity_level": "Research",
       "notes_key_takeaways": "Strong retrieval-centric design.",
-      "publication_date": "",
       "discovery_date": "2026-04-01",
-      "_content_hash": "85037860af94f9f05b785d17612bc7e63f8a311a83809c8aa68c7c9e93db8d60"
+      "_content_hash": "d64ebc0396926e32d6c9c1c1d641edb4311c69cfba8425dc53208a4eac80d480"
     },
     {
       "id": "c7e95f61",
@@ -327,6 +327,7 @@
       "added_edited_by": "Paty Buendia",
       "last_updated": "2026-03-01",
       "version": "1.3.15",
+      "publication_version_date": "",
       "resource_type": "Documentation",
       "agentic_features_covered": [
         "Workflow Automation",
@@ -339,9 +340,8 @@
       "relevance_to_research_cyberinfrastructure": "Relevant for scientific pipelines",
       "maturity_level": "Mature",
       "notes_key_takeaways": "Strong reproducibility focus.",
-      "publication_date": "",
       "discovery_date": "2026-03-01",
-      "_content_hash": "42ba2ac98498c601f4942690f8294a08ad4bb26ed21513e9518947d8c6a0f8f5"
+      "_content_hash": "6b7dd87aa1dfea767f5e8f5049c311147f11caf18a01bd045f10892b2a3ce360"
     },
     {
       "id": "73426de0",
@@ -350,9 +350,10 @@
       "source_organization": "Prefect",
       "last_verified": "",
       "verified_by": "",
-      "added_edited_by": "Paty Buendia",
-      "last_updated": "2026-03-01",
+      "added_edited_by": "claude",
+      "last_updated": "",
       "version": "",
+      "publication_version_date": "",
       "resource_type": "Documentation",
       "agentic_features_covered": [
         "Workflow Agents",
@@ -365,9 +366,8 @@
       "relevance_to_research_cyberinfrastructure": "Useful for data processing pipelines",
       "maturity_level": "Mature",
       "notes_key_takeaways": "Good hybrid cloud/HPC support.",
-      "publication_date": "",
       "discovery_date": "2026-03-01",
-      "_content_hash": "4c75ac1056aa417cd66df1f6d37aae90e239b2cc4d1bcad430a39ad3edd03a80"
+      "_content_hash": "ad0059c385e05456dc77944d05cc62d6b9148e8d4380f60681274d701396849a"
     },
     {
       "id": "3294a13f",
@@ -376,9 +376,10 @@
       "source_organization": "Project Jupyter",
       "last_verified": "",
       "verified_by": "",
-      "added_edited_by": "Paty Buendia",
-      "last_updated": "2026-04-01",
+      "added_edited_by": "claude",
+      "last_updated": "",
       "version": "",
+      "publication_version_date": "",
       "resource_type": "Documentation",
       "agentic_features_covered": [
         "Notebook Agents",
@@ -391,9 +392,8 @@
       "relevance_to_research_cyberinfrastructure": "Relevant for research notebooks",
       "maturity_level": "Emerging",
       "notes_key_takeaways": "Strong alignment with scientific workflows.",
-      "publication_date": "",
       "discovery_date": "2026-04-01",
-      "_content_hash": "1bf5c276596eb4941b8dbdc8c4c88de3f39e9d09453c82e84a88317eb2fbb277"
+      "_content_hash": "4f4b991143ab733a0158113e1a8c501ce75081bd1b462f72e5a97c82ca40b0f4"
     },
     {
       "id": "f51ea180",
@@ -402,9 +402,10 @@
       "source_organization": "Anthropic",
       "last_verified": "",
       "verified_by": "",
-      "added_edited_by": "Paty Buendia",
-      "last_updated": "2026-04-01",
+      "added_edited_by": "claude",
+      "last_updated": "",
       "version": "",
+      "publication_version_date": "",
       "resource_type": "API Reference",
       "agentic_features_covered": [
         "Tools",
@@ -417,9 +418,8 @@
       "relevance_to_research_cyberinfrastructure": "Useful for safe tool-calling agents",
       "maturity_level": "Emerging",
       "notes_key_takeaways": "Strong safety posture.",
-      "publication_date": "",
       "discovery_date": "2026-04-01",
-      "_content_hash": "a665313a4a758f404f7178c1e48f7e2da6ffd172f02fb70065d5fa38d173b8ec"
+      "_content_hash": "ff532ae24e63553426009bce3abb105faf69fb94867d7662f15e4f761e35fb37"
     },
     {
       "id": "89f36cc1",
@@ -428,9 +428,10 @@
       "source_organization": "Microsoft",
       "last_verified": "",
       "verified_by": "",
-      "added_edited_by": "Paty Buendia",
-      "last_updated": "2026-04-01",
+      "added_edited_by": "claude",
+      "last_updated": "",
       "version": "",
+      "publication_version_date": "",
       "resource_type": "Documentation",
       "agentic_features_covered": [
         "Skills",
@@ -444,9 +445,8 @@
       "relevance_to_research_cyberinfrastructure": "Useful for enterprise-grade agent workflows",
       "maturity_level": "Research",
       "notes_key_takeaways": "Strong .NET + Python support.",
-      "publication_date": "",
       "discovery_date": "2026-04-01",
-      "_content_hash": "f8d154e74674756eced2906b11749831b2cd59fb22ef1aa0da40bdc882880318"
+      "_content_hash": "593edbc256b323c45844eda9a3edcd736574aab25246ffbe0938320f2114a4b3"
     },
     {
       "id": "4ccfda21",
@@ -455,9 +455,10 @@
       "source_organization": "HuggingFace",
       "last_verified": "",
       "verified_by": "",
-      "added_edited_by": "Paty Buendia",
-      "last_updated": "2026-03-01",
+      "added_edited_by": "claude",
+      "last_updated": "",
       "version": "",
+      "publication_version_date": "",
       "resource_type": "Documentation",
       "agentic_features_covered": [
         "Model Integration",
@@ -470,9 +471,8 @@
       "relevance_to_research_cyberinfrastructure": "Useful for hosted inference in research",
       "maturity_level": "Mature",
       "notes_key_takeaways": "Good for reproducibility.",
-      "publication_date": "",
       "discovery_date": "2026-03-01",
-      "_content_hash": "5fae9574f13a51c2e5cb14136d3c872c2bdaf875f607c3296dc8883d52eb657a"
+      "_content_hash": "a12146d42a52e997c001945f198458d554e7eb5d9dbd179e8780abc677f1ac8f"
     },
     {
       "id": "2e24be4d",
@@ -481,9 +481,10 @@
       "source_organization": "OpenAI",
       "last_verified": "",
       "verified_by": "",
-      "added_edited_by": "Paty Buendia",
-      "last_updated": "2026-04-01",
+      "added_edited_by": "claude",
+      "last_updated": "",
       "version": "",
+      "publication_version_date": "",
       "resource_type": "Documentation",
       "agentic_features_covered": [
         "Evaluation / testing",
@@ -496,9 +497,8 @@
       "relevance_to_research_cyberinfrastructure": "Relevant for agent safety in research platforms",
       "maturity_level": "Research",
       "notes_key_takeaways": "Useful for risk assessment.",
-      "publication_date": "",
       "discovery_date": "2026-04-01",
-      "_content_hash": "0d917bc0b56b1ba0ed20cfea740a87e6d707faba7ceedd6ad46bb42494c3a1d1"
+      "_content_hash": "c5da7ab3e5407dac79f33c06aa1cee7e048349537be6e7fb40b4017ce6915db0"
     },
     {
       "id": "6b9e7398",
@@ -507,9 +507,10 @@
       "source_organization": "Anthropic",
       "last_verified": "",
       "verified_by": "",
-      "added_edited_by": "Paty Buendia",
-      "last_updated": "2026-04-01",
+      "added_edited_by": "claude",
+      "last_updated": "",
       "version": "",
+      "publication_version_date": "",
       "resource_type": "Documentation",
       "agentic_features_covered": [
         "Safety / guardrails",
@@ -522,9 +523,8 @@
       "relevance_to_research_cyberinfrastructure": "Useful for research governance teams",
       "maturity_level": "Mature",
       "notes_key_takeaways": "Strong alignment with institutional risk controls.",
-      "publication_date": "",
       "discovery_date": "2026-04-01",
-      "_content_hash": "04e11ebc72f7ec2a0ff5a920718fb3fb39c13f96e43ee02baffea5384339ca2e"
+      "_content_hash": "085803fd8e1801f1c1a137732a628db3759ad67ccc281db2178d35553047b194"
     },
     {
       "id": "69804f39",
@@ -533,9 +533,10 @@
       "source_organization": "Microsoft",
       "last_verified": "",
       "verified_by": "",
-      "added_edited_by": "Paty Buendia",
-      "last_updated": "2025-12-01",
+      "added_edited_by": "claude",
+      "last_updated": "",
       "version": "",
+      "publication_version_date": "",
       "resource_type": "Governance Guidance",
       "agentic_features_covered": [
         "Safety / guardrails",
@@ -549,9 +550,8 @@
       "relevance_to_research_cyberinfrastructure": "Relevant for institutional AI governance",
       "maturity_level": "Mature",
       "notes_key_takeaways": "Widely adopted governance framework.",
-      "publication_date": "",
       "discovery_date": "2025-12-01",
-      "_content_hash": "de5e97f98465ca95670a048157b22807cb76d39869868f2d93d5997bbb20b52d"
+      "_content_hash": "4f71bc968628fd992efeef0554e8edc0e3a1761b04a7c5f5682ca645b9d63b33"
     },
     {
       "id": "3758624e",
@@ -560,9 +560,10 @@
       "source_organization": "vLLM Project Team",
       "last_verified": "",
       "verified_by": "",
-      "added_edited_by": "Paty Buendia",
-      "last_updated": "2026-04-01",
+      "added_edited_by": "claude",
+      "last_updated": "",
       "version": "",
+      "publication_version_date": "",
       "resource_type": "Inference Framework",
       "agentic_features_covered": [
         "Deployment patterns",
@@ -577,9 +578,8 @@
       "relevance_to_research_cyberinfrastructure": "High (Industry-standard VPC runtime engine)",
       "maturity_level": "Mature",
       "notes_key_takeaways": "Essential for secure TLAs via PagedAttention and FP8/AWQ optimization. Capabilities: Parallel sampling & tool-calling.",
-      "publication_date": "",
       "discovery_date": "2026-04-01",
-      "_content_hash": "7ebcb5be361a22b3084856b643b4485c20bd6743d8874694a299bef4689db08f"
+      "_content_hash": "2f684222ae8172217c78487a6fa57b9a3e0840708f4b0ca9111a0574c32c6bad"
     },
     {
       "id": "8a50b5eb",
@@ -588,9 +588,10 @@
       "source_organization": "Ollama Community",
       "last_verified": "",
       "verified_by": "",
-      "added_edited_by": "Paty Buendia",
-      "last_updated": "2026-04-01",
+      "added_edited_by": "claude",
+      "last_updated": "",
       "version": "",
+      "publication_version_date": "",
       "resource_type": "Local Application Sandbox",
       "agentic_features_covered": [
         "Deployment patterns"
@@ -603,9 +604,8 @@
       "relevance_to_research_cyberinfrastructure": "Medium-High (Local workstation co-pilot)",
       "maturity_level": "Mature",
       "notes_key_takeaways": "Eliminates network dependency errors by cleanly bundling open model weights. Capabilities: Local embedding & zero-config tools.",
-      "publication_date": "",
       "discovery_date": "2026-04-01",
-      "_content_hash": "622072761e701385957afd65ee11e4e1ae30a60b9ae3be90b7411469bbdb08a1"
+      "_content_hash": "6f48eb8cb6273c698e8a56e6f8e7a11fdaaafa3290717a0f5cc53ffd47d20437"
     },
     {
       "id": "763797cd",
@@ -614,9 +614,10 @@
       "source_organization": "Georgi Gerganov",
       "last_verified": "",
       "verified_by": "",
-      "added_edited_by": "Paty Buendia",
-      "last_updated": "2026-05-20",
+      "added_edited_by": "claude",
+      "last_updated": "",
       "version": "b9253",
+      "publication_version_date": "",
       "resource_type": "Github Code Repository",
       "agentic_features_covered": [
         "Deployment patterns"
@@ -630,9 +631,8 @@
       "relevance_to_research_cyberinfrastructure": "High (Enables reasoning on variable local hardware)",
       "maturity_level": "Mature",
       "notes_key_takeaways": "Grammar constraints ensure localized agentic pipelines always return valid JSON/code. Capabilities: Grammar-based constrained sampling.",
-      "publication_date": "",
       "discovery_date": "2026-05-20",
-      "_content_hash": "4ea5e4d5e4d6528229c8e5b661ab2d8440967df6b81824c37aec0bb7ad9f7971"
+      "_content_hash": "dbd88937edd3b313d6e482a263485c58b785d6ef221408c1bc8c0d68b0dc34b5"
     },
     {
       "id": "2d2470f7",
@@ -641,9 +641,10 @@
       "source_organization": "Open WebUI Core Team",
       "last_verified": "",
       "verified_by": "",
-      "added_edited_by": "Paty Buendia",
-      "last_updated": "2026-04-01",
+      "added_edited_by": "claude",
+      "last_updated": "",
       "version": "",
+      "publication_version_date": "",
       "resource_type": "Enterprise Control Interface",
       "agentic_features_covered": [
         "Retrieval"
@@ -656,9 +657,8 @@
       "relevance_to_research_cyberinfrastructure": "High (Enterprise-grade firewall interface)",
       "maturity_level": "Mature",
       "notes_key_takeaways": "Solves local file parsing/RAG bottlenecks entirely within secure client networks. Capabilities: Local RAG pipelines & offline functions.",
-      "publication_date": "",
       "discovery_date": "2026-04-01",
-      "_content_hash": "bba52df53b11d6f10b8ec1c0c5ee33eef430ac5e9974e433df9bbf77adea32e3"
+      "_content_hash": "b2ec01fa79ac1bb9811b4c9348f38ce7abccbad791437ce6a1bb408c1420495c"
     },
     {
       "id": "eb79015c",
@@ -667,9 +667,10 @@
       "source_organization": "NVIDIA",
       "last_verified": "",
       "verified_by": "",
-      "added_edited_by": "Paty Buendia",
-      "last_updated": "2026",
+      "added_edited_by": "claude",
+      "last_updated": "",
       "version": "",
+      "publication_version_date": "",
       "resource_type": "Reference Architecture",
       "agentic_features_covered": [
         "Deployment patterns"
@@ -684,9 +685,8 @@
       "relevance_to_research_cyberinfrastructure": "Critical (Standardizes secure distribution of optimized weights)",
       "maturity_level": "Mature",
       "notes_key_takeaways": "Outlines the exact connected-to-disconnected asset transfer workflow for enterprise GPUs. Capabilities: Tensor-parallel caching & optimized tool-calling.",
-      "publication_date": "",
       "discovery_date": "2026-05-08",
-      "_content_hash": "3b3f975628c00224313eb95ff9963054516c0b9542fc6eb693731a85f5ac41d0"
+      "_content_hash": "6b70e2003090ed459ff9f22b0aff9b0e238d45452dcf62e5bfb688043da5c2bd"
     },
     {
       "id": "80527de7",
@@ -695,9 +695,10 @@
       "source_organization": "Cloud Native Computing Foundation (CNCF)",
       "last_verified": "",
       "verified_by": "",
-      "added_edited_by": "Paty Buendia",
-      "last_updated": "2026",
+      "added_edited_by": "claude",
+      "last_updated": "",
       "version": "",
+      "publication_version_date": "",
       "resource_type": "Container Registry",
       "agentic_features_covered": [
         "Deployment patterns"
@@ -712,9 +713,8 @@
       "relevance_to_research_cyberinfrastructure": "High (Necessary foundation for secure cluster registries)",
       "maturity_level": "Mature",
       "notes_key_takeaways": "Built-in vulnerability scanning ensures agent images remain clean behind the firewall. Capabilities: Artifact version-locking & immutable tags.",
-      "publication_date": "",
       "discovery_date": "2026-05-08",
-      "_content_hash": "15affff9481b178ce96ece795107020c887524a4b20267534e5baa4bf811abed"
+      "_content_hash": "873226ed7a690878bf31adb58bc2db702a4364f067a60d28d7fe684c3d947ff9"
     },
     {
       "id": "b4b5a468",
@@ -723,9 +723,10 @@
       "source_organization": "arXiv (2604.01395)",
       "last_verified": "",
       "verified_by": "",
-      "added_edited_by": "Paty Buendia",
-      "last_updated": "2026",
+      "added_edited_by": "claude",
+      "last_updated": "",
       "version": "",
+      "publication_version_date": "",
       "resource_type": "Scientific Literature",
       "agentic_features_covered": [
         "Deployment patterns",
@@ -738,9 +739,8 @@
       "relevance_to_research_cyberinfrastructure": "High (Academic/industry validated system design blueprint)",
       "maturity_level": "Emerging",
       "notes_key_takeaways": "Moves past simple how-to guides into formal data isolation and local compliance frameworks. Capabilities: End-to-end local reference applications.",
-      "publication_date": "",
       "discovery_date": "2026-05-08",
-      "_content_hash": "02cad295f5062afcc0f26b75feb79751b2d529a384cf2cb9cbc0cf00f986f7b2"
+      "_content_hash": "85b6bbd29e49899288fc29d2b1ca575b96fb1c76613441948622b4dc42a83bb8"
     },
     {
       "id": "0d0a50a7",
@@ -750,8 +750,9 @@
       "last_verified": "2026-08-25",
       "verified_by": "@pbuendia",
       "added_edited_by": "@biddyman11",
-      "last_updated": "2026-02-01",
+      "last_updated": "2026-08-25",
       "version": "NA",
+      "publication_version_date": "",
       "resource_type": "Whitepaper",
       "agentic_features_covered": [
         "Deployment patterns"
@@ -764,9 +765,8 @@
       "relevance_to_research_cyberinfrastructure": "High (Mandatory for spec'ing out server node VRAM limits)",
       "maturity_level": "Mature",
       "notes_key_takeaways": "Discusses a \"Token Economics\" framework. Breaks down the \"Memory Wall\" economics showing an on-prem breakeven velocity of ~4 months. Capabilities: Hardware performance scaling & VRAM sizing.",
-      "publication_date": "",
       "discovery_date": "2026-02-01",
-      "_content_hash": "d46912b8c2d61e093e22c119a57233a936ea1684b735526ac0cabc2b35f422c5"
+      "_content_hash": "ee51cbb2b06783b952606e26e4b71d74c8d5fb54baab41ee863d7beec681e726"
     },
     {
       "id": "359b5ac8",
@@ -776,8 +776,9 @@
       "last_verified": "2026-08-25",
       "verified_by": "@pbuendia",
       "added_edited_by": "@biddyman11",
-      "last_updated": "2026-06-01",
+      "last_updated": "2026-08-25",
       "version": "",
+      "publication_version_date": "",
       "resource_type": "Security Guidance & Resources",
       "agentic_features_covered": [
         "Safety / guardrails",
@@ -790,9 +791,8 @@
       "relevance_to_research_cyberinfrastructure": "Relevant security expertise and best practices for secure AI development and deployment",
       "maturity_level": "Emerging",
       "notes_key_takeaways": "The Coalition for Secure AI (CoSAI) is an open ecosystem of AI and security experts. See https://github.com/cosai-oasis/ws2-defenders",
-      "publication_date": "",
       "discovery_date": "2026-06-01",
-      "_content_hash": "3242963ee5c8018d80e2612fb8a09d13c3d1e31a42723c1a8936123e408e6ea6"
+      "_content_hash": "5ea29157881142421fd1d65b470552d209255c3800f403046a1430d106ad5ce2"
     },
     {
       "id": "5f3954c2",
@@ -802,8 +802,9 @@
       "last_verified": "2026-06-09",
       "verified_by": "Paty Buendia",
       "added_edited_by": "Paty Buendia",
-      "last_updated": "2026-04-07",
+      "last_updated": "2026-06-09",
       "version": "",
+      "publication_version_date": "2026-04-07",
       "resource_type": "Security Guidance & Resources",
       "agentic_features_covered": [
         "Cybersecurity"
@@ -815,9 +816,8 @@
       "relevance_to_research_cyberinfrastructure": "AI models that find high-severity vulnerabilities",
       "maturity_level": "Emerging",
       "notes_key_takeaways": "See Claude Mythos Preview",
-      "publication_date": "2026-04-07",
       "discovery_date": "2026-04-07",
-      "_content_hash": "08892a82827888ea4146e56cc6389d8cdfb7654ecd1451637c6658d791e5c794"
+      "_content_hash": "7282a1258333050bb523ba9d65c07bf48d42df6543793850f97a2ad59cbd0f78"
     },
     {
       "id": "1c277820",
@@ -827,8 +827,9 @@
       "last_verified": "2026-07-16",
       "verified_by": "Paty Buendia",
       "added_edited_by": "Paty Buendia",
-      "last_updated": "2026-07-10",
+      "last_updated": "2026-07-16",
       "version": "0.35.0",
+      "publication_version_date": "",
       "resource_type": "Documentation",
       "agentic_features_covered": [
         "Sandbox",
@@ -840,9 +841,8 @@
       "relevance_to_research_cyberinfrastructure": "Good AI governance topics",
       "maturity_level": "Research",
       "notes_key_takeaways": "See blog article: https://www.docker.com/blog/the-3cs-a-framework-for-ai-agent-security/",
-      "publication_date": "",
       "discovery_date": "2026-07-10",
-      "_content_hash": "4064595e21ca205783da147c493404513ed7cf6818ea3fc702c27b3c0d48401a"
+      "_content_hash": "dd00e94f2b931844b0f16cc35db5d9cf79aec293851225cb459056b8d9a7c2c4"
     },
     {
       "id": "b39dc1d1",
@@ -852,8 +852,9 @@
       "last_verified": "2026-07-17",
       "verified_by": "Paty Buendia",
       "added_edited_by": "Paty Buendia",
-      "last_updated": "2026-07-09",
+      "last_updated": "2026-07-17",
       "version": "GPT-5.6",
+      "publication_version_date": "",
       "resource_type": "Documentation",
       "agentic_features_covered": [
         "Tools",
@@ -866,9 +867,8 @@
       "relevance_to_research_cyberinfrastructure": "Useful for domain-specific agents",
       "maturity_level": "Emerging",
       "notes_key_takeaways": "MIgrated from API Assistants  - now deprecated.",
-      "publication_date": "",
       "discovery_date": "2026-07-09",
-      "_content_hash": "586c3453526aaf9019698eff458d063c3d6259543dfed2337132a4fcf4c7383d"
+      "_content_hash": "c974fe168d28e8aad1b06dfd4a8a54e188a21a6e5be8be53d36684c15c645675"
     }
   ]
 }

@@ -12,7 +12,7 @@ import re
 import uuid
 from pathlib import Path
 
-RESERVED_KEYS = {"id", "verified_by", "last_verified", "added_edited_by", "_content_hash"}
+RESERVED_KEYS = {"id", "verified_by", "last_verified", "added_edited_by", "last_updated", "_content_hash"}
 
 # Metadata tabs describe the schema/vocabulary rather than holding radar
 # records, so the record-oriented conversion skips them.
@@ -138,7 +138,10 @@ def load_workbook_schema(wb) -> dict:
 
     Returns {"standards": [...], "columns": [...]} where each column carries
     its terms nested underneath it. This is the single source of truth for
-    which columns are controlled vocabularies and how multi-value cells split.
+    which columns are controlled vocabularies and how multi-value cells split
+    -- and, via "colour" on both columns and terms, for cell-fill colours
+    too. Colours are read here and applied by json_to_xlsx.py; nothing about
+    conditional formatting is hardcoded in Python beyond that mechanism.
     """
     standards = [
         {
@@ -160,6 +163,11 @@ def load_workbook_schema(wb) -> dict:
                 "ontology": r.get("Ontology", ""),
                 "ontology_id": r.get("Ontology ID", ""),
                 "ontology_url": r.get("Ontology URL", ""),
+                # ARGB hex (e.g. "FFB7E1CD"), or "" if this term has no
+                # assigned colour. Applied per-term to controlled_single
+                # columns by json_to_xlsx.py -- see load_workbook_schema's
+                # docstring note on "colour" below.
+                "colour": r.get("Colour", ""),
             }
         )
 
@@ -176,6 +184,12 @@ def load_workbook_schema(wb) -> dict:
                 "value_type": r.get("Value Type", ""),
                 "separator": r.get("Separator", "") or None,
                 "description": r.get("Description", ""),
+                # Column-level ARGB hex fill, or "". Used for controlled_multi
+                # columns (one value can't carry a per-term colour, so the
+                # whole column gets a single "populated" fill) and for
+                # non-controlled columns with their own highlight rule (e.g.
+                # Last Verified's "recently verified" highlight).
+                "colour": r.get("Colour", ""),
                 "terms": terms_by_column.get(name, []),
             }
         )
