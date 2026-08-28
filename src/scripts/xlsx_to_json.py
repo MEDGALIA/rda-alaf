@@ -323,6 +323,14 @@ def convert(xlsx_path: Path, out_dir: Path, fresh: bool = False, actor: str | No
     # drift apart.
     to_stamp: list[tuple[str, int, str]] = []
 
+    # (sheet_name, row_idx, value) for rows where last_updated was
+    # auto-stamped in memory -- same drift risk as to_stamp above, but for
+    # last_updated instead of added_edited_by: without writing it back, the
+    # xlsx cell keeps its stale value, and the *next* run reads that stale
+    # value as the row's current last_updated and silently reverts the
+    # stamp, since a no-op run never re-stamps it.
+    to_stamp_last_updated: list[tuple[str, int, str]] = []
+
     # Per-sheet results, kept until every sheet's been processed -- a row
     # "removed" from one sheet can't be classified as moved vs. deleted until
     # we know what's currently present across *all* sheets, including ones
@@ -338,6 +346,12 @@ def convert(xlsx_path: Path, out_dir: Path, fresh: bool = False, actor: str | No
         if not columns:
             continue
         key_field = columns[0]
+
+        # merge_with_previous mutates `records` in place, so the xlsx's raw
+        # last_updated must be captured before the call -- afterward there's
+        # no way to tell "auto-stamped this run" from "already held today's
+        # date" by looking at the record alone.
+        original_last_updated = {r[key_field]: r.get("last_updated") for r in records}
 
         out_path = out_dir / f"{slugify(sheet_name)}.json"
         previous = None if fresh else load_sheet_json(out_path)
@@ -356,6 +370,9 @@ def convert(xlsx_path: Path, out_dir: Path, fresh: bool = False, actor: str | No
                 letter = header_letters.get("added_edited_by")
                 if letter and str(ws[f"{letter}{row_idx}"].value or "") != actor:
                     to_stamp.append((sheet_name, row_idx, actor))
+            new_last_updated = record.get("last_updated")
+            if new_last_updated and new_last_updated != original_last_updated.get(record[key_field]):
+                to_stamp_last_updated.append((sheet_name, row_idx, new_last_updated))
             present_elsewhere[record[key_field]] = (sheet_name, record.get("resource_name", ""))
 
         save_sheet_json(out_path, {"sheet_name": sheet_name, "columns": columns, "records": merged})
@@ -381,7 +398,7 @@ def convert(xlsx_path: Path, out_dir: Path, fresh: bool = False, actor: str | No
 
     wb.close()
 
-    if to_blank or to_stamp:
+    if to_blank or to_stamp or to_stamp_last_updated:
         wb_write = openpyxl.load_workbook(xlsx_path)  # formulas preserved
         for sheet_name, row_idx, field in to_blank:
             ws = wb_write[sheet_name]
@@ -392,6 +409,14 @@ def convert(xlsx_path: Path, out_dir: Path, fresh: bool = False, actor: str | No
             ws = wb_write[sheet_name]
             header_letters = {slugify(h): c for c, h in iter_header(ws)}
             ws[f"{header_letters['added_edited_by']}{row_idx}"] = value
+        for sheet_name, row_idx, value in to_stamp_last_updated:
+            ws = wb_write[sheet_name]
+            header_letters = {slugify(h): c for c, h in iter_header(ws)}
+            try:
+                cell_value = datetime.date.fromisoformat(value)
+            except ValueError:
+                cell_value = value  # always a full ISO date in practice; text as a fallback
+            ws[f"{header_letters['last_updated']}{row_idx}"] = cell_value
         wb_write.save(xlsx_path)
         if to_blank:
             print(f"blanked {len(to_blank)} stale verification cell(s) directly in the xlsx (kept in sync with the JSON)")
@@ -400,6 +425,10 @@ def convert(xlsx_path: Path, out_dir: Path, fresh: bool = False, actor: str | No
         if to_stamp:
             print(f"stamped 'Added/Edited By' on {len(to_stamp)} changed row(s) directly in the xlsx")
             for sheet_name, row_idx, value in to_stamp:
+                print(f"  {sheet_name} row {row_idx}: {value!r}")
+        if to_stamp_last_updated:
+            print(f"stamped 'Last Updated' on {len(to_stamp_last_updated)} changed row(s) directly in the xlsx")
+            for sheet_name, row_idx, value in to_stamp_last_updated:
                 print(f"  {sheet_name} row {row_idx}: {value!r}")
 
 
