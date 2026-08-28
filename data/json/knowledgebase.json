@@ -77,13 +77,13 @@
     },
     {
       "id": "161f1860",
-      "resource_name": "Agentic AI Tool",
+      "resource_name": "GitHub Copilot Documentation",
       "url": "https://docs.github.com/en/copilot/agents",
       "source_organization": "GitHub",
       "last_verified": "",
       "verified_by": "",
-      "added_edited_by": "Paty Buendia",
-      "last_updated": "",
+      "added_edited_by": "@biddyman11",
+      "last_updated": "2026-08-28",
       "version": "",
       "publication_version_date": "",
       "resource_type": "Documentation",
@@ -101,7 +101,7 @@
       "maturity_level": "Emerging",
       "notes_key_takeaways": "Strong alignment with developer workflows.",
       "discovery_date": "2026-04-01",
-      "_content_hash": "fcaf7cf51ab85ac30bfa8c6d3a73963d442de16682c1f8f66f818132b59d319e"
+      "_content_hash": "c9fd1b857d3d27f87d1d12805e9f02b0f4760e8376e4c8518755aac8ab79024f"
     },
     {
       "id": "abbd844c",
