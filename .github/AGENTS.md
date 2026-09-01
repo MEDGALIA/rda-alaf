@@ -127,3 +127,7 @@ Please add ToDo Checklists in these format at the top of each issue or planning 
 
 Agent will not git commit, git push, open a PR and merge. Agent will ask the user to do it.
 Always work in a branch. Reuse a branch whenever possible, it is fine to add user guide changes or .md changes to it. Only change branch when starting a new feature or when prompted by user. We will use commits sparingly and selectively.
+
+## 16. Do not chain commands
+
+Do not chain commands with &&, ||, or pipes, and do not use multi-line blocks or heredocs. Each Bash call runs one plain command so it can be matched against the agent settings.local.json allow list.

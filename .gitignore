@@ -219,5 +219,11 @@ __marimo__/
 
 drafts/
 
+# Generated HTML copies of the Markdown guides. GitHub renders .md directly,
+# so committing a second representation only creates drift when the .md is
+# edited and the HTML isn't regenerated.
+developer_guides_html/
+user_guides_html/
+
 # Claude Code local (personal) settings — not shared
 .claude/settings.local.json

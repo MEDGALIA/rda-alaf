@@ -53,13 +53,13 @@
     },
     {
       "id": "2e9b6b2d",
-      "resource_name": "Data Director",
-      "url": "https://docs.google.com/document/d/1mu1_U1cWqn1aP3vtW83JnX5-aGhzM49K/edit",
+      "resource_name": "RDA Data Director Agentic AI Blueprint",
+      "url": "https://www.rd-alliance.org/groups/data-director-agentic-ai-blueprint/outputs/data-director-agentic-ai-tool-blueprint/",
       "source_organization": "Microsoft, RDA",
-      "last_verified": "2026-05-26",
+      "last_verified": "2026-09-01",
       "verified_by": "Paty Buendia",
       "added_edited_by": "Paty Buendia",
-      "last_updated": "2026-05-26",
+      "last_updated": "2026-09-01",
       "version": "v0.1 DRAFT",
       "publication_version_date": "",
       "resource_type": "Specification",
@@ -76,7 +76,7 @@
       "maturity_level": "Emerging",
       "notes_key_takeaways": "",
       "discovery_date": "2026-05-26",
-      "_content_hash": "51070c01f51b5c54b0b3cbfc5bd4aee5e41b6c51f7a6e036d33fdca54358301f"
+      "_content_hash": "72068308257a63a8f84baf12f1260be4f9b6b073d53a51c7022ce4195cabe28f"
     },
     {
       "id": "161f1860",
@@ -494,13 +494,13 @@
     },
     {
       "id": "6b9e7398",
-      "resource_name": "Anthropic Safety Guidelines",
-      "url": "https://docs.anthropic.com/en/docs/safety",
+      "resource_name": "Anthropic Security Safeguards",
+      "url": "https://code.claude.com/docs/en/security",
       "source_organization": "Anthropic",
-      "last_verified": "",
-      "verified_by": "",
+      "last_verified": "2026-09-01",
+      "verified_by": "Paty Buendia",
       "added_edited_by": "Claude",
-      "last_updated": "",
+      "last_updated": "2026-09-01",
       "version": "",
       "publication_version_date": "",
       "resource_type": "Documentation",
@@ -513,13 +513,14 @@
         "Security"
       ],
       "alaf_checklist_mapping": [
-        "Agent Manifesto"
+        "Agent Manifesto",
+        "Zero Data Retention"
       ],
       "relevance_to_research_cyberinfrastructure": "Useful for research governance teams",
       "maturity_level": "Mature",
       "notes_key_takeaways": "Strong alignment with institutional risk controls.",
       "discovery_date": "2026-04-01",
-      "_content_hash": "0715820663c34927154c8861e03d8a4e9b2c93d22c702f79b8afb6a25a87b955"
+      "_content_hash": "70f83d66f302be838a253bae0565697a0b89e59e2c210874c939cc67cbb15f18"
     },
     {
       "id": "69804f39",

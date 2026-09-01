@@ -24,6 +24,7 @@ from __future__ import annotations
 
 import argparse
 import datetime
+import re
 from pathlib import Path
 
 import openpyxl
@@ -39,6 +40,11 @@ from radar_sync_common import (
 
 DEFAULT_XLSX = Path("data/VANTAGE-Technology-Radar.xlsx")
 DEFAULT_OUT = Path("data/reports/workbook_analysis.md")
+
+# The mapping column's terms are named after the checklist's own items, so the
+# two drift apart silently when either side is edited. See find_checklist_drift.
+CHECKLIST_COLUMN = "ALAF Checklist Mapping"
+DEFAULT_CHECKLIST = Path("ALAF_CHECKLIST.md")
 
 NAME_LIKE_HEADERS = {"verified by", "source organization", "resource name"}
 DATE_EXPECTED_HEADERS = {"last verified", "deprecation date", "publication date", "discovery date"}
@@ -176,6 +182,60 @@ def find_missing_controlled(wb, schema: dict, data_sheets: list[str]) -> dict[st
     return missing
 
 
+def find_checklist_drift(schema: dict, checklist_path: Path) -> dict | None:
+    """Compare ALAF Checklist Mapping terms against the checklist's own headings.
+
+    The vocabulary terms are named after the checklist items, so the two can
+    silently diverge when an item is renamed, added, or dropped. Nothing else
+    detects that -- the terms stay valid, they just stop meaning what they say.
+
+    Returns None when the column or the checklist file is absent, so this
+    degrades quietly rather than failing the whole scan.
+    """
+    col = next((c for c in schema["columns"] if c["name"] == CHECKLIST_COLUMN), None)
+    if col is None or not checklist_path.exists():
+        return None
+
+    # Headings look like: "## (3) Agent Manifesto"
+    headings = re.findall(
+        r"^##\s*\(\d+\)\s*(.+?)\s*$",
+        checklist_path.read_text(encoding="utf-8"),
+        flags=re.MULTILINE,
+    )
+    terms = [t["name"] for t in col["terms"]]
+
+    def norm(s: str) -> str:
+        return re.sub(r"[^a-z0-9]+", " ", s.lower()).strip()
+
+    # A term is allowed to be a shortened form of its heading -- cells hold
+    # several of these, so "Deidentify Data" is preferable to "Deidentify Data
+    # Before Agent Access". Prefix matches are reported but not treated as
+    # drift; only a term that matches no heading at all has actually rotted.
+    unmatched_terms = list(terms)
+    unmapped_items, shortened = [], []
+    for heading in headings:
+        h = norm(heading)
+        exact = next((t for t in unmatched_terms if norm(t) == h), None)
+        if exact:
+            unmatched_terms.remove(exact)
+            continue
+        prefix = next((t for t in unmatched_terms if h.startswith(norm(t))), None)
+        if prefix:
+            unmatched_terms.remove(prefix)
+            shortened.append((prefix, heading))
+            continue
+        unmapped_items.append(heading)
+
+    return {
+        "checklist_path": checklist_path,
+        "headings": headings,
+        "terms": terms,
+        "unmapped_items": unmapped_items,   # checklist item with no term
+        "orphan_terms": unmatched_terms,    # term with no item -- the rot case
+        "shortened": shortened,             # (term, heading) deliberate short forms
+    }
+
+
 def _word_set(term: str) -> frozenset[str]:
     """Crudely singularized word set, for near-duplicate detection."""
     words = [w.strip("&/,()").lower() for w in term.split()]
@@ -205,6 +265,7 @@ def render_report(
     used: dict,
     data_sheets: list[str],
     missing_controlled: dict,
+    checklist_drift: dict | None = None,
 ) -> str:
     L = [
         "# VANTAGE Technology Radar — Workbook Analysis",
@@ -330,6 +391,36 @@ def render_report(
     if not any_pairs:
         L += ["none", ""]
 
+    if checklist_drift is not None:
+        d = checklist_drift
+        L += [
+            f"## {CHECKLIST_COLUMN} vs the checklist",
+            "",
+            f"Source: `{d['checklist_path'].as_posix()}` "
+            f"({len(d['headings'])} items, {len(d['terms'])} vocabulary terms)",
+            "",
+        ]
+        if not d["unmapped_items"] and not d["orphan_terms"]:
+            L += ["In sync: every checklist item has a term and every term has an item.", ""]
+            if d["shortened"]:
+                L += ["Matched as deliberate short forms:", ""]
+                L += [f"- `{t}` -> {h}" for t, h in sorted(d["shortened"])] + [""]
+        else:
+            if d["orphan_terms"]:
+                L += [
+                    "**Terms with no matching checklist item** — the item was renamed or "
+                    "removed, so rows tagged with these now point at nothing:",
+                    "",
+                ]
+                L += [f"- `{t}`" for t in sorted(d["orphan_terms"])] + [""]
+            if d["unmapped_items"]:
+                L += [
+                    "**Checklist items with no matching term** — no resource can be tagged "
+                    "against these:",
+                    "",
+                ]
+                L += [f"- {h}" for h in sorted(d["unmapped_items"])] + [""]
+
     return "\n".join(L).rstrip() + "\n"
 
 
@@ -337,6 +428,8 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Analyze the Tech Radar workbook.")
     parser.add_argument("--xlsx", type=Path, default=DEFAULT_XLSX)
     parser.add_argument("--out", type=Path, default=DEFAULT_OUT)
+    parser.add_argument("--checklist", type=Path, default=DEFAULT_CHECKLIST,
+                        help="ALAF checklist to compare the mapping vocabulary against")
     args = parser.parse_args()
 
     before_bytes = args.xlsx.read_bytes()
@@ -352,7 +445,10 @@ def main() -> None:
     after_bytes = args.xlsx.read_bytes()
     assert before_bytes == after_bytes, "xlsx bytes changed during a read-only scan"
 
-    report = render_report(args.xlsx, schema, sheet_results, used, data_sheets, missing_controlled)
+    checklist_drift = find_checklist_drift(schema, args.checklist)
+
+    report = render_report(args.xlsx, schema, sheet_results, used, data_sheets,
+                           missing_controlled, checklist_drift)
     args.out.parent.mkdir(parents=True, exist_ok=True)
     args.out.write_text(report, encoding="utf-8", newline="\n")
     print(f"Wrote {args.out}")

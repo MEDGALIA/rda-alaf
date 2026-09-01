@@ -8,16 +8,16 @@ Read-only scan. No cell in the workbook was modified. Findings are flagged, not 
 
 ### Knowledgebase
 
-- Total data rows: 42
-- Empty rows: 10 (rows 34–43)
-- Populated rows: 32
+- Total data rows: 33
+- Empty rows: 0 (rows none)
+- Populated rows: 33
 - Anomalous cells: 0
 
 ### Deprecated
 
-- Total data rows: 1
+- Total data rows: 2
 - Empty rows: 0 (rows none)
-- Populated rows: 1
+- Populated rows: 2
 - Anomalous cells: 0
 
 ### SOTA Coding Agents Benchmarks
@@ -50,9 +50,15 @@ Only columns whose `Value Type` is a controlled vocabulary are checked; free-tex
 
 ### Topic Focus (`controlled_multi`)
 
-- Vocabulary size: 28; distinct values in use: 11
+- Vocabulary size: 28; distinct values in use: 14
 - Used but **not in `Vocabulary`**: none
-- In `Vocabulary` but **never used**: `Accountable and Transparent`, `Data Protection`, `Data architecture, analysis and design`, `Data curation and archival`, `Data identity and mapping`, `Data integration and warehousing`, `Data quality management`, `Data rescue`, `Evaluation`, `Explainable and Interpretable`, `FAIR data`, `Fair (harmful bias managed)`, `Model selection`, `Privacy-Enhanced`, `Safe`, `Secure and Resilient`, `Valid and Reliable`
+- In `Vocabulary` but **never used**: `Data Protection`, `Data architecture, analysis and design`, `Data curation and archival`, `Data identity and mapping`, `Data integration and warehousing`, `Data quality management`, `Data rescue`, `Evaluation`, `Explainable and Interpretable`, `FAIR data`, `Fair (harmful bias managed)`, `Model selection`, `Privacy-Enhanced`, `Safe`
+
+### ALAF Checklist Mapping (`controlled_multi`)
+
+- Vocabulary size: 7; distinct values in use: 6
+- Used but **not in `Vocabulary`**: none
+- In `Vocabulary` but **never used**: `Deidentify Data`
 
 ### Maturity Level (`controlled_single`)
 
@@ -62,7 +68,46 @@ Only columns whose `Value Type` is a controlled vocabulary are checked; free-tex
 
 ## Missing controlled values
 
-None — every populated row has a value in each controlled column that applies to it.
+Populated rows with an empty controlled-vocabulary cell.
+
+**Knowledgebase**
+- row 2: `022e4e1c` is missing `ALAF Checklist Mapping`
+- row 3: `2e9b6b2d` is missing `ALAF Checklist Mapping`
+- row 4: `161f1860` is missing `ALAF Checklist Mapping`
+- row 5: `abbd844c` is missing `ALAF Checklist Mapping`
+- row 6: `b71baded` is missing `ALAF Checklist Mapping`
+- row 7: `2b23adbb` is missing `ALAF Checklist Mapping`
+- row 8: `d6d28dfa` is missing `ALAF Checklist Mapping`
+- row 9: `f488464f` is missing `ALAF Checklist Mapping`
+- row 10: `dbe3741e` is missing `ALAF Checklist Mapping`
+- row 11: `ddd42289` is missing `ALAF Checklist Mapping`
+- row 12: `c7e95f61` is missing `ALAF Checklist Mapping`
+- row 13: `73426de0` is missing `ALAF Checklist Mapping`
+- row 14: `3294a13f` is missing `ALAF Checklist Mapping`
+- row 15: `f51ea180` is missing `ALAF Checklist Mapping`
+- row 16: `89f36cc1` is missing `ALAF Checklist Mapping`
+- row 17: `4ccfda21` is missing `ALAF Checklist Mapping`
+- row 18: `2e24be4d` is missing `ALAF Checklist Mapping`
+- row 21: `3758624e` is missing `ALAF Checklist Mapping`
+- row 22: `8a50b5eb` is missing `ALAF Checklist Mapping`
+- row 23: `763797cd` is missing `ALAF Checklist Mapping`
+- row 24: `2d2470f7` is missing `ALAF Checklist Mapping`
+- row 28: `0d0a50a7` is missing `ALAF Checklist Mapping`
+- row 30: `5f3954c2` is missing `ALAF Checklist Mapping`
+- row 32: `b39dc1d1` is missing `ALAF Checklist Mapping`
+
+**Deprecated**
+- row 2: `805047b4` is missing `ALAF Checklist Mapping`
+- row 3: `bfda8877` is missing `ALAF Checklist Mapping`
+
+**SOTA Coding Agents Benchmarks**
+- row 2: `ba114fad` is missing `ALAF Checklist Mapping`
+- row 3: `4c170f7e` is missing `ALAF Checklist Mapping`
+- row 4: `b9ed03e7` is missing `ALAF Checklist Mapping`
+- row 5: `f487cdc5` is missing `ALAF Checklist Mapping`
+- row 6: `f37d4051` is missing `ALAF Checklist Mapping`
+- row 7: `acbc7354` is missing `ALAF Checklist Mapping`
+- row 8: `edd19b89` is missing `ALAF Checklist Mapping`
 
 ## Ontology coverage
 
@@ -83,6 +128,11 @@ Declared standards: `EDAM` (http://edamontology.org/topic_3071), `NIST-AI-RMF` (
 - Standards-backed terms (22): `Accountable and Transparent → NIST-AI-RMF`, `Architecture → ACM-CCS`, `Data Protection → EDAM`, `Data architecture, analysis and design → EDAM`, `Data curation and archival → EDAM`, `Data governance → EDAM`, `Data identity and mapping → EDAM`, `Data integration and warehousing → EDAM`, `Data quality management → EDAM`, `Data rescue → EDAM`, `Deployment → NIST-AI-RMF`, `Evaluation → ACM-CCS`, `Explainable and Interpretable → NIST-AI-RMF`, `FAIR data → EDAM`, `Fair (harmful bias managed) → NIST-AI-RMF`, `Implementation → ACM-CCS`, `Privacy-Enhanced → NIST-AI-RMF`, `Safe → NIST-AI-RMF`, `Secure and Resilient → NIST-AI-RMF`, `Security → ACM-CCS`, `Valid and Reliable → NIST-AI-RMF`, `Workflows → EDAM`
 - **Not backed by any standard** (6): `Compute Infrastructure`, `Governance`, `Infrastructure Security`, `Model selection`, `Network Isolation`, `Self‑hosted AI`
 
+### ALAF Checklist Mapping
+
+- Standards-backed terms (0): none
+- **Not backed by any standard** (7): `Agent Manifesto`, `Deidentify Data`, `Human Approval Gate`, `Provenance and Reversibility`, `Remediate Oversharing`, `Runtime PII Screening`, `Zero Data Retention`
+
 ### Maturity Level
 
 - Standards-backed terms (0): none
@@ -100,3 +150,14 @@ Term pairs where one term's words are a subset of the other's. These were left a
 - `Architecture` vs `Data architecture, analysis and design`
 - `Security` vs `Infrastructure Security`
 - `Governance` vs `Data governance`
+
+## ALAF Checklist Mapping vs the checklist
+
+Source: `ALAF_CHECKLIST.md` (7 items, 7 vocabulary terms)
+
+In sync: every checklist item has a term and every term has an item.
+
+Matched as deliberate short forms:
+
+- `Deidentify Data` -> Deidentify Data Before Agent Access
+- `Runtime PII Screening` -> Runtime PII Screening as an Agent Tool
