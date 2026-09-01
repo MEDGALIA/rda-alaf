@@ -227,6 +227,10 @@ img { max-width: 100%; border-radius: 6px; }
   <td><code>json_to_xlsx.py</code></td>
   <td>Rebuilds the VT Radar workbook from <code>data/json/</code> — the mirror of <code>xlsx_to_json.py</code></td>
 </tr>
+<tr>
+  <td><code>sync_gdrive_mirror.py</code></td>
+  <td>Pushes the workbook to a Google Sheet, for viewing conditional formatting GitHub doesn't render</td>
+</tr>
 </tbody>
 </table>
 
@@ -277,6 +281,16 @@ img { max-width: 100%; border-radius: 6px; }
   <td><code>openpyxl</code></td>
   <td><code>radar_sync_common.py</code>, <code>tech_radar_analysis.py</code>, <code>xlsx_to_json.py</code></td>
   <td>Reads/writes <code>.xlsx</code> workbooks with native typed cells (dates come back as <code>datetime</code>, not serial numbers)</td>
+</tr>
+<tr>
+  <td><code>google-auth</code></td>
+  <td><code>sync_gdrive_mirror.py</code></td>
+  <td>Authenticates as the Google Cloud service account</td>
+</tr>
+<tr>
+  <td><code>google-api-python-client</code></td>
+  <td><code>sync_gdrive_mirror.py</code></td>
+  <td>Calls the Google Drive API</td>
 </tr>
 </tbody>
 </table>
@@ -481,6 +495,25 @@ img { max-width: 100%; border-radius: 6px; }
 <p>No "corrected" value is ever suggested — deciding what a bad cell <em>should</em> say is a human judgment call, not something to guess at for a real WG record. See <a href="implementation-plan.md"><code>implementation-plan.md</code></a> for why this script is report-only by design.</p>
 
 <p><strong>Output</strong>: a Markdown report (<code>data/reports/workbook_analysis.md</code> by default) with per-sheet summary counts (total/empty/populated/anomalous rows) followed by a table of every anomaly found.</p>
+
+<h2 id="sync_gdrive_mirrorpy"><code>sync_gdrive_mirror.py</code></h2>
+
+<div class="codehilite">
+<pre><span></span><code><span class="p">.\.</span><span class="n">venv</span><span class="p">\</span><span class="n">Scripts</span><span class="p">\</span><span class="n">python</span> <span class="n">src</span><span class="p">\</span><span class="n">scripts</span><span class="p">\</span><span class="n">sync_gdrive_mirror</span><span class="p">.</span><span class="n">py</span> <span class="p">-</span><span class="n">-xlsx</span> <span class="n">data</span><span class="p">\</span><span class="n">VANTAGE-Technology-Radar</span><span class="p">.</span><span class="n">xlsx</span> <span class="p">-</span><span class="n">-key</span><span class="o">-file</span> <span class="n">PATH</span>
+</code></pre>
+</div>
+
+<p>Pushes the workbook to a Google Sheet — see <code>drafts/VT-Radar-GDrive-Mirror-Plan.md</code> for the design. <code>main</code> stays the source of truth; this only pushes, never reads the Sheet back.</p>
+
+<p><strong>Arguments</strong></p>
+
+<ul>
+<li><code>--xlsx PATH</code> — source workbook (default: <code>data/VANTAGE-Technology-Radar.xlsx</code>)</li>
+<li><code>--key-file PATH</code> — service-account JSON key file. Read from a file, never a CLI value or env var directly, so it never appears in shell history or process listings.</li>
+<li><code>--config PATH</code> — RADAR-CONFIG path (default: <code>.github/RADAR-CONFIG</code>)</li>
+</ul>
+
+<p>Target Sheet is <code>gdrive_file_id</code> in <code>.github/RADAR-CONFIG</code> — not a secret; access is controlled by the Sheet's sharing settings. <code>files.update()</code> replaces the Sheet's entire content with the latest xlsx, converted via <code>mimeType: application/vnd.google-apps.spreadsheet</code>.</p>
 
 <h2 id="adding-a-new-document-to-convert">Adding a new document to convert</h2>
 

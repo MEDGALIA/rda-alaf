@@ -15,6 +15,7 @@
     "resource_type",
     "agentic_features_covered",
     "topic_focus",
+    "alaf_checklist_mapping",
     "relevance_to_research_cyberinfrastructure",
     "maturity_level",
     "notes_key_takeaways",
@@ -26,10 +27,10 @@
       "resource_name": "OpenAI Assistants API",
       "url": "https://platform.openai.com/docs/assistants",
       "source_organization": "OpenAI",
-      "last_verified": "2026-05-08",
-      "verified_by": "Paty Buendia",
+      "last_verified": "",
+      "verified_by": "",
       "added_edited_by": "Paty Buendia",
-      "last_updated": "2026-05-08",
+      "last_updated": "2026-08-31",
       "version": "",
       "publication_version_date": "",
       "deprecation_date": "",
@@ -43,11 +44,40 @@
         "Architecture",
         "Implementation"
       ],
+      "alaf_checklist_mapping": [],
       "relevance_to_research_cyberinfrastructure": "Useful for domain-specific agents",
       "maturity_level": "Deprecated",
-      "notes_key_takeaways": "Stable API surface.",
+      "notes_key_takeaways": "Stable API surface. Migrated to the `Responses API`.",
       "discovery_date": "2026-05-08",
-      "_content_hash": "7b5543434e1e00d884da2c03a930ccf5a47842713c43a444ac8f6a37ec71dc05"
+      "_content_hash": "3062db4dda90ad52b38736190602bbb60ea88f96b5256a1be4ffc515bb576494"
+    },
+    {
+      "id": "bfda8877",
+      "resource_name": "Google Vertex AI Agents Overview",
+      "url": "https://cloud.google.com/vertex-ai/docs/agents",
+      "source_organization": "Google",
+      "last_verified": "2026-08-31",
+      "verified_by": "Paty Buendia",
+      "added_edited_by": "Claude",
+      "last_updated": "2026-08-31",
+      "version": "",
+      "publication_version_date": "",
+      "deprecation_date": "2026-08-31",
+      "resource_type": "Documentation",
+      "agentic_features_covered": [
+        "Agent frameworks",
+        "Orchestration"
+      ],
+      "topic_focus": [
+        "Architecture",
+        "Deployment"
+      ],
+      "alaf_checklist_mapping": [],
+      "relevance_to_research_cyberinfrastructure": "Useful for cloud-based scientific workflows",
+      "maturity_level": "Deprecated",
+      "notes_key_takeaways": "Documentation URL no longer resolves: cloud.google.com/vertex-ai/docs/agents 301-redirects to docs.cloud.google.com/vertex-ai/docs/agents, which returns 404. Google's agent tooling has moved to Agent Builder. Needs a replacement resource.",
+      "discovery_date": "2026-04-01",
+      "_content_hash": "2938cef4ba5a99f7f0a61c3c8fe07242e9e411104d76adff7883f8051b7b8bfa"
     }
   ]
 }

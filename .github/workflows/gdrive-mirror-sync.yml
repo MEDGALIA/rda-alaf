@@ -1,0 +1,43 @@
+name: Sync VT Radar to Google Drive mirror
+
+# Pushes data/VANTAGE-Technology-Radar.xlsx to a Google Sheet for viewing --
+# GitHub's own file preview doesn't render .xlsx conditional formatting, so
+# the Maturity Level / Resource Type / Topic Focus colours are invisible
+# there. See drafts/VT-Radar-GDrive-Mirror-Plan.md.
+#
+# main stays the only source of truth: this only pushes, never reads the
+# Sheet back. The Sheet is shared Viewer-only to humans, so nobody can edit
+# the mirror in the first place.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "data/VANTAGE-Technology-Radar.xlsx"
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - run: pip install -r src/scripts/requirements.txt
+
+      - name: Write the service account key to a temp file
+        run: echo "$GDRIVE_SERVICE_ACCOUNT_KEY" > "${RUNNER_TEMP}/gdrive-key.json"
+        env:
+          GDRIVE_SERVICE_ACCOUNT_KEY: ${{ secrets.GDRIVE_SERVICE_ACCOUNT_KEY }}
+
+      - name: Sync to Google Drive
+        run: |
+          python src/scripts/sync_gdrive_mirror.py \
+            --xlsx data/VANTAGE-Technology-Radar.xlsx \
+            --key-file "${RUNNER_TEMP}/gdrive-key.json"

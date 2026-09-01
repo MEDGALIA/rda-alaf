@@ -8,6 +8,8 @@ UI tasks: Before asking a user to test a UI, the agent has already validated tha
 
 Containerization tasks: Before publishing a Docker image, the agent has confirmed that the Dockerfile and docker-compose.yml are correct, reproducible, and produce the expected runtime behavior.
 
+Test guides: Before handing the user a command to run (a test step, a CLI invocation), the agent has already run it (or the closest safe equivalent, e.g. `--help`) to confirm dependencies are installed and the command executes, not just that the code parses.
+
 ## 1. Token Economy: reusing scripts
 Always save unnecessary tokens. If a script exists that can run a task where you spend zero tokens, then run the script.
 Example: when generating html, write a script once for that task. After that always run it to generate the html files.
