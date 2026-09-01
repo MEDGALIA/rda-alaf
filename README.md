@@ -21,9 +21,7 @@ and provenance of the framework and its underlying knowledge.
 **Early development / experimental**
 
 RDA-ALAF is currently being developed as an open-source project in alignment
-with proposed activities for a new Working group. RDA currently stands for `research data agents`.
-
-Until the Working Group has been created this repository is seen as a proposal.
+with proposed activities for a new Working group.
 
 
 ## Objectives
