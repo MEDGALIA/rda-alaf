@@ -818,6 +818,70 @@
     },
     {
       "position": 15,
+      "name": "ALAF Checklist Mapping",
+      "key": "alaf_checklist_mapping",
+      "applies_to": [
+        "Knowledgebase",
+        "Deprecated",
+        "SOTA Coding Agents Benchmarks"
+      ],
+      "value_type": "controlled_multi",
+      "separator": ";",
+      "description": "Which readiness items from the ALAF Checklist this resource helps an organization satisfy. One or more terms, separated by ';'. Blank means the resource is not specific to any checklist item.",
+      "colour": "",
+      "terms": [
+        {
+          "name": "Remediate Oversharing",
+          "definition": "Item (1): audit and tighten every mechanism that can grant access to the data, before the agent gets it.",
+          "ontology": "",
+          "ontology_id": "",
+          "ontology_url": "",
+          "colour": ""
+        },
+        {
+          "name": "Deidentify Data",
+          "definition": "Item (2): find and remove or hide sensitive information in the data before agents can reach it.",
+          "ontology": "",
+          "ontology_id": "",
+          "ontology_url": "",
+          "colour": ""
+        },
+        {
+          "name": "Agent Manifesto",
+          "definition": "Item (3): the written rules governing agents, which they must read before tasks touching new data.",
+          "ontology": "",
+          "ontology_id": "",
+          "ontology_url": "",
+          "colour": ""
+        },
+        {
+          "name": "Runtime PII Screening",
+          "definition": "Item (4): a check between the agent and each new data source, with findings written where the agent cannot read them.",
+          "ontology": "",
+          "ontology_id": "",
+          "ontology_url": "",
+          "colour": ""
+        },
+        {
+          "name": "Human Approval Gate",
+          "definition": "Item (5): a named human must approve consequential actions, and the agent cannot bypass the gate.",
+          "ontology": "",
+          "ontology_id": "",
+          "ontology_url": "",
+          "colour": ""
+        },
+        {
+          "name": "Provenance and Reversibility",
+          "definition": "Item (6): a record of what the agent did and who approved it, plus the ability to undo it.",
+          "ontology": "",
+          "ontology_id": "",
+          "ontology_url": "",
+          "colour": ""
+        }
+      ]
+    },
+    {
+      "position": 16,
       "name": "Relevance to Research Cyberinfrastructure",
       "key": "relevance_to_research_cyberinfrastructure",
       "applies_to": [
@@ -831,7 +895,7 @@
       "terms": []
     },
     {
-      "position": 16,
+      "position": 17,
       "name": "Maturity Level",
       "key": "maturity_level",
       "applies_to": [
@@ -879,7 +943,7 @@
       ]
     },
     {
-      "position": 17,
+      "position": 18,
       "name": "Notes / Key Takeaways",
       "key": "notes_key_takeaways",
       "applies_to": [
@@ -894,7 +958,7 @@
       "terms": []
     },
     {
-      "position": 18,
+      "position": 19,
       "name": "Discovery Date",
       "key": "discovery_date",
       "applies_to": [

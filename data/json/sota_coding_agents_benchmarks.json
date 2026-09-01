@@ -13,6 +13,7 @@
     "publication_version_date",
     "resource_type",
     "agentic_features_covered",
+    "alaf_checklist_mapping",
     "maturity_level",
     "notes_key_takeaways",
     "discovery_date"
@@ -33,10 +34,11 @@
       "agentic_features_covered": [
         "Coding Agents"
       ],
+      "alaf_checklist_mapping": [],
       "maturity_level": "Mature",
       "notes_key_takeaways": "Evaluates State-Of-The-Art agent performance on multi-million line codebases to assess real-world software engineering capabilities.",
       "discovery_date": "2026-07-13",
-      "_content_hash": "5a643d24dcac6e202edc113859968ca7086be7e61b61f85f7875ce949f1efe37"
+      "_content_hash": "5f3e68e33fc80285e76d5ef95363b77823291b218bb3cc359b480e7caa0d3895"
     },
     {
       "id": "4c170f7e",
@@ -53,10 +55,11 @@
       "agentic_features_covered": [
         "Coding Agents"
       ],
+      "alaf_checklist_mapping": [],
       "maturity_level": "Research",
       "notes_key_takeaways": "Papers with Code with State-Of-The-Art (SOTA) Codng Agent Benchmarks",
       "discovery_date": "2026-07-13",
-      "_content_hash": "c70689b85a6924ec8b42089b8bd2f113fde430eb3559065949dafd96979cfd29"
+      "_content_hash": "a4a3a417954c1cb522113748f95ef02d8346ed5f5f5005f674bfa84afce4ea5c"
     },
     {
       "id": "b9ed03e7",
@@ -73,10 +76,11 @@
       "agentic_features_covered": [
         "Coding Agents"
       ],
+      "alaf_checklist_mapping": [],
       "maturity_level": "Mature",
       "notes_key_takeaways": "Addresses limitations of original SWE-bench by focusing on long-horizon, complex, multi-file software engineering tasks.",
       "discovery_date": "2026-07-13",
-      "_content_hash": "c5ccdc67ea940a48a84ecab51ccb9ff33e9fa564dbb6f6681da59870d1754cd1"
+      "_content_hash": "cb3bd3c51a3807ff47db3d83849773cb7ec648b0c7c34428d2b1ea32906709d6"
     },
     {
       "id": "f487cdc5",
@@ -93,10 +97,11 @@
       "agentic_features_covered": [
         "Coding Agents"
       ],
+      "alaf_checklist_mapping": [],
       "maturity_level": "Research",
       "notes_key_takeaways": "Scalable framework that generates repository-level tasks from live GitHub PRs across 11 programming languages.",
       "discovery_date": "2026-07-13",
-      "_content_hash": "d6ede379242f45943e14b72b73ab66d7a76c9df9df5f39a8a72ad38c9b53fcb8"
+      "_content_hash": "f05412854441e85d1ffe0f18c0c6df1f95538b6b0934fa1635f8768f05a4e237"
     },
     {
       "id": "f37d4051",
@@ -113,10 +118,11 @@
       "agentic_features_covered": [
         "Coding Agents"
       ],
+      "alaf_checklist_mapping": [],
       "maturity_level": "Mature",
       "notes_key_takeaways": "Benchmarks agents on hard, realistic tasks within terminal/CLI environments.",
       "discovery_date": "2026-07-13",
-      "_content_hash": "7739a5baacd33cf5503bdd29025fd997b7eea3730ec6a4830d97abe2e166d652"
+      "_content_hash": "66dcefa1a9444db32fc6c709f01aa39f3d401a63f44ed8009775dca06954c3ba"
     },
     {
       "id": "acbc7354",
@@ -133,10 +139,11 @@
       "agentic_features_covered": [
         "Coding Agents"
       ],
+      "alaf_checklist_mapping": [],
       "maturity_level": "Research",
       "notes_key_takeaways": "Benchmark specifically for evaluating the code review capabilities of AI agents.",
       "discovery_date": "2026-07-13",
-      "_content_hash": "90d6c20003d90d3f4b495744d2cb5a7d4890fdb6fe7b346082aa4e88766778b3"
+      "_content_hash": "c3ab5d607e121719fd7c708e2c4966caa9dbb1f461350ec508fba3d54edb15ce"
     },
     {
       "id": "edd19b89",
@@ -153,10 +160,11 @@
       "agentic_features_covered": [
         "Coding Agents"
       ],
+      "alaf_checklist_mapping": [],
       "maturity_level": "Research",
       "notes_key_takeaways": "Isolates the evaluation of repository exploration, context retrieval, and code localization capabilities.",
       "discovery_date": "2026-07-13",
-      "_content_hash": "525216bf5268108ed8970c12521881077a05d011a6d37ddb113d8273e16db99b"
+      "_content_hash": "2f491fe9b5d61d6dfbac534dfbf590b3543c36996e14e5618dd229d38d0cdcf9"
     }
   ]
 }

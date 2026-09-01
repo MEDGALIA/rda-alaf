@@ -6,3 +6,10 @@
 # over time -- update it periodically rather than leaving it to drift, the
 # way the original workbook's copy of this rule was left to drift for months.
 recently_verified_after: 2026-05-09
+
+# Google Sheet the workbook mirrors to on every push to main that touches
+# data/VANTAGE-Technology-Radar.xlsx (drafts/VT-Radar-GDrive-Mirror-Plan.md).
+# Not a secret -- access is controlled by the Sheet's own sharing settings,
+# not by hiding this ID. The write credential (GDRIVE_SERVICE_ACCOUNT_KEY)
+# is a real secret and stays in repo Secrets, not here.
+gdrive_file_id: 1WxuTo24vhXqiC_asRi-qOs9b_B6WuKunrCSSKivRIag

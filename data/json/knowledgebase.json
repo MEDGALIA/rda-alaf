@@ -14,6 +14,7 @@
     "resource_type",
     "agentic_features_covered",
     "topic_focus",
+    "alaf_checklist_mapping",
     "relevance_to_research_cyberinfrastructure",
     "maturity_level",
     "notes_key_takeaways",
@@ -43,11 +44,12 @@
         "Implementation",
         "Deployment"
       ],
+      "alaf_checklist_mapping": [],
       "relevance_to_research_cyberinfrastructure": "IDE integration for agentic workflows",
       "maturity_level": "Emerging",
       "notes_key_takeaways": "Canonical reference for VS Code agent capabilities.",
       "discovery_date": "2026-04-01",
-      "_content_hash": "3059e550840f5fb4c2d06112a8a6c1a47ede3fa9e85946f20b97511672f72467"
+      "_content_hash": "b7c82a3a29188bd125527f025e5567706a9e30a0a30f5e9b9fb03056f4b4fc1f"
     },
     {
       "id": "2e9b6b2d",
@@ -69,11 +71,12 @@
         "Workflows",
         "Implementation"
       ],
+      "alaf_checklist_mapping": [],
       "relevance_to_research_cyberinfrastructure": "Makes data outputs FAIR at the point of publication",
       "maturity_level": "Emerging",
       "notes_key_takeaways": "",
       "discovery_date": "2026-05-26",
-      "_content_hash": "f0e56bd389f8e18410e0df4010e1c3c7829fd64fb488b0d88cfdb5acd01cf5cb"
+      "_content_hash": "51070c01f51b5c54b0b3cbfc5bd4aee5e41b6c51f7a6e036d33fdca54358301f"
     },
     {
       "id": "161f1860",
@@ -97,11 +100,12 @@
         "Governance",
         "Security"
       ],
+      "alaf_checklist_mapping": [],
       "relevance_to_research_cyberinfrastructure": "Relevant for CI/CD and code-review automation",
       "maturity_level": "Emerging",
       "notes_key_takeaways": "Strong alignment with developer workflows.",
       "discovery_date": "2026-04-01",
-      "_content_hash": "c9fd1b857d3d27f87d1d12805e9f02b0f4760e8376e4c8518755aac8ab79024f"
+      "_content_hash": "a59aa0a8c0ae3352763875c959f54dc217744b793f87d1f3eae300ed54656aff"
     },
     {
       "id": "abbd844c",
@@ -124,11 +128,12 @@
         "Architecture",
         "Implementation"
       ],
+      "alaf_checklist_mapping": [],
       "relevance_to_research_cyberinfrastructure": "Key for interoperable agent tools",
       "maturity_level": "Emerging",
       "notes_key_takeaways": "Fast-moving ecosystem.",
       "discovery_date": "2026-04-01",
-      "_content_hash": "33a14c9d62e9a38466753cf976ca6142775055883e5e7c19f68bf81a4687c4b8"
+      "_content_hash": "3abab93f60540dcf86972af6f0a10c2efbeaf7a052fd1b33bf7b827b09f486d8"
     },
     {
       "id": "b71baded",
@@ -151,11 +156,12 @@
         "Architecture",
         "Governance"
       ],
+      "alaf_checklist_mapping": [],
       "relevance_to_research_cyberinfrastructure": "Critical for cross-platform agent interoperability",
       "maturity_level": "Emerging",
       "notes_key_takeaways": "Becoming a de facto standard.",
       "discovery_date": "2026-04-01",
-      "_content_hash": "3550223b3215ff2d1a9bf3f3763ade346148e11995448cc452b4b2810eb39bd8"
+      "_content_hash": "18a8b5ef92198b515b067545b688eba251e8bf79bc3e91fae66ce58ab46d3d05"
     },
     {
       "id": "2b23adbb",
@@ -177,11 +183,12 @@
         "Architecture",
         "Governance"
       ],
+      "alaf_checklist_mapping": [],
       "relevance_to_research_cyberinfrastructure": "Integration between LLM applications and external data sources and tools",
       "maturity_level": "Emerging",
       "notes_key_takeaways": "Strong safety emphasis.",
       "discovery_date": "2025-11-01",
-      "_content_hash": "9d6767fbb335baf25fbdaa1d26fae33ccceae8bc6038f76ea07e27f5ec48c19a"
+      "_content_hash": "29699fc4a7908fccdea00f8b5f6f7d2d82fadefa1321bde4c8cdbea20f76838c"
     },
     {
       "id": "d6d28dfa",
@@ -204,47 +211,22 @@
         "Security",
         "Deployment"
       ],
+      "alaf_checklist_mapping": [],
       "relevance_to_research_cyberinfrastructure": "Helps teams move prototypes to production",
       "maturity_level": "Mature",
       "notes_key_takeaways": "Technical guide to the operational life cycle of AI agents, focusing on deployment & security",
       "discovery_date": "2025-11-14",
-      "_content_hash": "f9224937ca25ba3b2b7387c36f7d1e254e650e5382924e8bda2cb0bf078ea433"
-    },
-    {
-      "id": "bfda8877",
-      "resource_name": "Google Vertex AI Agents Overview",
-      "url": "https://cloud.google.com/vertex-ai/docs/agents",
-      "source_organization": "Google",
-      "last_verified": "",
-      "verified_by": "",
-      "added_edited_by": "Paty Buendia",
-      "last_updated": "",
-      "version": "",
-      "publication_version_date": "",
-      "resource_type": "Documentation",
-      "agentic_features_covered": [
-        "Agent frameworks",
-        "Orchestration"
-      ],
-      "topic_focus": [
-        "Architecture",
-        "Deployment"
-      ],
-      "relevance_to_research_cyberinfrastructure": "Useful for cloud-based scientific workflows",
-      "maturity_level": "Research",
-      "notes_key_takeaways": "Strong enterprise alignment.",
-      "discovery_date": "2026-04-01",
-      "_content_hash": "cf43e7eb5fc01c0c12db4e0bbeace3ca4d5cf646a5f4e81d5118fc6a6bcb9136"
+      "_content_hash": "7ba838eaca5006e794b69db46e6d95db298ad25f3fcf542871e0f553437bc83b"
     },
     {
       "id": "f488464f",
       "resource_name": "HuggingFace Agents Documentation",
-      "url": "https://huggingface.co/docs/agents",
+      "url": "https://huggingface.co/docs/hub/en/agents",
       "source_organization": "HuggingFace",
       "last_verified": "",
       "verified_by": "",
-      "added_edited_by": "Paty Buendia",
-      "last_updated": "",
+      "added_edited_by": "Claude",
+      "last_updated": "2026-08-31",
       "version": "",
       "publication_version_date": "",
       "resource_type": "Documentation",
@@ -257,11 +239,12 @@
         "Architecture",
         "Implementation"
       ],
+      "alaf_checklist_mapping": [],
       "relevance_to_research_cyberinfrastructure": "Useful for open-source agent experimentation",
       "maturity_level": "Emerging",
       "notes_key_takeaways": "Rapidly evolving.",
       "discovery_date": "2026-03-01",
-      "_content_hash": "e534bea375be2d730ce60e5d508f1f20f9225f17fb86e4288057ae3fd70440c2"
+      "_content_hash": "a3bc9ef1a6d29e7dad10e5fd14b747a4a567401bee5441758c504927b12848ed"
     },
     {
       "id": "dbe3741e",
@@ -284,11 +267,12 @@
         "Architecture",
         "Implementation"
       ],
+      "alaf_checklist_mapping": [],
       "relevance_to_research_cyberinfrastructure": "Relevant for workflow prototyping",
       "maturity_level": "Research",
       "notes_key_takeaways": "Widely used in research.",
       "discovery_date": "2026-04-01",
-      "_content_hash": "120b7440c355c848e0d1433656d26d7e9c3c6a00641a898146f1e86b170d236e"
+      "_content_hash": "a60917ebe87152d456da4f3af9337ae58d7d15815210099cc6e3efb45a2245f7"
     },
     {
       "id": "ddd42289",
@@ -311,11 +295,12 @@
         "Architecture",
         "Governance"
       ],
+      "alaf_checklist_mapping": [],
       "relevance_to_research_cyberinfrastructure": "Useful for data-rich research platforms",
       "maturity_level": "Research",
       "notes_key_takeaways": "Strong retrieval-centric design.",
       "discovery_date": "2026-04-01",
-      "_content_hash": "d64ebc0396926e32d6c9c1c1d641edb4311c69cfba8425dc53208a4eac80d480"
+      "_content_hash": "c669a6bf2297877a6a277d75d161b4163788939e5440b3866918aa7171985b0f"
     },
     {
       "id": "c7e95f61",
@@ -337,11 +322,12 @@
         "Architecture",
         "Deployment"
       ],
+      "alaf_checklist_mapping": [],
       "relevance_to_research_cyberinfrastructure": "Relevant for scientific pipelines",
       "maturity_level": "Mature",
       "notes_key_takeaways": "Strong reproducibility focus.",
       "discovery_date": "2026-03-01",
-      "_content_hash": "6b7dd87aa1dfea767f5e8f5049c311147f11caf18a01bd045f10892b2a3ce360"
+      "_content_hash": "45303e7b71fd2a5607fb2d4daaeb692a887bda701824f7532442c7806afc7321"
     },
     {
       "id": "73426de0",
@@ -350,7 +336,7 @@
       "source_organization": "Prefect",
       "last_verified": "",
       "verified_by": "",
-      "added_edited_by": "claude",
+      "added_edited_by": "Claude",
       "last_updated": "",
       "version": "",
       "publication_version_date": "",
@@ -363,11 +349,12 @@
         "Implementation",
         "Deployment"
       ],
+      "alaf_checklist_mapping": [],
       "relevance_to_research_cyberinfrastructure": "Useful for data processing pipelines",
       "maturity_level": "Mature",
       "notes_key_takeaways": "Good hybrid cloud/HPC support.",
       "discovery_date": "2026-03-01",
-      "_content_hash": "ad0059c385e05456dc77944d05cc62d6b9148e8d4380f60681274d701396849a"
+      "_content_hash": "61064f35d98e914f6b2b2d502ccc6e4bf16c7cbeacb5341482e821f0be10706e"
     },
     {
       "id": "3294a13f",
@@ -376,7 +363,7 @@
       "source_organization": "Project Jupyter",
       "last_verified": "",
       "verified_by": "",
-      "added_edited_by": "claude",
+      "added_edited_by": "Claude",
       "last_updated": "",
       "version": "",
       "publication_version_date": "",
@@ -389,11 +376,12 @@
         "Implementation",
         "Data governance"
       ],
+      "alaf_checklist_mapping": [],
       "relevance_to_research_cyberinfrastructure": "Relevant for research notebooks",
       "maturity_level": "Emerging",
       "notes_key_takeaways": "Strong alignment with scientific workflows.",
       "discovery_date": "2026-04-01",
-      "_content_hash": "4f4b991143ab733a0158113e1a8c501ce75081bd1b462f72e5a97c82ca40b0f4"
+      "_content_hash": "b32f4b3c820d8802626c1f2f2d4050fba6609ef8d76ccb7d3c3b6b6256d671e3"
     },
     {
       "id": "f51ea180",
@@ -402,7 +390,7 @@
       "source_organization": "Anthropic",
       "last_verified": "",
       "verified_by": "",
-      "added_edited_by": "claude",
+      "added_edited_by": "Claude",
       "last_updated": "",
       "version": "",
       "publication_version_date": "",
@@ -415,11 +403,12 @@
         "Architecture",
         "Security"
       ],
+      "alaf_checklist_mapping": [],
       "relevance_to_research_cyberinfrastructure": "Useful for safe tool-calling agents",
       "maturity_level": "Emerging",
       "notes_key_takeaways": "Strong safety posture.",
       "discovery_date": "2026-04-01",
-      "_content_hash": "ff532ae24e63553426009bce3abb105faf69fb94867d7662f15e4f761e35fb37"
+      "_content_hash": "ce493deeb67bf3f15e6ba177856db1be51c0c9ce9bc290b9245597a450651f90"
     },
     {
       "id": "89f36cc1",
@@ -428,7 +417,7 @@
       "source_organization": "Microsoft",
       "last_verified": "",
       "verified_by": "",
-      "added_edited_by": "claude",
+      "added_edited_by": "Claude",
       "last_updated": "",
       "version": "",
       "publication_version_date": "",
@@ -442,11 +431,12 @@
         "Architecture",
         "Implementation"
       ],
+      "alaf_checklist_mapping": [],
       "relevance_to_research_cyberinfrastructure": "Useful for enterprise-grade agent workflows",
       "maturity_level": "Research",
       "notes_key_takeaways": "Strong .NET + Python support.",
       "discovery_date": "2026-04-01",
-      "_content_hash": "593edbc256b323c45844eda9a3edcd736574aab25246ffbe0938320f2114a4b3"
+      "_content_hash": "fab105404ee78fb31fd4b09e1748ba8d7f9538c34965078165c1fe977a72b963"
     },
     {
       "id": "4ccfda21",
@@ -455,7 +445,7 @@
       "source_organization": "HuggingFace",
       "last_verified": "",
       "verified_by": "",
-      "added_edited_by": "claude",
+      "added_edited_by": "Claude",
       "last_updated": "",
       "version": "",
       "publication_version_date": "",
@@ -468,11 +458,12 @@
         "Architecture",
         "Deployment"
       ],
+      "alaf_checklist_mapping": [],
       "relevance_to_research_cyberinfrastructure": "Useful for hosted inference in research",
       "maturity_level": "Mature",
       "notes_key_takeaways": "Good for reproducibility.",
       "discovery_date": "2026-03-01",
-      "_content_hash": "a12146d42a52e997c001945f198458d554e7eb5d9dbd179e8780abc677f1ac8f"
+      "_content_hash": "6cf8a32408afafec8f5085de874c5da04ecd8d3ad7a064820c8b6b50e323d5e2"
     },
     {
       "id": "2e24be4d",
@@ -481,7 +472,7 @@
       "source_organization": "OpenAI",
       "last_verified": "",
       "verified_by": "",
-      "added_edited_by": "claude",
+      "added_edited_by": "Claude",
       "last_updated": "",
       "version": "",
       "publication_version_date": "",
@@ -494,11 +485,12 @@
         "Security",
         "Governance"
       ],
+      "alaf_checklist_mapping": [],
       "relevance_to_research_cyberinfrastructure": "Relevant for agent safety in research platforms",
       "maturity_level": "Research",
       "notes_key_takeaways": "Useful for risk assessment.",
       "discovery_date": "2026-04-01",
-      "_content_hash": "c5da7ab3e5407dac79f33c06aa1cee7e048349537be6e7fb40b4017ce6915db0"
+      "_content_hash": "f494fd1960ddf145824a5e5a152322f9b4b8be288a1a5bfc647cd8fca5a5861b"
     },
     {
       "id": "6b9e7398",
@@ -507,7 +499,7 @@
       "source_organization": "Anthropic",
       "last_verified": "",
       "verified_by": "",
-      "added_edited_by": "claude",
+      "added_edited_by": "Claude",
       "last_updated": "",
       "version": "",
       "publication_version_date": "",
@@ -520,11 +512,14 @@
         "Governance",
         "Security"
       ],
+      "alaf_checklist_mapping": [
+        "Agent Manifesto"
+      ],
       "relevance_to_research_cyberinfrastructure": "Useful for research governance teams",
       "maturity_level": "Mature",
       "notes_key_takeaways": "Strong alignment with institutional risk controls.",
       "discovery_date": "2026-04-01",
-      "_content_hash": "085803fd8e1801f1c1a137732a628db3759ad67ccc281db2178d35553047b194"
+      "_content_hash": "0715820663c34927154c8861e03d8a4e9b2c93d22c702f79b8afb6a25a87b955"
     },
     {
       "id": "69804f39",
@@ -533,7 +528,7 @@
       "source_organization": "Microsoft",
       "last_verified": "",
       "verified_by": "",
-      "added_edited_by": "claude",
+      "added_edited_by": "Claude",
       "last_updated": "",
       "version": "",
       "publication_version_date": "",
@@ -547,11 +542,15 @@
         "Data governance",
         "Security"
       ],
+      "alaf_checklist_mapping": [
+        "Agent Manifesto",
+        "Human Approval Gate"
+      ],
       "relevance_to_research_cyberinfrastructure": "Relevant for institutional AI governance",
       "maturity_level": "Mature",
       "notes_key_takeaways": "Widely adopted governance framework.",
       "discovery_date": "2025-12-01",
-      "_content_hash": "4f71bc968628fd992efeef0554e8edc0e3a1761b04a7c5f5682ca645b9d63b33"
+      "_content_hash": "5e999b7b6d5b69923e5a18398661e4086452e1ca32e3fa104c98def511f73c16"
     },
     {
       "id": "3758624e",
@@ -560,7 +559,7 @@
       "source_organization": "vLLM Project Team",
       "last_verified": "",
       "verified_by": "",
-      "added_edited_by": "claude",
+      "added_edited_by": "Claude",
       "last_updated": "",
       "version": "",
       "publication_version_date": "",
@@ -575,11 +574,12 @@
         "Implementation",
         "Deployment"
       ],
+      "alaf_checklist_mapping": [],
       "relevance_to_research_cyberinfrastructure": "High (Industry-standard VPC runtime engine)",
       "maturity_level": "Mature",
       "notes_key_takeaways": "Essential for secure TLAs via PagedAttention and FP8/AWQ optimization. Capabilities: Parallel sampling & tool-calling.",
       "discovery_date": "2026-04-01",
-      "_content_hash": "2f684222ae8172217c78487a6fa57b9a3e0840708f4b0ca9111a0574c32c6bad"
+      "_content_hash": "6546163d2a0ea6ca24c57db1a7f2d69b77a2cf8b359fc44bbeb8a2571ac1e0d9"
     },
     {
       "id": "8a50b5eb",
@@ -588,7 +588,7 @@
       "source_organization": "Ollama Community",
       "last_verified": "",
       "verified_by": "",
-      "added_edited_by": "claude",
+      "added_edited_by": "Claude",
       "last_updated": "",
       "version": "",
       "publication_version_date": "",
@@ -601,11 +601,12 @@
         "Implementation",
         "Deployment"
       ],
+      "alaf_checklist_mapping": [],
       "relevance_to_research_cyberinfrastructure": "Medium-High (Local workstation co-pilot)",
       "maturity_level": "Mature",
       "notes_key_takeaways": "Eliminates network dependency errors by cleanly bundling open model weights. Capabilities: Local embedding & zero-config tools.",
       "discovery_date": "2026-04-01",
-      "_content_hash": "6f48eb8cb6273c698e8a56e6f8e7a11fdaaafa3290717a0f5cc53ffd47d20437"
+      "_content_hash": "a87fbafa2195f9f403d42e40059e1432fffb4c0c21325979049f985dc0124827"
     },
     {
       "id": "763797cd",
@@ -614,7 +615,7 @@
       "source_organization": "Georgi Gerganov",
       "last_verified": "",
       "verified_by": "",
-      "added_edited_by": "claude",
+      "added_edited_by": "Claude",
       "last_updated": "",
       "version": "b9253",
       "publication_version_date": "",
@@ -628,11 +629,12 @@
         "Implementation",
         "Deployment"
       ],
+      "alaf_checklist_mapping": [],
       "relevance_to_research_cyberinfrastructure": "High (Enables reasoning on variable local hardware)",
       "maturity_level": "Mature",
       "notes_key_takeaways": "Grammar constraints ensure localized agentic pipelines always return valid JSON/code. Capabilities: Grammar-based constrained sampling.",
       "discovery_date": "2026-05-20",
-      "_content_hash": "dbd88937edd3b313d6e482a263485c58b785d6ef221408c1bc8c0d68b0dc34b5"
+      "_content_hash": "87b6eab367637cbf10d544fa98d0837721e3c59d336f4aa517f3feef2777112d"
     },
     {
       "id": "2d2470f7",
@@ -641,7 +643,7 @@
       "source_organization": "Open WebUI Core Team",
       "last_verified": "",
       "verified_by": "",
-      "added_edited_by": "claude",
+      "added_edited_by": "Claude",
       "last_updated": "",
       "version": "",
       "publication_version_date": "",
@@ -654,11 +656,12 @@
         "Implementation",
         "Deployment"
       ],
+      "alaf_checklist_mapping": [],
       "relevance_to_research_cyberinfrastructure": "High (Enterprise-grade firewall interface)",
       "maturity_level": "Mature",
       "notes_key_takeaways": "Solves local file parsing/RAG bottlenecks entirely within secure client networks. Capabilities: Local RAG pipelines & offline functions.",
       "discovery_date": "2026-04-01",
-      "_content_hash": "b2ec01fa79ac1bb9811b4c9348f38ce7abccbad791437ce6a1bb408c1420495c"
+      "_content_hash": "2464486f250fdeb75f2fe479ecf0b4eb3231364b7b786c37dc898c2de71382c9"
     },
     {
       "id": "eb79015c",
@@ -667,7 +670,7 @@
       "source_organization": "NVIDIA",
       "last_verified": "",
       "verified_by": "",
-      "added_edited_by": "claude",
+      "added_edited_by": "Claude",
       "last_updated": "",
       "version": "",
       "publication_version_date": "",
@@ -682,11 +685,14 @@
         "Network Isolation",
         "Infrastructure Security"
       ],
+      "alaf_checklist_mapping": [
+        "Remediate Oversharing"
+      ],
       "relevance_to_research_cyberinfrastructure": "Critical (Standardizes secure distribution of optimized weights)",
       "maturity_level": "Mature",
       "notes_key_takeaways": "Outlines the exact connected-to-disconnected asset transfer workflow for enterprise GPUs. Capabilities: Tensor-parallel caching & optimized tool-calling.",
       "discovery_date": "2026-05-08",
-      "_content_hash": "6b70e2003090ed459ff9f22b0aff9b0e238d45452dcf62e5bfb688043da5c2bd"
+      "_content_hash": "849145a77faf8521090ea77d0645c04053c2844a7fa7e6584c656b2ebf1d808d"
     },
     {
       "id": "80527de7",
@@ -695,7 +701,7 @@
       "source_organization": "Cloud Native Computing Foundation (CNCF)",
       "last_verified": "",
       "verified_by": "",
-      "added_edited_by": "claude",
+      "added_edited_by": "Claude",
       "last_updated": "",
       "version": "",
       "publication_version_date": "",
@@ -710,11 +716,14 @@
         "Infrastructure Security",
         "Governance"
       ],
+      "alaf_checklist_mapping": [
+        "Provenance and Reversibility"
+      ],
       "relevance_to_research_cyberinfrastructure": "High (Necessary foundation for secure cluster registries)",
       "maturity_level": "Mature",
       "notes_key_takeaways": "Built-in vulnerability scanning ensures agent images remain clean behind the firewall. Capabilities: Artifact version-locking & immutable tags.",
       "discovery_date": "2026-05-08",
-      "_content_hash": "873226ed7a690878bf31adb58bc2db702a4364f067a60d28d7fe684c3d947ff9"
+      "_content_hash": "f52b810f37c74fd0a0d383e0e6b4020f8dbeb3495038e9c34d1ccb4bc6932fac"
     },
     {
       "id": "b4b5a468",
@@ -723,7 +732,7 @@
       "source_organization": "arXiv (2604.01395)",
       "last_verified": "",
       "verified_by": "",
-      "added_edited_by": "claude",
+      "added_edited_by": "Claude",
       "last_updated": "",
       "version": "",
       "publication_version_date": "",
@@ -736,11 +745,14 @@
         "Self‑hosted AI",
         "Infrastructure Security"
       ],
+      "alaf_checklist_mapping": [
+        "Remediate Oversharing"
+      ],
       "relevance_to_research_cyberinfrastructure": "High (Academic/industry validated system design blueprint)",
       "maturity_level": "Emerging",
       "notes_key_takeaways": "Moves past simple how-to guides into formal data isolation and local compliance frameworks. Capabilities: End-to-end local reference applications.",
       "discovery_date": "2026-05-08",
-      "_content_hash": "85b6bbd29e49899288fc29d2b1ca575b96fb1c76613441948622b4dc42a83bb8"
+      "_content_hash": "22560628572e7d57c5cbac07c55abe348472cc4d47212681d2c355ce957f8fea"
     },
     {
       "id": "0d0a50a7",
@@ -762,11 +774,12 @@
         "Architecture",
         "Governance"
       ],
+      "alaf_checklist_mapping": [],
       "relevance_to_research_cyberinfrastructure": "High (Mandatory for spec'ing out server node VRAM limits)",
       "maturity_level": "Mature",
       "notes_key_takeaways": "Discusses a \"Token Economics\" framework. Breaks down the \"Memory Wall\" economics showing an on-prem breakeven velocity of ~4 months. Capabilities: Hardware performance scaling & VRAM sizing.",
       "discovery_date": "2026-02-01",
-      "_content_hash": "ee51cbb2b06783b952606e26e4b71d74c8d5fb54baab41ee863d7beec681e726"
+      "_content_hash": "e8d703abf8d439febc0af7c2cddba7592cd56bb75d0bff672acd8b36893e8959"
     },
     {
       "id": "359b5ac8",
@@ -788,11 +801,14 @@
         "Infrastructure Security",
         "Security"
       ],
+      "alaf_checklist_mapping": [
+        "Agent Manifesto"
+      ],
       "relevance_to_research_cyberinfrastructure": "Relevant security expertise and best practices for secure AI development and deployment",
       "maturity_level": "Emerging",
       "notes_key_takeaways": "The Coalition for Secure AI (CoSAI) is an open ecosystem of AI and security experts. See https://github.com/cosai-oasis/ws2-defenders",
       "discovery_date": "2026-06-01",
-      "_content_hash": "5ea29157881142421fd1d65b470552d209255c3800f403046a1430d106ad5ce2"
+      "_content_hash": "a36465c1dfc51f18393e1ceb9750ebb571eb14a2aa5159e5d4bd3ccae26ac8af"
     },
     {
       "id": "5f3954c2",
@@ -813,11 +829,12 @@
         "Infrastructure Security",
         "Security"
       ],
+      "alaf_checklist_mapping": [],
       "relevance_to_research_cyberinfrastructure": "AI models that find high-severity vulnerabilities",
       "maturity_level": "Emerging",
       "notes_key_takeaways": "See Claude Mythos Preview",
       "discovery_date": "2026-04-07",
-      "_content_hash": "7282a1258333050bb523ba9d65c07bf48d42df6543793850f97a2ad59cbd0f78"
+      "_content_hash": "441a500da117c43929504c71b6530d45e5a92509fad70677df2d6618abeeb294"
     },
     {
       "id": "1c277820",
@@ -838,11 +855,15 @@
       "topic_focus": [
         "Security"
       ],
+      "alaf_checklist_mapping": [
+        "Remediate Oversharing",
+        "Human Approval Gate"
+      ],
       "relevance_to_research_cyberinfrastructure": "Good AI governance topics",
       "maturity_level": "Research",
       "notes_key_takeaways": "See blog article: https://www.docker.com/blog/the-3cs-a-framework-for-ai-agent-security/",
       "discovery_date": "2026-07-10",
-      "_content_hash": "dd00e94f2b931844b0f16cc35db5d9cf79aec293851225cb459056b8d9a7c2c4"
+      "_content_hash": "26c7a8aa1ee94af3c147c53adfdc37874c048cb78340c41152fb986d6adc5d8e"
     },
     {
       "id": "b39dc1d1",
@@ -864,11 +885,78 @@
       "topic_focus": [
         "Architecture"
       ],
+      "alaf_checklist_mapping": [],
       "relevance_to_research_cyberinfrastructure": "Useful for domain-specific agents",
       "maturity_level": "Emerging",
       "notes_key_takeaways": "MIgrated from API Assistants  - now deprecated.",
       "discovery_date": "2026-07-09",
-      "_content_hash": "c974fe168d28e8aad1b06dfd4a8a54e188a21a6e5be8be53d36684c15c645675"
+      "_content_hash": "f5747a413bba48cc540fadca1b987652d1f7d521b1d2bef8adc3f63677d6a600"
+    },
+    {
+      "id": "9717f0f1",
+      "resource_name": "OWASP Top 10 for Agentic Applications 2026",
+      "url": "https://genai.owasp.org/resource/owasp-top-10-for-agentic-applications-for-2026/",
+      "source_organization": "OWASP GenAI Security Project",
+      "last_verified": "2026-08-31",
+      "verified_by": "Paty Buendia",
+      "added_edited_by": "Claude",
+      "last_updated": "2026-08-31",
+      "version": "",
+      "publication_version_date": "2026",
+      "resource_type": "Security Guidance & Resources",
+      "agentic_features_covered": [
+        "Safety / guardrails",
+        "Risk Controls",
+        "Safe Tool Use",
+        "Cybersecurity"
+      ],
+      "topic_focus": [
+        "Security",
+        "Governance",
+        "Secure and Resilient"
+      ],
+      "alaf_checklist_mapping": [
+        "Runtime PII Screening",
+        "Human Approval Gate"
+      ],
+      "relevance_to_research_cyberinfrastructure": "Threat catalog for autonomous agents; names the risks a research platform must design against",
+      "maturity_level": "Emerging",
+      "notes_key_takeaways": "Ten risk categories (ASI01-ASI10) for agents that plan, hold memory, and call tools, with threats and mitigations for each. Released December 2025, globally peer-reviewed. CC BY-SA 4.0, so it can be adapted with attribution. Initiative: https://github.com/genai-security-project/",
+      "discovery_date": "2026-08-31",
+      "_content_hash": "ff4c3dc0a96b16eee566629ceb5132a7c62d33ef9f8c5bff5225432b3d29890b"
+    },
+    {
+      "id": "c580e5f8",
+      "resource_name": "NIST AI RMF Playbook",
+      "url": "https://airc.nist.gov/airmf-resources/playbook/",
+      "source_organization": "NIST",
+      "last_verified": "2026-08-31",
+      "verified_by": "Paty Buendia",
+      "added_edited_by": "Claude",
+      "last_updated": "2026-08-31",
+      "version": "",
+      "publication_version_date": "",
+      "resource_type": "Governance Guidance",
+      "agentic_features_covered": [
+        "Governance",
+        "Risk Controls",
+        "Evaluation / testing"
+      ],
+      "topic_focus": [
+        "Governance",
+        "Accountable and Transparent",
+        "Valid and Reliable"
+      ],
+      "alaf_checklist_mapping": [
+        "Agent Manifesto",
+        "Human Approval Gate",
+        "Provenance and Reversibility"
+      ],
+      "relevance_to_research_cyberinfrastructure": "Focuses on 4 functions: Govern, Map, Measure, Manage. The Playbook is the companion document. NIST AI RMF 1.0 is used in this project's own vocabulary ",
+      "maturity_level": "Mature",
+      "notes_key_takeaways": "Companion to NIST AI RMF 1.0. Voluntary, free, and organised around Govern, Map, Measure and Manage, with suggested actions and references per outcome. Organisations take as many or as few suggestions as apply.",
+      "discovery_date": "2026-08-31",
+      "_content_hash": "416fcf868aff2888adec183af0cc866bd8511a3488a5e8b72f1697a32d015bb6"
     }
   ]
 }

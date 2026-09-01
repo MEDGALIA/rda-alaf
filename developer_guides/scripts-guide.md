@@ -10,6 +10,7 @@ This guide covers the scripts in [`src/scripts/`](../src/scripts/):
 | `tech_radar_analysis.py` | Read-only analysis of the VT Radar workbook (data quality + vocabulary coverage) |
 | `xlsx_to_json.py` | Converts the VT Radar workbook into `data/json/` (schema + one file per data sheet) |
 | `json_to_xlsx.py` | Rebuilds the VT Radar workbook from `data/json/` — the mirror of `xlsx_to_json.py` |
+| `sync_gdrive_mirror.py` | Pushes the workbook to a Google Sheet, for viewing conditional formatting GitHub doesn't render |
 
 All are plain Python 3 scripts with no project framework dependency — they can be run standalone or imported as modules. The VT Radar scripts implement the plan in [`implementation-plan.md`](implementation-plan.md) — see that doc for the overall design and current build status.
 
@@ -31,6 +32,8 @@ Pinned versions live in [`src/scripts/requirements.txt`](../src/scripts/requirem
 | `markdown2` | `md_to_html.py` | Converts Markdown back into HTML with GitHub-style extras (tables, fenced code, footnotes, task lists, TOC) |
 | `pygments` | `md_to_html.py` | Generates the CSS for syntax-highlighted code blocks |
 | `openpyxl` | `radar_sync_common.py`, `tech_radar_analysis.py`, `xlsx_to_json.py` | Reads/writes `.xlsx` workbooks with native typed cells (dates come back as `datetime`, not serial numbers) |
+| `google-auth` | `sync_gdrive_mirror.py` | Authenticates as the Google Cloud service account |
+| `google-api-python-client` | `sync_gdrive_mirror.py` | Calls the Google Drive API |
 
 ## `docx_to_md.py`
 
@@ -182,6 +185,22 @@ Read-only analysis of the workbook — never opens it in write mode, and asserts
 No "corrected" value is ever suggested — deciding what a bad cell *should* say is a human judgment call, not something to guess at for a real WG record. See [`implementation-plan.md`](implementation-plan.md) for why this script is report-only by design.
 
 **Output**: a Markdown report (`data/reports/workbook_analysis.md` by default) with per-sheet summary counts (total/empty/populated/anomalous rows) followed by a table of every anomaly found.
+
+## `sync_gdrive_mirror.py`
+
+```powershell
+.\.venv\Scripts\python src\scripts\sync_gdrive_mirror.py --xlsx data\VANTAGE-Technology-Radar.xlsx --key-file PATH
+```
+
+Pushes the workbook to a Google Sheet — see `drafts/VT-Radar-GDrive-Mirror-Plan.md` for the design. `main` stays the source of truth; this only pushes, never reads the Sheet back.
+
+**Arguments**
+
+- `--xlsx PATH` — source workbook (default: `data/VANTAGE-Technology-Radar.xlsx`)
+- `--key-file PATH` — service-account JSON key file. Read from a file, never a CLI value or env var directly, so it never appears in shell history or process listings.
+- `--config PATH` — RADAR-CONFIG path (default: `.github/RADAR-CONFIG`)
+
+Target Sheet is `gdrive_file_id` in `.github/RADAR-CONFIG` — not a secret; access is controlled by the Sheet's sharing settings. `files.update()` replaces the Sheet's entire content with the latest xlsx, converted via `mimeType: application/vnd.google-apps.spreadsheet`.
 
 ## Adding a new document to convert
 
