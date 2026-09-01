@@ -5,7 +5,6 @@ This guide covers the scripts in [`src/scripts/`](../src/scripts/):
 | Script | Purpose |
 | --- | --- |
 | `docx_to_md.py` | Converts a Word `.docx` file into Markdown |
-| `md_to_html.py` | Renders a directory of `.md` files into styled, self-contained HTML pages |
 | `radar_sync_common.py` | Shared helpers for the VT Radar xlsx ⇄ JSON tooling (not run directly) |
 | `tech_radar_analysis.py` | Read-only analysis of the VT Radar workbook (data quality + vocabulary coverage) |
 | `xlsx_to_json.py` | Converts the VT Radar workbook into `data/json/` (schema + one file per data sheet) |
@@ -29,8 +28,6 @@ Pinned versions live in [`src/scripts/requirements.txt`](../src/scripts/requirem
 | --- | --- | --- |
 | `mammoth` | `docx_to_md.py` | Reads `.docx` XML and emits semantic HTML (headings, lists, tables, bold/italic, embedded images) |
 | `markdownify` | `docx_to_md.py` | Converts the intermediate HTML into Markdown (ATX-style headings, `-` bullets) |
-| `markdown2` | `md_to_html.py` | Converts Markdown back into HTML with GitHub-style extras (tables, fenced code, footnotes, task lists, TOC) |
-| `pygments` | `md_to_html.py` | Generates the CSS for syntax-highlighted code blocks |
 | `openpyxl` | `radar_sync_common.py`, `tech_radar_analysis.py`, `xlsx_to_json.py` | Reads/writes `.xlsx` workbooks with native typed cells (dates come back as `datetime`, not serial numbers) |
 | `google-auth` | `sync_gdrive_mirror.py` | Authenticates as the Google Cloud service account |
 | `google-api-python-client` | `sync_gdrive_mirror.py` | Calls the Google Drive API |
@@ -57,25 +54,6 @@ Pinned versions live in [`src/scripts/requirements.txt`](../src/scripts/requirem
 Conversion warnings (e.g. unrecognised Word paragraph/run styles) are printed to stderr but do not stop the conversion — they're informational only and don't affect output quality in practice.
 
 **Extending it**: to change how a particular Word style is mapped (e.g. custom heading styles), pass a `style_map` string to `mammoth.convert_to_html(..., style_map=...)` — see the [mammoth style-mapping docs](https://github.com/mwilliamson/python-mammoth#writing-style-maps).
-
-## `md_to_html.py`
-
-```powershell
-.\.venv\Scripts\python src\scripts\md_to_html.py developer_guides developer_guides_html
-```
-
-**Arguments**
-
-- `input_dir` (positional) — directory to scan for `*.md` files (non-recursive)
-- `output_dir` (positional) — directory to write the matching `*.html` files to
-
-**How it works**
-
-1. Every `*.md` file directly inside `input_dir` is read and rendered with `markdown2.markdown()`, using extras for fenced code blocks, tables, header IDs, a table of contents, strikethrough, task lists, and footnotes.
-2. Each page is wrapped in `PAGE_TEMPLATE`, a self-contained HTML shell with an inlined stylesheet (`BASE_CSS`) plus the Pygments-generated syntax-highlighting CSS. There are no external asset dependencies — each output `.html` file works standalone, offline, and respects the reader's OS light/dark preference via `prefers-color-scheme`.
-3. Output filenames mirror the input stem (`guide.md` → `guide.html`).
-
-**Extending it**: styling lives entirely in the `BASE_CSS` string — edit it directly to adjust fonts, colors, or layout. To render recursively or add a landing/index page listing all converted guides, extend `convert_directory()`.
 
 ## `radar_sync_common.py`
 
@@ -205,5 +183,5 @@ Target Sheet is `gdrive_file_id` in `.github/RADAR-CONFIG` — not a secret; acc
 ## Adding a new document to convert
 
 1. Manually copy the `.docx` into `drafts/` (gitignored — safe for working files), then manually run `docx_to_md.py` to produce the `.md`. Nothing watches this folder — both steps are run by hand, on demand.
-2. To publish developer-facing documentation, place the `.md` source in `developer_guides/`, then manually re-run `md_to_html.py developer_guides developer_guides_html` to regenerate the HTML.
-3. To publish curator/end-user-facing documentation (e.g. `user_guides/VT_RADAR.md`, "how to submit an xlsx update"), place the `.md` source in `user_guides/`, then manually re-run `md_to_html.py user_guides user_guides_html`.
+2. To publish developer-facing documentation, place the `.md` source in `developer_guides/`. GitHub renders it directly — nothing to generate.
+3. To publish curator/end-user-facing documentation (e.g. `user_guides/VT_RADAR.md`, "how to submit an xlsx update"), place the `.md` source in `user_guides/`.

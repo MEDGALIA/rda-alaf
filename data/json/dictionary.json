@@ -832,7 +832,7 @@
       "terms": [
         {
           "name": "Remediate Oversharing",
-          "definition": "Item (1): audit and tighten every mechanism that can grant access to the data, before the agent gets it.",
+          "definition": "Audit and tighten every mechanism that can grant access to the data, before the agent gets it.",
           "ontology": "",
           "ontology_id": "",
           "ontology_url": "",
@@ -840,7 +840,7 @@
         },
         {
           "name": "Deidentify Data",
-          "definition": "Item (2): find and remove or hide sensitive information in the data before agents can reach it.",
+          "definition": "Find and remove or hide sensitive information in the data before agents can reach it.",
           "ontology": "",
           "ontology_id": "",
           "ontology_url": "",
@@ -848,7 +848,7 @@
         },
         {
           "name": "Agent Manifesto",
-          "definition": "Item (3): the written rules governing agents, which they must read before tasks touching new data.",
+          "definition": "The written rules governing agents, which they must read before tasks touching new data.",
           "ontology": "",
           "ontology_id": "",
           "ontology_url": "",
@@ -856,7 +856,7 @@
         },
         {
           "name": "Runtime PII Screening",
-          "definition": "Item (4): a check between the agent and each new data source, with findings written where the agent cannot read them.",
+          "definition": "A check between the agent and each new data source, with findings written where the agent cannot read them.",
           "ontology": "",
           "ontology_id": "",
           "ontology_url": "",
@@ -864,7 +864,7 @@
         },
         {
           "name": "Human Approval Gate",
-          "definition": "Item (5): a named human must approve consequential actions, and the agent cannot bypass the gate.",
+          "definition": "A named human must approve consequential actions, and the agent cannot bypass the gate.",
           "ontology": "",
           "ontology_id": "",
           "ontology_url": "",
@@ -872,7 +872,15 @@
         },
         {
           "name": "Provenance and Reversibility",
-          "definition": "Item (6): a record of what the agent did and who approved it, plus the ability to undo it.",
+          "definition": "A record of what the agent did and who approved it, plus the ability to undo it.",
+          "ontology": "",
+          "ontology_id": "",
+          "ontology_url": "",
+          "colour": ""
+        },
+        {
+          "name": "Zero Data Retention",
+          "definition": "Third-party AI APIs configured for zero data retention, with the prompt caching TTL checked separately.",
           "ontology": "",
           "ontology_id": "",
           "ontology_url": "",

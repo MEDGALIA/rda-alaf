@@ -68,8 +68,6 @@ for what each script in `src/scripts/` does and how to run it.
 - [ ] Change is scoped to one concern
 - [ ] If you touched the xlsx: `data/json/` was regenerated and committed alongside it
 - [ ] If you touched a script's behavior: `developer_guides/` docs updated to match
-- [ ] If you touched a `developer_guides/*.md` file: regenerate the HTML via
-      `.\.venv\Scripts\python src\scripts\md_to_html.py developer_guides developer_guides_html`
 - [ ] No unrelated formatting/whitespace churn
 
 ## License
