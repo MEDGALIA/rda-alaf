@@ -6,7 +6,7 @@ authors:
   - family-names: Buendia
     given-names: Patricia
     affiliation: Medgalia
-repository-code: "https://github.com/MEDGALIA/rda-alaf"
+repository-code: "https://github.com/MEDGALIA/ALAF"
 abstract: >-
   RDA-ALAF (Agentic Landscape Assessment Framework) is an open-source
   framework for guiding agentic approaches to research data analysis and

@@ -8,7 +8,7 @@ By participating, you agree to abide by our [Code of Conduct](CODE_OF_CONDUCT.md
 
 ## Ways to contribute
 
-- **Report a bug or gap** — open a [GitHub issue](https://github.com/MEDGALIA/rda-alaf/issues)
+- **Report a bug or gap** — open a [GitHub issue](https://github.com/MEDGALIA/ALAF/issues)
   describing what's wrong or missing. For the VT Radar knowledge base, include
   which row/term is affected and why.
 - **Propose a knowledge base change** — see [Updating the VT Radar knowledge base](#updating-the-vt-radar-knowledge-base)
