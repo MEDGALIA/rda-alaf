@@ -6,7 +6,7 @@ Please **do not** open a public GitHub issue for security vulnerabilities.
 
 Instead, use GitHub's private vulnerability reporting for this repository:
 
-1. Go to the [Security tab](https://github.com/MEDGALIA/rda-alaf/security).
+1. Go to the [Security tab](https://github.com/MEDGALIA/ALAF/security).
 2. Click **"Report a vulnerability"**.
 3. Describe the issue, including steps to reproduce, potential impact, and
    any suggested fix if you have one.
@@ -29,7 +29,7 @@ GitHub Action (`.github/workflows/`), and a curated knowledge base
 
 Data-quality issues in the knowledge base itself (e.g. an incorrect or
 outdated entry) are not security reports — please file those as a regular
-[GitHub issue](https://github.com/MEDGALIA/rda-alaf/issues) instead.
+[GitHub issue](https://github.com/MEDGALIA/ALAF/issues) instead.
 
 ## Supported Versions
 

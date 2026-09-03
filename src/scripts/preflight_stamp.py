@@ -249,7 +249,7 @@ def check_token_before_checkout() -> Check:
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__,
                                      formatter_class=argparse.RawDescriptionHelpFormatter)
-    parser.add_argument("--repo", default="MEDGALIA/rda-alaf", help="owner/repo")
+    parser.add_argument("--repo", default="MEDGALIA/ALAF", help="owner/repo")
     args = parser.parse_args()
 
     checks = [

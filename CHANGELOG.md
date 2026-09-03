@@ -36,4 +36,4 @@ once a first release is tagged. Until then, changes are tracked under
   `developer_guides_html/`.
 - `CONTRIBUTING.md`, `CODE_OF_CONDUCT.md`, and this changelog.
 
-[Unreleased]: https://github.com/MEDGALIA/rda-alaf/commits/main
+[Unreleased]: https://github.com/MEDGALIA/ALAF/commits/main
