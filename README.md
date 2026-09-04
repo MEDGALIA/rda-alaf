@@ -1,7 +1,7 @@
-# RDA-ALAF
+# ALAF
 ## Agentic Landscape Assessment Framework
 
-RDA-ALAF (Agentic Landscape Assessment Framework) is an open-source framework
+ALAF (Agentic Landscape Assessment Framework) is an open-source framework
 for guiding agentic approaches to research data analysis and data sharing using
 structured knowledge and current-event intelligence.
 
@@ -20,13 +20,13 @@ and provenance of the framework and its underlying knowledge.
 
 **Early development / experimental**
 
-RDA-ALAF is currently being developed as an open-source project in alignment
+ALAF is currently being developed as an open-source project in alignment
 with proposed activities for a new Working group.
 
 
 ## Objectives
 
-RDA-ALAF aims to provide a lightweight and extensible framework for:
+ALAF aims to provide a lightweight and extensible framework for:
 
 - Guiding agentic approaches to research data analysis and data sharing.
 - Maintaining structured, machine-readable knowledge about relevant technologies, practices, and developments.
@@ -48,7 +48,7 @@ The framework is designed around several complementary components:
 
 ## Repository
 
-This repository contains the technical implementation of RDA-ALAF, including
+This repository contains the technical implementation of ALAF, including
 the structured and machine-readable representations of the VT Radar knowledge
 base, agentic workflows, and supporting tools for maintaining and evolving the
 framework.
@@ -58,7 +58,7 @@ proposed changes subject to human review and approval.
 
 ## License
 
-The RDA-ALAF software is licensed under the [BSD 3-Clause License](LICENSE).
+The ALAF software is licensed under the [BSD 3-Clause License](LICENSE).
 
 The VT Radar knowledge base and other datasets are licensed under the
 [CC BY 4.0: Creative Commons Attribution 4.0 International License](https://creativecommons.org/licenses/by/4.0/).

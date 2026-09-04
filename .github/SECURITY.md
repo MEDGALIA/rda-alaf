@@ -33,5 +33,5 @@ outdated entry) are not security reports — please file those as a regular
 
 ## Supported Versions
 
-RDA-ALAF is pre-release / early development (see [README](README.md#status)).
+ALAF is pre-release / early development (see [README](README.md#status)).
 There are no tagged releases yet, so security fixes are applied to `main`.

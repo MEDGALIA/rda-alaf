@@ -1,4 +1,4 @@
-# Contributing to RDA-ALAF
+# Contributing to ALAF
 
 Thanks for your interest in contributing to the Agentic Landscape Assessment
 Framework. This project is early-stage and welcomes issues, discussion, and
@@ -72,7 +72,7 @@ for what each script in `src/scripts/` does and how to run it.
 
 ## License
 
-RDA-ALAF software is licensed under the [BSD 3-Clause License](LICENSE). The
+ALAF software is licensed under the [BSD 3-Clause License](LICENSE). The
 VT Radar knowledge base and other datasets are licensed under
 [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). By contributing,
 you agree that your contributions will be licensed under the same terms as
